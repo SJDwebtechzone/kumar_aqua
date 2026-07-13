@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Fish {
+  id        Int      @id @default(autoincrement())
+  name      String
+  category  String
+  cycle     String   @default("")
+  note      String   @default("")
+  imageUrl  String
+  inStock   Boolean  @default(true)
+  temp      String   @default("")
+  ph        String   @default("")
+  tank      String   @default("")
+  diet      String   @default("")
+  lifespan  String   @default("")
+  tankMates String   @default("")
+  createdAt DateTime @default(now())
+}
+
+model Banner {
+  id        Int      @id @default(autoincrement())
+  title     String
+  subtitle  String
+  imageUrl  String
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
+
+model Admin {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+}
