@@ -117,49 +117,46 @@ function GrowOut({ onNavigate, speciesData, quickStock }) {
     message: ""
   });
 
-  const handleEnquirySubmit = async (e) => {
-    e.preventDefault();
-    setSubmitting(true);
-    const selectedFish = speciesData.find(s => s.slug === formData.fishType)?.name || formData.fishType;
+ const handleEnquirySubmit = async (e) => {
+  e.preventDefault();
+  setSubmitting(true);
+  const selectedFish = speciesData.find(s => s.slug === formData.fishType)?.name || formData.fishType;
 
-    // 1. Save to local storage for Admin Dashboard reference
-    const currentEnquiries = JSON.parse(localStorage.getItem("af_enquiries") || "[]");
-    const newEnquiry = {
-      ...formData,
-      date: new Date().toISOString(),
-      id: Math.random()
-    };
-    currentEnquiries.push(newEnquiry);
-    localStorage.setItem("af_enquiries", JSON.stringify(currentEnquiries));
-
-    // 2. Dispatch email directly to user's mailbox using FormSubmit AJAX API
-    try {
-      const response = await fetch("https://formsubmit.co/ajax/ramyashan.1010@gmail.com", {
-        method: "POST",
-        headers: { 
-          "Content-Type": "application/json",
-          "Accept": "application/json"
-        },
-        body: JSON.stringify({
-          "Customer Name": formData.name,
-          "Email Address": formData.email,
-          "Phone Number": formData.phone || "Not provided",
-          "Requested Species": selectedFish,
-          "Message": formData.message,
-          "_subject": `New Livestock Enquiry from ${formData.name}`
-        })
-      });
-      if (response.ok) {
-        setFirstTimeAlert(true);
-      }
-    } catch (err) {
-      console.warn("FormSubmit delivery failed:", err);
-    }
-
-    setSubmitting(false);
-    setEnquirySuccess(true);
+  // 1. Save to localStorage for Admin Dashboard
+  const currentEnquiries = JSON.parse(localStorage.getItem("af_enquiries") || "[]");
+  const newEnquiry = {
+    ...formData,
+    date: new Date().toISOString(),
+    id: Math.random()
   };
+  currentEnquiries.push(newEnquiry);
+  localStorage.setItem("af_enquiries", JSON.stringify(currentEnquiries));
 
+  // 2. Send email and save enquiry via local backend SMTP integration
+  try {
+    const response = await fetch("http://localhost:5000/api/enquiries", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone || "",
+        fishType: selectedFish,
+        message: formData.message
+      })
+    });
+    if (response.ok) {
+      console.log("Enquiry submitted successfully to backend.");
+    }
+  } catch (err) {
+    console.warn("Backend enquiry submission failed:", err);
+  }
+
+  setSubmitting(false);
+  setEnquirySuccess(true);
+};
   const benefits = [
     {
       icon: "🧪",
@@ -332,7 +329,7 @@ function GrowOut({ onNavigate, speciesData, quickStock }) {
                       required
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      placeholder="e.g. Ramya"
+                      placeholder="e.g. Kumar"
                       className="w-full px-4 py-2.5 rounded-xl border border-[#FF7F50]/20 bg-white/50 text-[#0A1C33] text-sm focus:outline-none focus:border-[#FF7F50] transition-colors"
                     />
                   </div>
@@ -347,7 +344,7 @@ function GrowOut({ onNavigate, speciesData, quickStock }) {
                         required
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        placeholder="e.g. ramya@example.com"
+                        placeholder="e.g. Kumar@example.com"
                         className="w-full px-4 py-2.5 rounded-xl border border-[#FF7F50]/20 bg-white/50 text-[#0A1C33] text-sm focus:outline-none focus:border-[#FF7F50] transition-colors"
                       />
                     </div>

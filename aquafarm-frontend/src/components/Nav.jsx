@@ -70,11 +70,11 @@ export default function Nav({ activeZone, onNavigate }) {
               <span>+91 9080121326</span>
             </a>
             <span className="text-white/20">|</span>
-            <a href="mailto:contact@kumaraquafarm.com" className="flex items-center gap-1.5 text-white font-bold hover:text-[#FF7F50] transition-colors">
+            <a href="mailto:rajesh@kumaraquatic.com" className="flex items-center gap-1.5 text-white font-bold hover:text-[#FF7F50] transition-colors">
               <svg className="w-3.5 h-3.5 text-[#FF7F50]" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
-              <span>contact@kumaraquafarm.com</span>
+              <span>rajesh@kumaraquatic.com</span>
             </a>
           </div>
         </div>
@@ -118,11 +118,11 @@ export default function Nav({ activeZone, onNavigate }) {
               </svg>
               <span>+91 9080121326</span>
             </a>
-            <a href="mailto:contact@kumaraquafarm.com" className="flex items-center gap-2 hover:text-[#FF7F50] transition-colors py-1 px-1">
+            <a href="mailto:rajesh@kumaraquatic.com" className="flex items-center gap-2 hover:text-[#FF7F50] transition-colors py-1 px-1">
               <svg className="w-4 h-4 text-[#FF7F50]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
-              <span>contact@kumaraquafarm.com</span>
+              <span>rajesh@kumaraquatic.com</span>
             </a>
           </div>
         </nav>

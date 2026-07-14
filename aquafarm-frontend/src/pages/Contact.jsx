@@ -49,8 +49,8 @@ function Harbor() {
       Icon: MessageBottleIcon,
       label: "Send a Message in a Bottle",
       note: "We reply within one tide cycle (24hrs)",
-      value: "contact@kumaraquafarm.com",
-      href: "mailto:contact@kumaraquafarm.com",
+      value: "rajesh@kumaraquatic.com",
+      href: "mailto:rajesh@kumaraquatic.com",
       cta: "Send Email",
     },
     {

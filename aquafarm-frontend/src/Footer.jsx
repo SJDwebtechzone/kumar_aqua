@@ -129,7 +129,7 @@ export default function Footer({ onNavigate }) {
               </li>
               <li className="flex items-start gap-2">
                 <span>✉️</span>
-                <span>contact@kumaraquafarm.com</span>
+                <span>rajesh@kumaraquatic.com</span>
               </li>
            <li className="flex items-start gap-2">
                 <span>📍</span>
