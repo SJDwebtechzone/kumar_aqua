@@ -254,7 +254,7 @@ export default function AquaFarmHomepage() {
 
         {/* Call CTA */}
         <a
-          href="tel:+18005862782"
+          href="tel:+919080121326"
           className="w-11 h-11 rounded-full bg-[#FF7F50] hover:bg-[#E0663B] text-white flex items-center justify-center shadow-lg hover:scale-110 active:scale-95 transition-all duration-200"
           aria-label="Call Now"
         >
@@ -265,7 +265,7 @@ export default function AquaFarmHomepage() {
 
         {/* WhatsApp CTA */}
         <a
-          href="https://wa.me/18005862782"
+          href="https://wa.me/919080121326"
           target="_blank"
           rel="noopener noreferrer"
           className="w-11 h-11 rounded-full bg-[#25D366] hover:bg-[#1ebd59] text-white flex items-center justify-center shadow-lg hover:scale-110 active:scale-95 transition-all duration-200"
