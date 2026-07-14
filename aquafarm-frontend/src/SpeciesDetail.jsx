@@ -120,13 +120,14 @@ useEffect(() => {
   if (staticSpecies) { setSpecies(staticSpecies); return; }
 
   // If slug starts with db-, fetch from API
-  if (slug.startsWith("db-")) {
-    const id = slug.replace("db-", "");
-    fetch(`http://localhost:5000/api/fishes/${id}`)
-      .then(r => r.json())
-      .then(fish => setSpecies(buildDbSpecies(fish)))
-      .catch(() => setSpecies(null));
-  }
+ if (slug.startsWith("db-")) {
+  const id = slug.replace("db-", "");
+
+  fetch(`${import.meta.env.VITE_API_URL}/fishes/${id}`)
+    .then((r) => r.json())
+    .then((fish) => setSpecies(buildDbSpecies(fish)))
+    .catch(() => setSpecies(null));
+}
 }, [slug]);
   const [activeImage, setActiveImage] = useState(0);
   const [bubbles, setBubbles] = useState([]);

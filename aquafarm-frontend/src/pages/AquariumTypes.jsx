@@ -134,7 +134,7 @@ function GrowOut({ onNavigate, speciesData, quickStock }) {
 
   // 2. Send email and save enquiry via local backend SMTP integration
   try {
-    const response = await fetch("http://localhost:5000/api/enquiries", {
+   const response = await fetch(`${import.meta.env.VITE_API_URL}/enquiries`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
