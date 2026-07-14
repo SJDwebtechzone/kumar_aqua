@@ -167,6 +167,10 @@ export default function About({ sectionRefs }) {
       }} 
       zone="shallows"
     >
+      <title>About Us | Kumar Aqua Farm - 20+ Years of Quality Aquaculture</title>
+      <meta name="description" content="Discover Kumar Aqua Farm's 20-year history of breeding premium, healthy freshwater aquarium fish in Chennai. Learn about our ethical breeding and quarantine protocols." />
+      <meta name="keywords" content="about kumar aqua farm, ethical breeding fish, aquarium fish quarantine chennai, fish farm history" />
+      <link rel="canonical" href="https://kumaraquatic.com/about" />
       <Shallows />
     </Section>
   );

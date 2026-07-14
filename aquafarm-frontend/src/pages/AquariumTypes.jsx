@@ -430,6 +430,10 @@ export default function AquariumTypes({ sectionRefs, onNavigate }) {
       }} 
       zone="growout"
     >
+      <title>Aquarium Types & Stock Catalog | Kumar Aqua Farm</title>
+      <meta name="description" content="Browse our aquarium types and live stock catalog. Premium Cherry Shrimp, Gold Angelfish, Balloon Mollies, and a wide variety of quick stock options." />
+      <meta name="keywords" content="aquarium types catalog, aquarium fish list, buy angelfish chennai, buy balloon molly, buy cherry shrimp, aquarium shop stock" />
+      <link rel="canonical" href="https://kumaraquatic.com/aquarium-types" />
       <GrowOut onNavigate={onNavigate} speciesData={speciesData} quickStock={quickStock} />
     </Section>
   );

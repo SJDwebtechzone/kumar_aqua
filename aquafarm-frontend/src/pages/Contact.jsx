@@ -181,6 +181,10 @@ export default function Contact({ sectionRefs }) {
       }}
       zone="harbor"
     >
+      <title>Contact Us | Kumar Aqua Farm - Kolathur, Chennai Location</title>
+      <meta name="description" content="Get in touch with Kumar Aqua Farm. Visit our breeding site at 200ft Inner Ring Road, Kolathur, Chennai, or email us at rajesh@kumaraquatic.com." />
+      <meta name="keywords" content="contact kumar aqua farm, fish farm location chennai, aquarium fish shop kolathur, phone number kumar aqua farm" />
+      <link rel="canonical" href="https://kumaraquatic.com/contact" />
       <Harbor />
     </Section>
   );

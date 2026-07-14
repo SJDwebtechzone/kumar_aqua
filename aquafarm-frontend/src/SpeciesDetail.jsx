@@ -111,24 +111,36 @@ const splitSpeciesName = (name) => {
 
 export default function SpeciesDetail() {
   const { slug } = useParams();
-const [species, setSpecies] = useState(() => getSpeciesBySlug(slug));
-const [loadingDb, setLoadingDb] = useState(false);
+  const [species, setSpecies] = useState(() => getSpeciesBySlug(slug));
+  const [loadingDb, setLoadingDb] = useState(false);
 
-useEffect(() => {
-  // Try static list first
-  const staticSpecies = getSpeciesBySlug(slug);
-  if (staticSpecies) { setSpecies(staticSpecies); return; }
+  useEffect(() => {
+    // Try static list first
+    const staticSpecies = getSpeciesBySlug(slug);
+    if (staticSpecies) {
+      setSpecies(staticSpecies);
+      setLoadingDb(false);
+      return;
+    }
 
-  // If slug starts with db-, fetch from API
- if (slug.startsWith("db-")) {
-  const id = slug.replace("db-", "");
+    // If slug starts with db-, fetch from API using dynamic VITE_API_URL
+    if (slug.startsWith("db-")) {
+      setLoadingDb(true);
+      const id = slug.replace("db-", "");
+      const apiBase = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+      fetch(`${apiBase}/fishes/${id}`)
+        .then((r) => r.json())
+        .then((fish) => {
+          setSpecies(buildDbSpecies(fish));
+          setLoadingDb(false);
+        })
+        .catch(() => {
+          setSpecies(null);
+          setLoadingDb(false);
+        });
+    }
+  }, [slug]);
 
-  fetch(`${import.meta.env.VITE_API_URL}/fishes/${id}`)
-    .then((r) => r.json())
-    .then((fish) => setSpecies(buildDbSpecies(fish)))
-    .catch(() => setSpecies(null));
-}
-}, [slug]);
   const [activeImage, setActiveImage] = useState(0);
   const [bubbles, setBubbles] = useState([]);
   const [stickyBubbles] = useState(() => generateStickyBubbles(30));
@@ -140,20 +152,6 @@ useEffect(() => {
     return 40;
   });
   const [unit, setUnit] = useState("L");
-
- useEffect(() => {
-  const staticSpecies = getSpeciesBySlug(slug);
-  if (staticSpecies) { setSpecies(staticSpecies); return; }
-
-  if (slug.startsWith("db-")) {
-    setLoadingDb(true);
-    const id = slug.replace("db-", "");
-    fetch(`http://localhost:5000/api/fishes/${id}`)
-      .then(r => r.json())
-      .then(fish => { setSpecies(buildDbSpecies(fish)); setLoadingDb(false); })
-      .catch(() => { setSpecies(null); setLoadingDb(false); });
-  }
-}, [slug]);
 
   // Ambient bubble generator (adds random bubbles frequently)
   useEffect(() => {
@@ -223,6 +221,10 @@ if (!species) {
       onMouseMove={handleInteraction}
       onClick={handleInteraction}
     >
+      <title>{`${species.name} Care Guide & Stocking Calculator | Kumar Aqua Farm`}</title>
+      <meta name="description" content={`Expert care guide for ${species.name} (${species.scientificName}). Learn about aquarium setup, diet, tank size, lifespan, and use the stocking calculator.`} />
+      <meta name="keywords" content={`${species.name} care, ${species.name} stocking calculator, ${species.scientificName}, aquarium fish guide`} />
+      <link rel="canonical" href={`https://kumaraquatic.com/species/${slug}`} />
       <style>{`
         @keyframes bubblePulse {
           0% { transform: scale(0.9) translateY(0); opacity: 0.65; }

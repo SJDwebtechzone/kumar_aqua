@@ -26,6 +26,10 @@ const speciesData = (featuredFish && featuredFish.length > 0)
       style={{ background: "linear-gradient(180deg, #ECFEFF 0%, #CFFAFE 100%)" }}
       className="relative w-full min-h-screen pt-[96px] overflow-hidden"
     >
+      <title>Kumar Aqua Farm | Premium Freshwater Fish & Aquarium Breeders in Chennai</title>
+      <meta name="description" content="Kumar Aqua Farm in Chennai is a premier breeder of premium freshwater fish including Gold Angelfish, Balloon Mollies, and Cherry Shrimp. Explore our species catalog and stocking advice." />
+      <meta name="keywords" content="kumar aqua farm, freshwater fish breeder chennai, gold angelfish chennai, balloon molly breeder, cherry shrimp chennai, aquarium stocking calculator" />
+      <link rel="canonical" href="https://kumaraquatic.com/" />
       {/* Floating Ambient Rays */}
       <div className="sunshaft"></div>
       <div className="sunshaft-2"></div>
