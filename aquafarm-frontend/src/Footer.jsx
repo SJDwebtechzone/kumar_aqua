@@ -50,7 +50,7 @@ export default function Footer({ onNavigate }) {
     { label: "Facebook", Icon: FacebookIcon, href: "#" },
     { label: "Instagram", Icon: InstagramIcon, href: "#" },
     { label: "YouTube", Icon: YouTubeIcon, href: "#" },
-    { label: "WhatsApp", Icon: WhatsAppIcon, href: "#" },
+    { label: "WhatsApp", Icon: WhatsAppIcon, href: "https://wa.me/919080121326" },
   ];
 
   return (
