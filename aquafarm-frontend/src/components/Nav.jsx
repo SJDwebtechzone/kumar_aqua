@@ -61,8 +61,8 @@ export default function Nav({ activeZone, onNavigate }) {
           {/* Vertical Divider Line */}
           <span className="h-4 w-[1px] bg-white/20" />
 
-          {/* Contact Info (Right of nav menus, bold and white) */}
-          <div className="flex items-center gap-4 font-mono text-[10px] text-white font-bold py-1">
+          {/* Contact Info (Right of nav menus, bold and white, matches nav style) */}
+          <div className="flex items-center gap-4 font-mono text-xs tracking-widest text-white font-bold py-1">
             <a href="tel:+919080121326" className="flex items-center gap-1.5 text-white font-bold hover:text-[#FF7F50] transition-colors">
               <svg className="w-3.5 h-3.5 text-[#FF7F50]" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
@@ -111,7 +111,7 @@ export default function Nav({ activeZone, onNavigate }) {
             </button>
           ))}
           {/* Mobile contact info block */}
-          <div className="flex flex-col gap-3.5 border-t border-white/10 pt-4 mt-2 font-mono text-[10px]">
+          <div className="flex flex-col gap-3.5 border-t border-white/10 pt-4 mt-2 font-mono text-xs tracking-widest font-bold">
             <a href="tel:+919080121326" className="flex items-center gap-2 hover:text-[#FF7F50] transition-colors py-1 px-1">
               <svg className="w-4 h-4 text-[#FF7F50]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
