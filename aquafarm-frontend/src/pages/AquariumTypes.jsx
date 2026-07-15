@@ -193,7 +193,7 @@ function GrowOut({ onNavigate, speciesData, quickStock }) {
             </span>
             <span className="text-[#FF7F50] font-light italic">Catalog</span>
           </h2>
-          <p className="font-body text-base font-semibold text-[#1E4D66] mt-3 leading-relaxed">
+          <p className="font-body text-base font-semibold text-[#1E4D66] mt-3 leading-relaxed text-justify">
             Every specimen is quarantine-cleared and acclimated to broad environmental baselines for straightforward integration.
           </p>
         </div>
@@ -234,7 +234,7 @@ function GrowOut({ onNavigate, speciesData, quickStock }) {
             >
               <div className="text-3xl mb-3">{b.icon}</div>
               <h4 className="font-display text-lg font-bold text-[#0A1C33] group-hover:text-[#FF7F50] transition-colors">{b.title}</h4>
-              <p className="font-body text-base font-semibold text-[#1E4D66] mt-2 leading-relaxed">{b.note}</p>
+              <p className="font-body text-base font-semibold text-[#1E4D66] mt-2 leading-relaxed text-justify">{b.note}</p>
             </div>
           ))}
         </div>
@@ -250,7 +250,7 @@ function GrowOut({ onNavigate, speciesData, quickStock }) {
             <span>Looking for a</span>
             <span className="text-[#FF7F50] font-light italic">species not listed here?</span>
           </h3>
-          <p className="font-body text-base font-semibold text-[#1E4D66] mt-2 leading-relaxed">
+          <p className="font-body text-base font-semibold text-[#1E4D66] mt-2 leading-relaxed text-justify">
             We regularly source new stock and take custom or bulk wholesale requests.
           </p>
         </div>

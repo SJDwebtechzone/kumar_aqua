@@ -52,7 +52,7 @@ export default function CareFAQ() {
               className={`transition-all duration-300 ease-in-out ${isOpen ? 'max-h-[500px] border-t border-[#FF7F50]/10' : 'max-h-0'}`}
               style={{ overflow: 'hidden' }}
             >
-              <div className="px-6 py-5 text-base font-semibold leading-relaxed text-[#1E4D66] font-body">
+              <div className="px-6 py-5 text-base font-semibold leading-relaxed text-[#1E4D66] font-body text-justify">
                 {faq.answer}
               </div>
             </div>

@@ -48,7 +48,7 @@ function Shallows() {
           </span>
           <span className="text-[#FF7F50] font-light italic">with precision.</span>
         </h2>
-        <p className="font-body text-base font-semibold text-[#1E4D66] mt-4 leading-relaxed">
+        <p className="font-body text-base font-semibold text-[#1E4D66] mt-4 leading-relaxed text-justify">
           Our bio-secured pools duplicate the exact minerals, vegetation, and natural light cycles required for robust physiological development.
         </p>
       </div>
@@ -84,10 +84,10 @@ function Shallows() {
             </span>
             <span className="text-[#FF7F50] font-light italic">passion for aquatic life</span>
           </h3>
-          <p className="font-body text-base font-semibold text-[#1E4D66] mt-4 leading-relaxed">
+          <p className="font-body text-base font-semibold text-[#1E4D66] mt-4 leading-relaxed text-justify">
             Kumar Aqua Farm began as a small backyard hatchery focused on cherry shrimp and grew into a full-scale aquaculture operation supplying hobbyists and retailers alike. Every specimen that leaves our facility has been raised, conditioned, and health-checked according to the same standards we'd want for our own home aquariums.
           </p>
-          <p className="font-body text-base font-semibold text-[#1E4D66] mt-4 leading-relaxed">
+          <p className="font-body text-base font-semibold text-[#1E4D66] mt-4 leading-relaxed text-justify">
             We believe healthy aquatic ecosystems start with responsible breeding — not mass production. That philosophy shapes every tank, every water change, and every animal we send out the door.
           </p>
         </div>
@@ -113,7 +113,7 @@ function Shallows() {
             >
               <div className="text-3xl mb-3">{v.icon}</div>
               <h4 className="font-display text-lg font-bold text-[#0A1C33] group-hover:text-[#FF7F50] transition-colors">{v.title}</h4>
-              <p className="font-body text-base font-semibold text-[#1E4D66] mt-2 leading-relaxed">{v.note}</p>
+              <p className="font-body text-base font-semibold text-[#1E4D66] mt-2 leading-relaxed text-justify">{v.note}</p>
             </div>
           ))}
         </div>
@@ -145,7 +145,7 @@ function Shallows() {
               <h3 className="font-display text-xl text-[#0A1C33] font-bold mt-2 group-hover:text-[#FF7F50] transition-colors">
                 {s.name}
               </h3>
-              <p className="font-body text-base font-semibold text-[#1E4D66] mt-3.5 leading-relaxed">
+              <p className="font-body text-base font-semibold text-[#1E4D66] mt-3.5 leading-relaxed text-justify">
                 {s.note}
               </p>
             </div>

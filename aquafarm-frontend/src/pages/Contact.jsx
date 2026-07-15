@@ -82,7 +82,7 @@ function Harbor() {
           </span>
           <span className="text-[#FF7F50] font-light italic">conversation with us</span>
         </h2>
-        <p className="font-body text-base font-semibold text-[#1E4D66] mt-4 leading-relaxed max-w-xl mx-auto">
+        <p className="font-body text-base font-semibold text-[#1E4D66] mt-4 leading-relaxed max-w-xl mx-auto text-justify">
           Whether you're stocking your first nano tank or sourcing a wholesale shipment, our team is ready to help you navigate every ripple of the process.
         </p>
       </div>
@@ -101,7 +101,7 @@ function Harbor() {
             <span className="font-mono text-[10px] uppercase tracking-widest text-[#FF7F50] font-bold group-hover:text-teal-deep transition-colors">
               {item.label}
             </span>
-            <span className="font-body text-xs text-[#1E4D66] font-semibold mt-1 leading-normal">
+            <span className="font-body text-xs text-[#1E4D66] font-semibold mt-1 leading-normal text-justify">
               {item.note}
             </span>
             <span className="font-body text-base text-[#0A1C33] font-bold mt-3.5 mb-4 leading-relaxed break-words w-full">

@@ -348,7 +348,7 @@ if (!species) {
             {species.funFact && (
               <div className="glass-panel rounded-2xl p-5 mt-6 border-[#FF7F50]/20">
                 <span className="font-mono text-[10px] uppercase tracking-widest text-[#FF7F50] font-bold">Fun Fact</span>
-                <p className="font-body text-base font-semibold text-[#1E4D66] mt-2 leading-relaxed">{species.funFact}</p>
+                <p className="font-body text-base font-semibold text-[#1E4D66] mt-2 leading-relaxed text-justify">{species.funFact}</p>
               </div>
             )}
 
@@ -489,7 +489,7 @@ if (!species) {
             })()}
             <p className="font-mono text-sm italic text-teal-deep mt-1">{species.scientific}</p>
 
-            <p className="font-body text-base font-semibold text-[#1E4D66] mt-6 leading-relaxed">
+            <p className="font-body text-base font-semibold text-[#1E4D66] mt-6 leading-relaxed text-justify">
               {species.longDesc}
             </p>
 
@@ -554,7 +554,7 @@ if (!species) {
                   <span className="font-display text-2xl text-[#FF7F50]/40 font-bold flex-shrink-0">
                     {String(idx + 1).padStart(2, "0")}
                   </span>
-                  <p className="font-body text-base font-semibold text-[#1E4D66] leading-relaxed">{tip}</p>
+                  <p className="font-body text-base font-semibold text-[#1E4D66] leading-relaxed text-justify">{tip}</p>
                 </div>
               ))}
             </div>
@@ -604,7 +604,7 @@ function CareRow({ label, value }) {
   return (
     <div>
       <h4 className="font-mono text-[11px] uppercase tracking-widest text-[#FF7F50] font-bold mb-1.5">{label}</h4>
-      <p className="font-body text-base font-semibold text-[#1E4D66] leading-relaxed">{value}</p>
+      <p className="font-body text-base font-semibold text-[#1E4D66] leading-relaxed text-justify">{value}</p>
     </div>
   );
 }
