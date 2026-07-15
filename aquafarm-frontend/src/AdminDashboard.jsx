@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import logo from "./assets/logo.png";
 
-//const API_BASE = "http://localhost:5000/api";
-const API_BASE = import.meta.env.VITE_API_URL;
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 /* ─────────────────────────── THEME ──────────────────────────────────────── */
 const T = {
   bg:      "#0A2A43", surface: "#0E3C57", card: "#114B6B",

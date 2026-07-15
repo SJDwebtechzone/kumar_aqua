@@ -128,7 +128,7 @@ export default function SpeciesDetail() {
     if (slug.startsWith("db-")) {
       setLoadingDb(true);
       const id = slug.replace("db-", "");
-      const apiBase = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+      const apiBase = import.meta.env.VITE_API_URL // "http://localhost:5000/api";
       fetch(`${apiBase}/fishes/${id}`)
         .then((r) => r.json())
         .then((fish) => {
