@@ -54,14 +54,14 @@ function Shallows() {
       </div>
 
       {/* Stats Bar */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12">
         {stats.map((s) => (
           <div
             key={s.label}
-            className="glass-panel rounded-2xl py-6 px-4 text-center border-[#FF7F50]/20"
+            className="glass-panel rounded-2xl py-8 px-6 text-center border-[#FF7F50]/20 flex flex-col justify-center items-center"
           >
-            <div className="font-display text-2xl sm:text-3xl font-semibold text-teal-deep">{s.value}</div>
-            <div className="font-mono text-[10px] sm:text-[11px] uppercase tracking-wider text-[#0A1C33]/70 mt-2">{s.label}</div>
+            <div className="font-display text-4xl sm:text-5xl font-bold text-teal-deep">{s.value}</div>
+            <div className="font-mono text-[11px] sm:text-xs uppercase tracking-widest text-[#FF7F50] font-bold mt-3">{s.label}</div>
           </div>
         ))}
       </div>
