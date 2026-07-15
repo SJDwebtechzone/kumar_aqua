@@ -82,7 +82,7 @@ function Harbor() {
           </span>
           <span className="text-[#FF7F50] font-light italic">conversation with us</span>
         </h2>
-        <p className="font-body text-[#0A1C33]/80 mt-4 leading-relaxed text-sm sm:text-base max-w-xl mx-auto">
+        <p className="font-body text-base font-semibold text-[#1E4D66] mt-4 leading-relaxed max-w-xl mx-auto">
           Whether you're stocking your first nano tank or sourcing a wholesale shipment, our team is ready to help you navigate every ripple of the process.
         </p>
       </div>
@@ -92,25 +92,25 @@ function Harbor() {
         {contactItems.map((item) => (
           <div
             key={item.label}
-            className="rounded-3xl p-6 flex flex-col items-start text-left shadow-[0_10px_30px_rgba(0,50,60,0.08)] hover:shadow-[0_16px_40px_rgba(0,50,60,0.14)] hover:-translate-y-1 transition-all duration-300"
+            className="rounded-3xl p-6 flex flex-col items-start text-left shadow-[0_10px_30px_rgba(0,50,60,0.08)] hover:shadow-[0_16px_40px_rgba(0,50,60,0.14)] hover:-translate-y-1 transition-all duration-300 group"
             style={{ background: "linear-gradient(160deg, rgba(255,255,255,0.95) 0%, rgba(255,127,80,0.08) 45%, rgba(0,210,196,0.10) 100%)" }}
           >
             <div className="w-11 h-11 rounded-full bg-[#FF7F50]/12 border border-[#FF7F50]/25 flex items-center justify-center text-[#FF7F50] mb-4">
               <item.Icon />
             </div>
-            <span className="font-mono text-[10px] uppercase tracking-widest text-teal-deep">
+            <span className="font-mono text-[10px] uppercase tracking-widest text-[#FF7F50] font-bold group-hover:text-teal-deep transition-colors">
               {item.label}
             </span>
-            <span className="font-body text-[11px] text-[#0A1C33]/55 italic mt-0.5">
+            <span className="font-body text-xs text-[#1E4D66] font-semibold mt-1 leading-normal">
               {item.note}
             </span>
-            <span className="font-body text-sm sm:text-base text-[#0A1C33] font-medium mt-2 mb-4">
+            <span className="font-body text-base text-[#0A1C33] font-bold mt-3.5 mb-4 leading-relaxed break-words w-full">
               {item.value}
             </span>
             {item.href && (
               <a
                 href={item.href}
-                className="mt-auto text-xs font-mono uppercase tracking-wider text-[#FF7F50] hover:text-teal-deep transition-colors inline-flex items-center gap-1"
+                className="mt-auto text-xs font-mono uppercase tracking-wider text-[#FF7F50] hover:text-teal-deep transition-colors inline-flex items-center gap-1 font-bold"
               >
                 {item.cta} →
               </a>
@@ -146,24 +146,24 @@ function Harbor() {
             <WaveIcon />
           </div>
           <div>
-            <h3 className="font-display text-lg font-semibold text-[#0A1C33]">The Tides We're Open</h3>
+            <h3 className="font-display text-lg font-bold text-[#0A1C33]">The Tides We're Open</h3>
            
           </div>
         </div>
         <div className="flex gap-8 sm:gap-10">
           <div className="text-center sm:text-left">
-            <span className="block font-mono text-[10px] uppercase tracking-widest text-[#0A1C33]/60">Mon – Fri</span>
-            <span className="block font-body text-sm sm:text-base text-[#0A1C33] font-medium mt-1">9:00 AM – 6:00 PM</span>
+            <span className="block font-mono text-[10px] uppercase tracking-widest text-[#FF7F50] font-bold">Mon – Fri</span>
+            <span className="block font-body text-base text-[#0A1C33] font-bold mt-1">9:00 AM – 6:00 PM</span>
           </div>
           <div className="text-center sm:text-left">
-            <span className="block font-mono text-[10px] uppercase tracking-widest text-[#0A1C33]/60">Saturday</span>
-            <span className="block font-body text-sm sm:text-base text-[#0A1C33] font-medium mt-1">10:00 AM – 4:00 PM</span>
+            <span className="block font-mono text-[10px] uppercase tracking-widest text-[#FF7F50] font-bold">Saturday</span>
+            <span className="block font-body text-base text-[#0A1C33] font-bold mt-1">10:00 AM – 4:00 PM</span>
           </div>
         </div>
       </div>
 
       {/* Closing tagline */}
-      <p className="text-center font-mono text-[11px] uppercase tracking-widest text-[#0A1C33] mt-8">
+      <p className="text-center font-mono text-[11px] uppercase tracking-widest text-[#0A1C33] mt-8 font-semibold">
         Fair winds and healthy fins — we'll be in touch soon 🐠
       </p>
     </div>

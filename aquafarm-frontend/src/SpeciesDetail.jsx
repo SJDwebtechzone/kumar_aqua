@@ -115,6 +115,7 @@ export default function SpeciesDetail() {
   const [loadingDb, setLoadingDb] = useState(false);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     // Try static list first
     const staticSpecies = getSpeciesBySlug(slug);
     if (staticSpecies) {

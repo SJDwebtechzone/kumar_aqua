@@ -48,7 +48,7 @@ function Shallows() {
           </span>
           <span className="text-[#FF7F50] font-light italic">with precision.</span>
         </h2>
-        <p className="font-body text-[#0A1C33]/80 mt-4 text-sm sm:text-base">
+        <p className="font-body text-base font-semibold text-[#1E4D66] mt-4 leading-relaxed">
           Our bio-secured pools duplicate the exact minerals, vegetation, and natural light cycles required for robust physiological development.
         </p>
       </div>
@@ -84,10 +84,10 @@ function Shallows() {
             </span>
             <span className="text-[#FF7F50] font-light italic">passion for aquatic life</span>
           </h3>
-          <p className="font-body text-sm sm:text-base text-[#0A1C33]/85 mt-4 leading-relaxed">
+          <p className="font-body text-base font-semibold text-[#1E4D66] mt-4 leading-relaxed">
             Kumar Aqua Farm began as a small backyard hatchery focused on cherry shrimp and grew into a full-scale aquaculture operation supplying hobbyists and retailers alike. Every specimen that leaves our facility has been raised, conditioned, and health-checked according to the same standards we'd want for our own home aquariums.
           </p>
-          <p className="font-body text-sm sm:text-base text-[#0A1C33]/85 mt-4 leading-relaxed">
+          <p className="font-body text-base font-semibold text-[#1E4D66] mt-4 leading-relaxed">
             We believe healthy aquatic ecosystems start with responsible breeding — not mass production. That philosophy shapes every tank, every water change, and every animal we send out the door.
           </p>
         </div>
@@ -109,11 +109,11 @@ function Shallows() {
           {values.map((v) => (
             <div
               key={v.title}
-              className="glass-panel glass-panel-hover rounded-2xl p-6 text-center border-[#FF7F50]/20"
+              className="glass-panel glass-panel-hover rounded-2xl p-6 text-center border-[#FF7F50]/20 group"
             >
               <div className="text-3xl mb-3">{v.icon}</div>
-              <h4 className="font-display text-base font-semibold text-[#0A1C33]">{v.title}</h4>
-              <p className="font-body text-xs text-[#0A1C33]/75 mt-2 leading-relaxed">{v.note}</p>
+              <h4 className="font-display text-lg font-bold text-[#0A1C33] group-hover:text-[#FF7F50] transition-colors">{v.title}</h4>
+              <p className="font-body text-base font-semibold text-[#1E4D66] mt-2 leading-relaxed">{v.note}</p>
             </div>
           ))}
         </div>
@@ -142,10 +142,10 @@ function Shallows() {
                 <span className="font-mono text-xs text-teal-deep px-2 py-0.5 rounded bg-[#FF7F50]/10 border border-[#FF7F50]/25">STAGE {s.count}</span>
                 <span className="font-mono text-4xl text-[#FF7F50]/15 font-bold group-hover:text-[#FF7F50]/35 transition-colors">#{s.count}</span>
               </div>
-              <h3 className="font-display text-xl text-[#0A1C33] font-semibold mt-2 group-hover:text-[#FF7F50] transition-colors">
+              <h3 className="font-display text-xl text-[#0A1C33] font-bold mt-2 group-hover:text-[#FF7F50] transition-colors">
                 {s.name}
               </h3>
-              <p className="font-body text-xs sm:text-sm text-[#0A1C33]/85 mt-3.5 leading-relaxed">
+              <p className="font-body text-base font-semibold text-[#1E4D66] mt-3.5 leading-relaxed">
                 {s.note}
               </p>
             </div>

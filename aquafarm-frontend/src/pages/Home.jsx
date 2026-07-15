@@ -63,7 +63,7 @@ const speciesData = (featuredFish && featuredFish.length > 0)
             </span>
             <span className="text-[#FF7F50] font-light italic">Standards</span>
           </h2>
-          <p className="font-body text-[#0A1C33]/80 mt-4 leading-relaxed text-sm sm:text-base">
+          <p className="font-body text-base font-semibold text-[#1E4D66] mt-4 leading-relaxed">
             We raise every specimen with extreme care and scientific precision. Here are the core pillars that guarantee the health of our aquatic life.
           </p>
         </div>
@@ -80,7 +80,7 @@ const speciesData = (featuredFish && featuredFish.length > 0)
             </span>
             <span className="text-[#FF7F50] font-light italic">Acclimation</span>
           </h2>
-          <p className="font-body text-[#0A1C33]/80 mt-4 leading-relaxed text-sm sm:text-base">
+          <p className="font-body text-base font-semibold text-[#1E4D66] mt-4 leading-relaxed">
             Acclimating new livestock correctly is the most important step to a healthy tank. Read our guide below to ensure your shrimp and fish thrive.
           </p>
         </div>

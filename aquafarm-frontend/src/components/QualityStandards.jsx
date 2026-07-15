@@ -31,17 +31,17 @@ export default function QualityStandards() {
       {STANDARDS_DATA.map((item, idx) => (
         <div 
           key={idx} 
-          className="rounded-2xl p-6 flex gap-4 transition-all duration-300 hover:-translate-y-1 shadow-[0_10px_30px_rgba(0,50,60,0.08)] hover:shadow-[0_16px_40px_rgba(0,50,60,0.14)]"
+          className="rounded-2xl p-6 flex gap-4 transition-all duration-300 hover:-translate-y-1 shadow-[0_10px_30px_rgba(0,50,60,0.08)] hover:shadow-[0_16px_40px_rgba(0,50,60,0.14)] group"
           style={{ background: CARD_GRADIENT }}
         >
           <div className="w-12 h-12 rounded-full bg-[#FF7F50]/15 border border-[#FF7F50]/30 flex items-center justify-center text-xl flex-shrink-0">
             {item.icon}
           </div>
           <div>
-            <h3 className="font-display text-base sm:text-lg font-semibold text-[#0A1C33]">
+            <h3 className="font-display text-lg font-bold text-[#0A1C33] group-hover:text-[#FF7F50] transition-colors">
               {item.title}
             </h3>
-            <p className="font-body text-xs sm:text-sm text-[#0A1C33]/80 mt-2 leading-relaxed">
+            <p className="font-body text-base font-semibold text-[#1E4D66] mt-2 leading-relaxed">
               {item.desc}
             </p>
           </div>

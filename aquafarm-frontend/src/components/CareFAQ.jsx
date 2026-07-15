@@ -33,13 +33,13 @@ export default function CareFAQ() {
         return (
           <div 
             key={idx} 
-            className="glass-panel rounded-2xl border-[#FF7F50]/20 overflow-hidden bg-white/5 backdrop-blur-md transition-all duration-300 hover:bg-white/10"
+            className="glass-panel rounded-2xl border-[#FF7F50]/20 overflow-hidden bg-white/5 backdrop-blur-md transition-all duration-300 hover:bg-white/10 group"
           >
             <button
               onClick={() => toggle(idx)}
               className="w-full text-left px-6 py-5 flex items-center justify-between gap-4 text-[#0A1C33] focus:outline-none"
             >
-              <span className="font-display text-base sm:text-lg font-semibold leading-snug">
+              <span className="font-display text-lg font-bold leading-snug group-hover:text-[#FF7F50] transition-colors">
                 {faq.question}
               </span>
               <span 
@@ -52,7 +52,7 @@ export default function CareFAQ() {
               className={`transition-all duration-300 ease-in-out ${isOpen ? 'max-h-[500px] border-t border-[#FF7F50]/10' : 'max-h-0'}`}
               style={{ overflow: 'hidden' }}
             >
-              <div className="px-6 py-5 text-sm leading-relaxed text-[#0A1C33]/80 font-body">
+              <div className="px-6 py-5 text-base font-semibold leading-relaxed text-[#1E4D66] font-body">
                 {faq.answer}
               </div>
             </div>

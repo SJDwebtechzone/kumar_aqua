@@ -192,7 +192,7 @@ function GrowOut({ onNavigate, speciesData, quickStock }) {
             </span>
             <span className="text-[#FF7F50] font-light italic">Catalog</span>
           </h2>
-          <p className="font-body text-[#0A1C33]/80 mt-3 text-sm sm:text-base">
+          <p className="font-body text-base font-semibold text-[#1E4D66] mt-3 leading-relaxed">
             Every specimen is quarantine-cleared and acclimated to broad environmental baselines for straightforward integration.
           </p>
         </div>
@@ -228,12 +228,12 @@ function GrowOut({ onNavigate, speciesData, quickStock }) {
           {benefits.map((b) => (
             <div
               key={b.title}
-              className="rounded-2xl p-6 text-center shadow-[0_10px_30px_rgba(0,50,60,0.08)] hover:shadow-[0_16px_40px_rgba(0,50,60,0.14)] hover:-translate-y-1 transition-all duration-300"
+              className="rounded-2xl p-6 text-center shadow-[0_10px_30px_rgba(0,50,60,0.08)] hover:shadow-[0_16px_40px_rgba(0,50,60,0.14)] hover:-translate-y-1 transition-all duration-300 group"
               style={{ background: CARD_GRADIENT }}
             >
               <div className="text-3xl mb-3">{b.icon}</div>
-              <h4 className="font-display text-base font-semibold text-[#0A1C33]">{b.title}</h4>
-              <p className="font-body text-xs text-[#0A1C33]/75 mt-2 leading-relaxed">{b.note}</p>
+              <h4 className="font-display text-lg font-bold text-[#0A1C33] group-hover:text-[#FF7F50] transition-colors">{b.title}</h4>
+              <p className="font-body text-base font-semibold text-[#1E4D66] mt-2 leading-relaxed">{b.note}</p>
             </div>
           ))}
         </div>
@@ -249,7 +249,7 @@ function GrowOut({ onNavigate, speciesData, quickStock }) {
             <span>Looking for a</span>
             <span className="text-[#FF7F50] font-light italic">species not listed here?</span>
           </h3>
-          <p className="font-body text-sm text-[#0A1C33]/75 mt-2">
+          <p className="font-body text-base font-semibold text-[#1E4D66] mt-2 leading-relaxed">
             We regularly source new stock and take custom or bulk wholesale requests.
           </p>
         </div>

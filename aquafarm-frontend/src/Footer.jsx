@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import logo from "./assets/logo.png";
 
 /* Simple inline SVG icons — no extra dependencies needed */
@@ -42,9 +43,9 @@ export default function Footer({ onNavigate }) {
     { label: "Contact Us", id: "harbor" },
   ];
   const speciesLinks = [
-    "Cherry Shrimp",
-    "Gold Angelfish",
-    "Balloon Molly",
+    { label: "Cherry Shrimp", slug: "shrimp" },
+    { label: "Gold Angelfish", slug: "gold-angelfish" },
+    { label: "Balloon Molly", slug: "balloon-molly" },
   ];
   const socials = [
     { label: "Facebook", Icon: FacebookIcon, href: "#" },
@@ -107,13 +108,13 @@ export default function Footer({ onNavigate }) {
             <h4 className="font-mono text-[11px] uppercase tracking-widest text-[#FF7F50] mb-3">Species Catalog</h4>
             <ul className="space-y-2">
               {speciesLinks.map((s) => (
-                <li key={s}>
-                  <button
-                    onClick={() => onNavigate("growout")}
-                    className="text-xs sm:text-sm text-white hover:text-[#FF7F50] transition-colors focus:outline-none"
+                <li key={s.slug}>
+                  <Link
+                    to={`/species/${s.slug}`}
+                    className="text-xs sm:text-sm text-white hover:text-[#FF7F50] transition-colors block"
                   >
-                    {s}
-                  </button>
+                    {s.label}
+                  </Link>
                 </li>
               ))}
             </ul>
