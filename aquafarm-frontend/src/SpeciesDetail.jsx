@@ -284,23 +284,23 @@ if (!species) {
           <img
             src={logo}
             alt="Kumar Aqua Farm"
-            className="h-16 w-auto max-w-[140px] object-contain"
+            className="h-20 md:h-26 w-auto max-w-[240px] object-contain hover:scale-105 transition-transform"
           />
         </Link>
         <Link
-          to="/"
+          to="/aquarium-types"
           className="font-mono text-xs uppercase tracking-widest text-white/80 hover:text-[#FF7F50] transition-colors"
         >
-          ← Back to Home
+          ← Back
         </Link>
       </header>
 
-      <main className="pt-[120px] pb-20 px-6 md:px-16 max-w-6xl mx-auto">
+      <main className="pt-[130px] md:pt-[160px] pb-20 px-6 md:px-16 max-w-6xl mx-auto">
         {/* Breadcrumb */}
         <div className="font-mono text-[11px] uppercase tracking-widest text-teal-deep mb-6">
           <Link to="/" className="hover:text-[#0A1C33] transition-colors">Home</Link>
           {" / "}
-          <Link to="/#growout" className="hover:text-[#0A1C33] transition-colors">Aquarium Types</Link>
+          <Link to="/aquarium-types" className="hover:text-[#0A1C33] transition-colors">Aquarium Types</Link>
           {" / "}
           <span className="text-[#0A1C33]">{species.name}</span>
         </div>
@@ -346,15 +346,15 @@ if (!species) {
             {/* Fun Fact callout */}
             {species.funFact && (
               <div className="glass-panel rounded-2xl p-5 mt-6 border-[#FF7F50]/20">
-                <span className="font-mono text-[10px] uppercase tracking-widest text-teal-deep font-bold">Fun Fact</span>
-                <p className="font-body text-sm text-[#0A1C33]/85 mt-2 leading-relaxed">{species.funFact}</p>
+                <span className="font-mono text-[10px] uppercase tracking-widest text-[#FF7F50] font-bold">Fun Fact</span>
+                <p className="font-body text-base font-semibold text-[#1E4D66] mt-2 leading-relaxed">{species.funFact}</p>
               </div>
             )}
 
             {/* Stocking Calculator */}
             <div className="glass-panel rounded-2xl p-5 mt-6 border-[#FF7F50]/20">
               <div className="flex justify-between items-center mb-3">
-                <span className="font-mono text-[10px] uppercase tracking-widest text-teal-deep font-bold">Stocking Calculator</span>
+                <span className="font-mono text-[10px] uppercase tracking-widest text-[#FF7F50] font-bold">Stocking Calculator</span>
                 <div className="flex bg-[#007b8a]/10 rounded-lg p-0.5 border border-[#007b8a]/20">
                   <button
                     onClick={() => setUnit("L")}
@@ -447,14 +447,14 @@ if (!species) {
                   return (
                     <div className="space-y-3 pt-3 border-t border-[#FF7F50]/10">
                       {isUnderMin ? (
-                        <div className="bg-rose-500/10 border border-rose-500/20 rounded-xl p-3 text-xs text-rose-deep leading-relaxed flex gap-2">
-                          <span className="text-sm">⚠️</span>
+                        <div className="bg-rose-500/10 border border-rose-500/20 rounded-xl p-3 text-base font-semibold text-rose-deep leading-relaxed flex gap-2">
+                          <span className="text-base">⚠️</span>
                           <span>{warningText}</span>
                         </div>
                       ) : (
-                        <div className="bg-[#007b8a]/5 border border-[#007b8a]/10 rounded-xl p-3 text-xs text-[#0A1C33]/90 leading-relaxed">
-                          <div className="font-semibold text-teal-deep text-sm mb-1">{recommendedText}</div>
-                          <p className="text-[#0A1C33]/80 font-body text-[11px] leading-normal">{advice}</p>
+                        <div className="bg-[#007b8a]/5 border border-[#007b8a]/10 rounded-xl p-3 text-base font-semibold text-[#1E4D66] leading-relaxed">
+                          <div className="font-bold text-[#007b8a] text-base mb-1">{recommendedText}</div>
+                          <p className="font-body text-base font-semibold text-[#1E4D66] mt-1.5 leading-normal">{advice}</p>
                         </div>
                       )}
                       <div className="text-[9px] text-[#0A1C33]/50 italic font-mono text-center leading-normal">
@@ -488,7 +488,7 @@ if (!species) {
             })()}
             <p className="font-mono text-sm italic text-teal-deep mt-1">{species.scientific}</p>
 
-            <p className="font-body text-sm sm:text-base text-[#0A1C33]/85 mt-6 leading-relaxed">
+            <p className="font-body text-base font-semibold text-[#1E4D66] mt-6 leading-relaxed">
               {species.longDesc}
             </p>
 
@@ -516,20 +516,20 @@ if (!species) {
           <div className="grid sm:grid-cols-2 gap-6 mt-10">
             {species.compatibleWith && (
               <div className="glass-panel rounded-2xl p-5 border-[#FF7F50]/20">
-                <h4 className="font-mono text-[11px] uppercase tracking-widest text-teal-deep font-bold mb-3">✓ Compatible With</h4>
+                <h4 className="font-mono text-[11px] uppercase tracking-widest text-[#FF7F50] font-bold mb-3">✓ Compatible With</h4>
                 <ul className="space-y-1.5">
                   {species.compatibleWith.map((c) => (
-                    <li key={c} className="font-body text-sm text-[#0A1C33]/85">{c}</li>
+                    <li key={c} className="font-body text-base font-semibold text-[#1E4D66]">{c}</li>
                   ))}
                 </ul>
               </div>
             )}
             {species.avoid && (
               <div className="glass-panel rounded-2xl p-5 border-[#FF5757]/20">
-                <h4 className="font-mono text-[11px] uppercase tracking-widest text-rose-deep mb-3">✕ Avoid Pairing With</h4>
+                <h4 className="font-mono text-[11px] uppercase tracking-widest text-[#FF7F50] font-bold mb-3">✕ Avoid Pairing With</h4>
                 <ul className="space-y-1.5">
                   {species.avoid.map((c) => (
-                    <li key={c} className="font-body text-sm text-[#0A1C33]/85">{c}</li>
+                    <li key={c} className="font-body text-base font-semibold text-[#1E4D66]">{c}</li>
                   ))}
                 </ul>
               </div>
@@ -553,7 +553,7 @@ if (!species) {
                   <span className="font-display text-2xl text-[#FF7F50]/40 font-bold flex-shrink-0">
                     {String(idx + 1).padStart(2, "0")}
                   </span>
-                  <p className="font-body text-sm text-[#0A1C33]/85 leading-relaxed">{tip}</p>
+                  <p className="font-body text-base font-semibold text-[#1E4D66] leading-relaxed">{tip}</p>
                 </div>
               ))}
             </div>
@@ -592,9 +592,9 @@ if (!species) {
 
 function SpecBadge({ label, value }) {
   return (
-    <div className="glass-panel rounded-xl p-3 text-center border-[#FF7F50]/20">
-      <span className="block font-mono text-[9px] uppercase tracking-widest text-teal-deep font-bold">{label}</span>
-      <span className="block font-body text-xs sm:text-sm text-[#0A1C33] font-semibold mt-1">{value}</span>
+    <div className="glass-panel rounded-xl py-4 px-2 text-center border-[#FF7F50]/20 flex flex-col justify-between min-h-[96px]">
+      <span className="block font-mono text-[9px] uppercase tracking-widest text-teal-deep font-bold mb-1">{label}</span>
+      <span className="block font-body text-xs sm:text-sm lg:text-base text-[#FF7F50] font-bold leading-tight break-words">{value}</span>
     </div>
   );
 }
@@ -602,8 +602,8 @@ function SpecBadge({ label, value }) {
 function CareRow({ label, value }) {
   return (
     <div>
-      <h4 className="font-mono text-[11px] uppercase tracking-widest text-teal-deep font-bold mb-1.5">{label}</h4>
-      <p className="font-body text-sm text-[#0A1C33]/85 leading-relaxed">{value}</p>
+      <h4 className="font-mono text-[11px] uppercase tracking-widest text-[#FF7F50] font-bold mb-1.5">{label}</h4>
+      <p className="font-body text-base font-semibold text-[#1E4D66] leading-relaxed">{value}</p>
     </div>
   );
 }
