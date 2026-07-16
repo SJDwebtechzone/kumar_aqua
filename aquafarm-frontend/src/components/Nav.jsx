@@ -3,17 +3,38 @@ import logo from "../assets/logo.png";
 
 export default function Nav({ activeZone, onNavigate }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [visible, setVisible] = useState(true);
+  const [prevScrollPos, setPrevScrollPos] = useState(0);
 
-  // Auto-close hamburger menu on scroll
+  useEffect(() => {
+    // Initialise on mount
+    setPrevScrollPos(window.scrollY);
+  }, []);
+
   useEffect(() => {
     const handleScroll = () => {
+      const currentScrollPos = window.scrollY;
+
+      // Auto-close hamburger menu on scroll
       if (mobileMenuOpen) {
         setMobileMenuOpen(false);
       }
+
+      // Hide nav bar when scrolling down, show when scrolling up
+      if (prevScrollPos > currentScrollPos) {
+        // Scrolling up
+        setVisible(true);
+      } else if (currentScrollPos > 110) {
+        // Scrolling down & passed header height
+        setVisible(false);
+      }
+
+      setPrevScrollPos(currentScrollPos);
     };
+
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [mobileMenuOpen]);
+  }, [prevScrollPos, mobileMenuOpen]);
 
   if (window.location.pathname === "/admin") return null;
   const menuItems = [
@@ -23,7 +44,10 @@ export default function Nav({ activeZone, onNavigate }) {
     { label: "CONTACT US", id: "harbor" }
   ];
   return (
-    <header className="fixed top-0 left-0 right-0 z-40 backdrop-blur-md border-b border-[#FF7F50]/30" style={{ background: "rgba(3, 37, 53, 0.92)" }}>
+    <header 
+      className={`fixed left-0 right-0 z-40 backdrop-blur-md border-b border-[#FF7F50]/30 transition-transform duration-300 ${visible ? "translate-y-0" : "-translate-y-full"}`} 
+      style={{ top: 0, background: "rgba(3, 37, 53, 0.92)" }}
+    >
       {/* Main Navbar */}
       <div className="flex items-center justify-between px-6 md:px-12 py-3.5">
         <button
