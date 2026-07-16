@@ -49,7 +49,7 @@ export default function Nav({ activeZone, onNavigate }) {
       style={{ top: 0, background: "rgba(3, 37, 53, 0.92)" }}
     >
       {/* Main Navbar */}
-      <div className="flex items-center justify-between px-6 md:px-12 py-3.5">
+      <div className="flex items-center justify-between px-6 md:px-12 py-1.5">
         <button
           onClick={() => {
             onNavigate("surface");
@@ -60,7 +60,7 @@ export default function Nav({ activeZone, onNavigate }) {
           <img 
             src={logo} 
             alt="Kumar Aqua Farm" 
-            className="h-20 md:h-26 w-auto max-w-[240px] object-contain group-hover:scale-110 transition-transform" 
+            className="h-14 md:h-20 w-auto max-w-[240px] object-contain group-hover:scale-110 transition-transform" 
           />
         </button>
 

@@ -14,7 +14,7 @@ export default function Section({ id, zone, refCb, children }) {
       id={id}
       data-zone={id}
       ref={refCb}
-      className={`relative w-full flex flex-col items-center justify-start px-6 md:px-16 pt-[160px] md:pt-[180px] pb-16 ${isHarbor ? "min-h-0" : "min-h-screen"} overflow-hidden`}
+      className={`relative w-full flex flex-col items-center justify-start px-6 md:px-16 pt-[120px] md:pt-[140px] pb-16 ${isHarbor ? "min-h-0" : "min-h-screen"} overflow-hidden`}
       style={{ background: ZONE_BG[zone] }}
     >
       {/* Wave top border for organic separation */}

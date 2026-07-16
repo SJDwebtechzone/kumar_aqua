@@ -1,10 +1,10 @@
 import React from "react";
 
 const ZONES = [
-  { id: "surface", label: "Hero Zone", depth: "0m" },
+  { id: "surface", label: "Home", depth: "0m" },
   { id: "shallows", label: "About Us", depth: "4m" },
   { id: "growout", label: "Aquarium Types", depth: "12m" },
-  { id: "harbor", label: "Contact Us", depth: "0m" }
+  { id: "harbor", label: "Contact Us", depth: "18m" }
 ];
 
 export default function DepthGauge({ activeZone, onSelect }) {
@@ -41,9 +41,9 @@ export default function DepthGauge({ activeZone, onSelect }) {
                 </div>
                 <span
                   style={{
-                    width: isActive ? "12px" : "6px",
+                    width: isActive ? "15px" : "8px",
                     height: isActive ? "12px" : "6px",
-                    borderRadius: "50%",
+                    borderRadius: "70%",
                     background: isActive ? "#FF7F50" : "rgba(255,127,80,0.3)",
                     boxShadow: isActive ? "0 0 10px #FF7F50" : "none",
                     transition: "all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)",

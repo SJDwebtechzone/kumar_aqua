@@ -6,7 +6,7 @@ const FAQ_DATA = [
     answer: "We strongly recommend the drip acclimation method for all specimens, especially delicate dwarf shrimp. Float the closed shipping bag in your tank for 15-20 minutes to equalize water temperature. Then, pour the water and specimens into a clean container and use airline tubing with a control valve to drip water from your tank into the container at a rate of 2-3 drops per second. Once the water volume has doubled, discard half the water and repeat. After 1 hour, net the specimens and release them into your tank (avoid adding shipping water directly to your aquarium)."
   },
   {
-    question: "What are the ideal water parameters for Neocaridina shrimp?",
+    question: "What are the ideal water parameters for Cherry shrimp?",
     answer: "Cherry Shrimp (Neocaridina davidi) are highly adaptable, but they thrive best in stable conditions. The ideal parameters are: Temperature: 20°C - 26°C, pH: 6.8 - 7.8, General Hardness (gH): 6 - 8 dGH, Carbonate Hardness (kH): 2 - 5 dKH, and TDS (Total Dissolved Solids): 150 - 250 ppm. Most importantly, ensure your tank is fully cycled with zero Ammonia and Nitrites, as invertebrates are highly sensitive to nitrogenous waste."
   },
   {

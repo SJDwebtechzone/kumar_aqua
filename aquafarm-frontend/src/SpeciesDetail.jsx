@@ -278,14 +278,14 @@ if (!species) {
       </div>
       {/* Simple header */}
       <header
-        className="fixed top-0 left-0 right-0 z-40 flex items-center justify-between px-6 md:px-12 py-3 min-h-[96px] backdrop-blur-md border-b border-[#FF7F50]/30"
+        className="fixed top-0 left-0 right-0 z-40 flex items-center justify-between px-6 md:px-12 py-1.5 min-h-[72px] backdrop-blur-md border-b border-[#FF7F50]/30"
         style={{ background: "rgba(3, 37, 53, 0.92)" }}
       >
         <Link to="/" className="flex items-center gap-2">
           <img
             src={logo}
             alt="Kumar Aqua Farm"
-            className="h-20 md:h-26 w-auto max-w-[240px] object-contain hover:scale-105 transition-transform"
+            className="h-14 md:h-20 w-auto max-w-[240px] object-contain hover:scale-105 transition-transform"
           />
         </Link>
         <Link
@@ -296,7 +296,7 @@ if (!species) {
         </Link>
       </header>
 
-      <main className="pt-[130px] md:pt-[160px] pb-20 px-6 md:px-16 max-w-6xl mx-auto">
+      <main className="pt-[100px] md:pt-[120px] pb-20 px-6 md:px-16 max-w-6xl mx-auto">
         {/* Breadcrumb */}
         <div className="font-mono text-[11px] uppercase tracking-widest text-teal-deep mb-6">
           <Link to="/" className="hover:text-[#0A1C33] transition-colors">Home</Link>
