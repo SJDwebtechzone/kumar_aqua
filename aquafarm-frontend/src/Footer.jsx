@@ -67,7 +67,7 @@ export default function Footer({ onNavigate }) {
             <img
               src={logo}
               alt="Kumar Aqua Farm"
-              className="h-22 w-auto max-w-[190px] object-contain mb-3 -ml-1"
+              className="h-22 w-auto max-w-none object-contain mb-3 -ml-1"
             />
             <p className="font-body text-xs sm:text-sm text-white leading-relaxed max-w-xs">
               Biologically conditioned husbandry for hobbyists and retailers. Ethically bred, quarantine-cleared, and ready for your aquarium.
@@ -88,7 +88,7 @@ export default function Footer({ onNavigate }) {
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-mono text-[11px] uppercase tracking-widest text-[#FF7F50] mb-3">Quick Links</h4>
+            <h4 className="font-mono text-sm font-bold uppercase tracking-widest text-[#FF7F50] mb-3">Quick Links</h4>
             <ul className="space-y-2">
               {quickLinks.map((l) => (
                 <li key={l.id}>
@@ -105,12 +105,12 @@ export default function Footer({ onNavigate }) {
 
           {/* Species */}
           <div>
-            <h4 className="font-mono text-[11px] uppercase tracking-widest text-[#FF7F50] mb-3">Species Catalog</h4>
+            <h4 className="font-mono text-sm font-bold uppercase tracking-widest text-[#FF7F50] mb-3">Species Catalog</h4>
             <ul className="space-y-2">
               {speciesLinks.map((s) => (
                 <li key={s.slug}>
                   <Link
-                    to={`/species/${s.slug}`}
+                    to={`/aquarium-types#${s.slug}`}
                     className="text-xs sm:text-sm text-white hover:text-[#FF7F50] transition-colors block"
                   >
                     {s.label}
@@ -122,15 +122,15 @@ export default function Footer({ onNavigate }) {
 
           {/* Contact */}
           <div>
-            <h4 className="font-mono text-[11px] uppercase tracking-widest text-[#FF7F50] mb-3">Contact</h4>
+            <h4 className="font-mono text-sm font-bold uppercase tracking-widest text-[#FF7F50] mb-3">Contact</h4>
             <ul className="space-y-2.5 text-xs sm:text-sm text-white">
               <li className="flex items-start gap-2">
                 <span>📞</span>
-                <span>9080121326</span>
+                <a href="tel:+919080121326" className="hover:text-[#FF7F50] transition-colors">9080121326</a>
               </li>
               <li className="flex items-start gap-2">
                 <span>✉️</span>
-                <span>rajesh@kumaraquatic.com</span>
+                <a href="mailto:rajesh@kumaraquatic.com" className="hover:text-[#FF7F50] transition-colors">rajesh@kumaraquatic.com</a>
               </li>
            <li className="flex items-start gap-2">
                 <span>📍</span>
@@ -155,7 +155,7 @@ export default function Footer({ onNavigate }) {
             href="https://devspectra.in/"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-[#FF7F50] hover:text-white transition-colors"
+            className="text-[#FF7F50] hover:text-white transition-colors font-bold"
           >
             DevSpectra
           </a>

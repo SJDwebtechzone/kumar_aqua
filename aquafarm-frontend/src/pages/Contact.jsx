@@ -39,7 +39,7 @@ function Harbor() {
   const contactItems = [
     {
       Icon: AnchorIcon,
-      label: "Ring the  Line",
+      label: "Ring the Line",
       note: "Speak directly with our aquaculture team",
       value: "9080121326",
       href: "tel:+919080121326",
@@ -58,8 +58,8 @@ function Harbor() {
       label: "Chart a Course to Our Dock",
       note: "Visit the source of your next aquarium",
       value: "NO:264, Mahatma Gandhi Nagar, 200ft Road, Kolattur, Chennai-99",
-      href: null,
-      cta: null,
+      href: "https://maps.google.com/?q=13.1186,80.2078",
+      cta: "Get Directions",
     },
   ];
 
@@ -92,27 +92,29 @@ function Harbor() {
         {contactItems.map((item) => (
           <div
             key={item.label}
-            className="rounded-3xl p-6 flex flex-col items-start text-left shadow-[0_10px_30px_rgba(0,50,60,0.08)] hover:shadow-[0_16px_40px_rgba(0,50,60,0.14)] hover:-translate-y-1 transition-all duration-300 group"
+            className="rounded-3xl p-6 flex flex-col items-start text-left shadow-[0_10px_30px_rgba(0,50,60,0.08)] hover:shadow-[0_16px_40px_rgba(0,50,60,0.14)] hover:-translate-y-1 transition-all duration-300 group w-full"
             style={{ background: "linear-gradient(160deg, rgba(255,255,255,0.95) 0%, rgba(255,127,80,0.08) 45%, rgba(0,210,196,0.10) 100%)" }}
           >
-            <div className="w-11 h-11 rounded-full bg-[#FF7F50]/12 border border-[#FF7F50]/25 flex items-center justify-center text-[#FF7F50] mb-4">
+            <div className="w-11 h-11 rounded-full bg-[#FF7F50]/12 border border-[#FF7F50]/25 flex items-center justify-center text-[#FF7F50] mb-4 flex-shrink-0">
               <item.Icon />
             </div>
-            <span className="font-mono text-[10px] uppercase tracking-widest text-[#FF7F50] font-bold group-hover:text-teal-deep transition-colors">
+            <span className="font-mono text-xs uppercase tracking-widest text-[#FF7F50] font-bold group-hover:text-teal-deep transition-colors mb-1.5">
               {item.label}
             </span>
-            <span className="font-body text-xs text-[#1E4D66] font-semibold mt-1 leading-normal text-justify">
+            <span className="font-body text-sm text-[#1E4D66] font-semibold leading-normal text-justify">
               {item.note}
             </span>
-            <span className="font-body text-base text-[#0A1C33] font-bold mt-3.5 mb-4 leading-relaxed break-words w-full">
+            <span className="font-body text-lg text-[#0A1C33] font-bold mt-3.5 mb-6 leading-relaxed break-words w-full min-h-[56px] flex items-center">
               {item.value}
             </span>
             {item.href && (
               <a
                 href={item.href}
-                className="mt-auto text-xs font-mono uppercase tracking-wider text-[#FF7F50] hover:text-teal-deep transition-colors inline-flex items-center gap-1 font-bold"
+                target={item.href.startsWith("http") ? "_blank" : undefined}
+                rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                className="mt-auto w-full py-3 rounded-2xl bg-[#FF7F50] hover:bg-[#007b8a] text-white font-mono text-xs uppercase tracking-wider text-center transition-all duration-300 font-bold shadow-md hover:shadow-lg hover:-translate-y-0.5 cursor-pointer block"
               >
-                {item.cta} →
+                {item.cta}
               </a>
             )}
           </div>
@@ -152,18 +154,18 @@ function Harbor() {
         </div>
         <div className="flex gap-8 sm:gap-10">
           <div className="text-center sm:text-left">
-            <span className="block font-mono text-[10px] uppercase tracking-widest text-[#FF7F50] font-bold">Mon – Fri</span>
-            <span className="block font-body text-base text-[#0A1C33] font-bold mt-1">9:00 AM – 6:00 PM</span>
+            <span className="block font-mono text-xs uppercase tracking-widest text-[#FF7F50] font-bold">Mon – Fri</span>
+            <span className="block font-body text-lg text-[#0A1C33] font-bold mt-1">9:00 AM – 6:00 PM</span>
           </div>
           <div className="text-center sm:text-left">
-            <span className="block font-mono text-[10px] uppercase tracking-widest text-[#FF7F50] font-bold">Saturday</span>
-            <span className="block font-body text-base text-[#0A1C33] font-bold mt-1">10:00 AM – 4:00 PM</span>
+            <span className="block font-mono text-xs uppercase tracking-widest text-[#FF7F50] font-bold">Saturday</span>
+            <span className="block font-body text-lg text-[#0A1C33] font-bold mt-1">10:00 AM – 4:00 PM</span>
           </div>
         </div>
       </div>
 
       {/* Closing tagline */}
-      <p className="text-center font-mono text-[11px] uppercase tracking-widest text-[#0A1C33] mt-8 font-semibold">
+      <p className="text-center font-mono text-sm uppercase tracking-widest text-[#0A1C33] mt-10 font-bold">
         Fair winds and healthy fins — we'll be in touch soon 🐠
       </p>
     </div>

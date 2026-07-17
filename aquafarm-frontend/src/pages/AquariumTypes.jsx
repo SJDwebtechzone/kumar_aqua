@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
+import { useLocation } from "react-router-dom";
 import { useFishes } from "../hooks/useFishes";
 import Section from "../components/Section";
 import SpeciesDetailCard from "../components/SpeciesDetailCard";
-import { speciesList } from "../speciesData";
-import { buildDbSpecies } from "../speciesData";
+import { speciesList, buildDbSpecies } from "../speciesData";
 
 const CARD_GRADIENT = "linear-gradient(160deg, rgba(255,255,255,0.95) 0%, rgba(255,127,80,0.08) 45%, rgba(0,210,196,0.10) 100%)";
 const CARD_SHADOW = "0_10px_30px_rgba(0,50,60,0.08)";
@@ -22,21 +22,21 @@ const QUICK_STOCK = [
   { name: "Habic", image: "/images/stock/habic.jpg" },
 ];
 function QuickStockList({ items }) {
- const dbItems = (items && items.length > 0)
+  const dbItems = (items && items.length > 0)
     ? items.map(f => ({ name: f.name, image: f.imageUrl }))
     : [];
   const list = [...QUICK_STOCK, ...dbItems];
   const [activeIdx, setActiveIdx] = useState(0);
-  const [imgError, setImgError] = useState(false);
+  const [failedImages, setFailedImages] = useState({});
   const active = list[activeIdx];
+  const hasError = active ? failedImages[active.image] : false;
 
   const handleHover = (idx) => {
     setActiveIdx(idx);
-    setImgError(false);
   };
 
   return (
-    <div className="mb-20">
+    <div className="mb-12">
       <div className="text-center max-w-xl mx-auto mb-10">
         <p className="font-mono text-xs text-teal-deep tracking-widest uppercase">More In Stock</p>
         <h3 className="font-display text-2xl sm:text-3xl font-semibold mt-3 text-[#0A1C33]">
@@ -64,11 +64,14 @@ function QuickStockList({ items }) {
             >
               <span>{item.name}</span>
               <span
-                className={`text-xs transition-transform ${
-                  activeIdx === idx ? "translate-x-0 opacity-100 text-[#FF7F50]" : "-translate-x-1 opacity-0"
+                className={`text-xs transition-all duration-300 ${
+                  activeIdx === idx 
+                    ? "opacity-100 text-[#FF7F50] translate-x-0 translate-y-0" 
+                    : "opacity-0 -translate-x-1 md:-translate-y-1"
                 }`}
               >
-                →
+                <span className="inline md:hidden">↓</span>
+                <span className="hidden md:inline">→</span>
               </span>
             </button>
           ))}
@@ -79,12 +82,15 @@ function QuickStockList({ items }) {
           className="rounded-3xl overflow-hidden aspect-[4/3] relative sticky top-[110px] shadow-[0_10px_30px_rgba(0,50,60,0.08)]"
           style={{ background: CARD_GRADIENT }}
         >
-          {!imgError ? (
+          {active && active.image && !hasError ? (
             <img
               key={active.image}
               src={active.image}
               alt={active.name}
-              onError={() => setImgError(true)}
+              loading="lazy"
+              onError={() => {
+                setFailedImages(prev => ({ ...prev, [active.image]: true }));
+              }}
               className="w-full h-full object-cover"
             />
           ) : (
@@ -96,7 +102,7 @@ function QuickStockList({ items }) {
             </div>
           )}
           <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent px-5 py-4">
-            <span className="font-display text-lg text-white font-semibold">{active.name}</span>
+            <span className="font-display text-lg text-white font-semibold">{active ? active.name : ""}</span>
           </div>
         </div>
       </div>
@@ -105,6 +111,7 @@ function QuickStockList({ items }) {
 }
 
 function GrowOut({ onNavigate, speciesData, quickStock }) {
+  const location = useLocation();
   const [showEnquiryModal, setShowEnquiryModal] = useState(false);
   const [enquirySuccess, setEnquirySuccess] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -116,6 +123,18 @@ function GrowOut({ onNavigate, speciesData, quickStock }) {
     fishType: speciesData && speciesData[0] ? speciesData[0].slug : "other",
     message: ""
   });
+
+  useEffect(() => {
+    if (location.hash) {
+      const id = location.hash.replace("#", "");
+      setTimeout(() => {
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }, 300);
+    }
+  }, [location.hash, speciesData]);
 
  const handleEnquirySubmit = async (e) => {
   e.preventDefault();
@@ -134,7 +153,8 @@ function GrowOut({ onNavigate, speciesData, quickStock }) {
 
   // 2. Send email and save enquiry via local backend SMTP integration
   try {
-    const apiBase = import.meta.env.VITE_API_URL // "http://localhost:5000/api";
+    const rawApiUrl = import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE;
+    const apiBase = (rawApiUrl && rawApiUrl !== "undefined") ? rawApiUrl : "http://localhost:5000/api";
     const response = await fetch(`${apiBase}/enquiries`, {
       method: "POST",
       headers: {
@@ -203,10 +223,12 @@ function GrowOut({ onNavigate, speciesData, quickStock }) {
         </div>
       </div>
 
-      {/* Species Cards */}
-      <div className="grid md:grid-cols-3 gap-8 mb-20">
+      {/* Detailed Species Sections (Stacked Vertically) */}
+      <div className="space-y-12 mb-12">
         {speciesData.map((sp) => (
-          <SpeciesDetailCard key={sp.slug} sp={sp} />
+          <div key={sp.slug} id={sp.slug} className="scroll-mt-[100px] md:scroll-mt-[130px] border-t border-[#FF7F50]/20 pt-8 first:border-t-0 first:pt-0">
+            <SpeciesDetailBlock species={sp} />
+          </div>
         ))}
       </div>
 
@@ -214,7 +236,7 @@ function GrowOut({ onNavigate, speciesData, quickStock }) {
      <QuickStockList items={quickStock} />
 
       {/* Why Buy From Us */}
-      <div className="mb-20">
+      <div className="mb-12">
         <div className="text-center max-w-xl mx-auto mb-10">
           <span className="inline-block font-mono text-xs font-bold text-[#BE123C] bg-[#BE123C]/10 border border-[#BE123C]/20 px-4 py-1.5 rounded-full tracking-[0.2em] uppercase">Why Choose Us</span>
           <h3 className="font-display text-2xl sm:text-3xl font-bold tracking-tight mt-3 text-[#0A1C33] flex flex-wrap justify-center gap-x-2.5 gap-y-1">
@@ -437,5 +459,302 @@ export default function AquariumTypes({ sectionRefs, onNavigate }) {
       <link rel="canonical" href="https://kumaraquatic.com/aquarium-types" />
       <GrowOut onNavigate={onNavigate} speciesData={speciesData} quickStock={quickStock} />
     </Section>
+  );
+}
+
+/* ── Species Stack Sub-Components ── */
+
+function splitSpeciesName(name) {
+  if (!name) return { first: "", second: "" };
+  const index = name.indexOf("(");
+  if (index === -1) return { first: name, second: "" };
+  return {
+    first: name.substring(0, index).trim(),
+    second: name.substring(index).trim(),
+  };
+}
+
+function SpecBadge({ label, value }) {
+  return (
+    <div className="glass-panel rounded-xl py-4 px-2 text-center border-[#FF7F50]/20 flex flex-col justify-between min-h-[96px]">
+      <span className="block font-mono text-[9px] uppercase tracking-widest text-teal-deep font-bold mb-1">{label}</span>
+      <span className="block font-body text-xs sm:text-sm lg:text-base text-[#FF7F50] font-bold leading-tight break-words">{value}</span>
+    </div>
+  );
+}
+
+function CareRow({ label, value }) {
+  return (
+    <div>
+      <h4 className="font-mono text-xs sm:text-sm uppercase tracking-widest text-[#FF7F50] font-bold mb-2">{label}</h4>
+      <p className="font-body text-base font-semibold text-[#1E4D66] leading-relaxed text-justify">{value}</p>
+    </div>
+  );
+}
+
+function SpeciesDetailBlock({ species }) {
+  const [activeImage, setActiveImage] = useState(0);
+  const [unit, setUnit] = useState("L");
+  const [tankSizeLiters, setTankSizeLiters] = useState(75);
+
+  const parts = splitSpeciesName(species.name);
+
+  return (
+    <div className="space-y-10">
+      {/* Mobile Heading Content (visible on mobile, hidden on desktop) */}
+      <div className="block lg:hidden text-left px-2">
+        <span className="font-mono text-[10px] uppercase tracking-widest text-white bg-[#007b8a] px-2.5 py-1 rounded-full inline-block mb-3">
+          {species.tag}
+        </span>
+        <h3 className="font-display text-3xl sm:text-4xl font-bold tracking-tight text-[#0A1C33] flex flex-wrap gap-x-2.5 gap-y-1">
+          <span className="relative pb-1.5 inline-block">
+            {parts.first}
+            <span className="absolute bottom-0 left-0 w-10 h-[2.5px] bg-[#FF7F50] rounded-full"></span>
+          </span>
+          {parts.second && (
+            <span className="text-[#FF7F50] font-light italic">{parts.second}</span>
+          )}
+        </h3>
+        <p className="font-mono text-sm italic text-teal-deep mt-1">{species.scientific}</p>
+      </div>
+
+      <div className="grid lg:grid-cols-12 gap-8 items-start text-left">
+        {/* Left Column: Media & Stocking Calculator */}
+        <div className="lg:col-span-5 space-y-6">
+          {/* Gallery */}
+          <div className="rounded-3xl overflow-hidden shadow-lg aspect-[4/3] relative">
+            <img
+              src={species.gallery ? species.gallery[activeImage] : species.image}
+              alt={species.name}
+              loading="lazy"
+              className="w-full h-full object-cover"
+            />
+          </div>
+          {species.gallery && species.gallery.length > 0 && (
+            <div className="flex gap-3 overflow-x-auto pb-1">
+              {species.gallery.map((img, idx) => (
+                <button
+                  key={img + idx}
+                  onClick={() => setActiveImage(idx)}
+                  className={`w-16 h-16 rounded-xl overflow-hidden border-2 transition-colors flex-shrink-0 cursor-pointer ${
+                    idx === activeImage ? "border-[#FF7F50]" : "border-transparent opacity-70 hover:opacity-100"
+                  }`}
+                >
+                  <img src={img} alt={`${species.name} ${idx + 1}`} loading="lazy" className="w-full h-full object-cover" />
+                </button>
+              ))}
+            </div>
+          )}
+
+          {/* Fun Fact callout */}
+          {species.funFact && (
+            <div className="glass-panel rounded-2xl p-5 border-[#FF7F50]/20">
+              <span className="font-mono text-xs sm:text-sm uppercase tracking-widest text-[#FF7F50] font-bold">Fun Fact</span>
+              <p className="font-body text-base font-semibold text-[#1E4D66] mt-2 leading-relaxed text-justify">{species.funFact}</p>
+            </div>
+          )}
+
+          {/* Stocking Calculator */}
+          <div className="glass-panel rounded-2xl p-5 border-[#FF7F50]/20">
+            <div className="flex justify-between items-center mb-3">
+              <span className="font-mono text-xs sm:text-sm uppercase tracking-widest text-[#FF7F50] font-bold">Stocking Calculator</span>
+              <div className="flex bg-[#007b8a]/10 rounded-lg p-0.5 border border-[#007b8a]/20">
+                <button
+                  onClick={() => setUnit("L")}
+                  className={`px-2 py-0.5 text-[10px] font-mono rounded-md transition-colors cursor-pointer ${
+                    unit === "L" ? "bg-[#007b8a] text-white shadow-sm" : "text-teal-deep hover:text-[#0A1C33]"
+                  }`}
+                >
+                  Liters
+                </button>
+                <button
+                  onClick={() => setUnit("Gal")}
+                  className={`px-2 py-0.5 text-[10px] font-mono rounded-md transition-colors cursor-pointer ${
+                    unit === "Gal" ? "bg-[#007b8a] text-white shadow-sm" : "text-teal-deep hover:text-[#0A1C33]"
+                  }`}
+                >
+                  Gallons
+                </button>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <div className="flex justify-between items-center text-xs font-mono mb-1.5">
+                  <span className="text-[#0A1C33]/70">Tank Volume:</span>
+                  <span className="font-bold text-[#0A1C33]">
+                    {unit === "L"
+                      ? `${tankSizeLiters} Liters`
+                      : `${Math.round(tankSizeLiters / 3.78541)} Gallons`}
+                  </span>
+                </div>
+                <input
+                  type="range"
+                  min={unit === "L" ? 10 : 3}
+                  max={unit === "L" ? 300 : 80}
+                  value={unit === "L" ? tankSizeLiters : Math.round(tankSizeLiters / 3.78541)}
+                  onChange={(e) => {
+                    const val = parseInt(e.target.value, 10);
+                    if (unit === "L") {
+                      setTankSizeLiters(val);
+                    } else {
+                      setTankSizeLiters(Math.round(val * 3.78541));
+                    }
+                  }}
+                  className="w-full h-1.5 bg-[#007b8a]/20 rounded-lg appearance-none cursor-pointer accent-[#FF7F50]"
+                />
+                <div className="flex justify-between text-[9px] font-mono text-teal-deep/60 mt-1">
+                  <span>{unit === "L" ? "10L" : "3 Gal"}</span>
+                  <span>{unit === "L" ? "300L" : "80 Gal"}</span>
+                </div>
+              </div>
+
+              {/* Calculation Output */}
+              {(() => {
+                const tankSizeGals = tankSizeLiters / 3.78541;
+                let recommendedText = "";
+                let warningText = "";
+                let isUnderMin = false;
+                let advice = "";
+
+                if (species.slug === "shrimp") {
+                  isUnderMin = tankSizeLiters < 18;
+                  if (isUnderMin) {
+                    warningText = "Tank is too small. Cherry Shrimp need at least 18L (5 Gallons) to maintain stable water parameters.";
+                  } else {
+                    const minShrimp = Math.max(5, Math.floor(tankSizeGals * 2));
+                    const maxShrimp = Math.floor(tankSizeGals * 5);
+                    recommendedText = `Ideal stocking: ${minShrimp} – ${maxShrimp} shrimp`;
+                    advice = "Shrimp have low bioload and thrive in mature tanks with live moss (like Java Moss) and safe sponge filtration.";
+                  }
+                } else if (species.slug === "gold-angelfish") {
+                  isUnderMin = tankSizeLiters < 110;
+                  if (isUnderMin) {
+                    warningText = "Tank is too small. Angelfish require at least 110L (30 Gallons) and tall tank format for vertical fin growth.";
+                  } else {
+                    const maxAngels = 1 + Math.floor((tankSizeGals - 30) / 10);
+                    recommendedText = `Recommended limit: Up to ${maxAngels} Angelfish`;
+                    advice = "Angelfish are cichlids and can establish territories. Keep in monogamous pairs or groups of 5+ in spacious tanks.";
+                  }
+                } else if (species.slug === "balloon-molly") {
+                  isUnderMin = tankSizeLiters < 75;
+                  if (isUnderMin) {
+                    warningText = "Tank is too small. Balloon Mollies need a minimum of 75L (20 Gallons) to accommodate active swimming behavior.";
+                  } else {
+                    const maxMollies = 4 + Math.floor((tankSizeGals - 20) / 4);
+                    recommendedText = `Recommended limit: Up to ${maxMollies} Balloon Mollies`;
+                    advice = "Keep at least 2 to 3 females for every male to prevent male courting behaviors from stressing them.";
+                  }
+                }
+
+                return (
+                  <div className="space-y-3 pt-3 border-t border-[#FF7F50]/10 text-left">
+                    {isUnderMin ? (
+                      <div className="bg-rose-500/10 border border-rose-500/20 rounded-xl p-3 text-base font-semibold text-rose-deep leading-relaxed flex gap-2">
+                        <span className="text-base">⚠️</span>
+                        <span>{warningText}</span>
+                      </div>
+                    ) : (
+                      <div className="bg-[#007b8a]/5 border border-[#007b8a]/10 rounded-xl p-3 text-base font-semibold text-[#1E4D66] leading-relaxed">
+                        <div className="font-bold text-[#007b8a] text-base mb-1">{recommendedText}</div>
+                        <p className="font-body text-base font-semibold text-[#1E4D66] mt-1.5 leading-normal">{advice}</p>
+                      </div>
+                    )}
+                    <div className="text-[9px] text-[#0A1C33]/50 italic font-mono text-center leading-normal">
+                      *Stocking recommendations are estimates. Quality filtration and weekly water changes are essential.
+                    </div>
+                  </div>
+                );
+              })()}
+            </div>
+          </div>
+        </div>
+
+        {/* Right Column: Info & Details */}
+        <div className="lg:col-span-7 space-y-6">
+          <div className="glass-panel rounded-3xl p-6 md:p-8 border-[#FF7F50]/20">
+            {/* Desktop Heading Content (hidden on mobile, visible on desktop) */}
+            <div className="hidden lg:block mb-6">
+              <span className="font-mono text-[10px] uppercase tracking-widest text-white bg-[#007b8a] px-2.5 py-1 rounded-full inline-block mb-4">
+                {species.tag}
+              </span>
+              <h3 className="font-display text-3xl sm:text-4xl font-bold tracking-tight text-[#0A1C33] flex flex-wrap gap-x-2.5 gap-y-1">
+                <span className="relative pb-1.5 inline-block">
+                  {parts.first}
+                  <span className="absolute bottom-0 left-0 w-10 h-[2.5px] bg-[#FF7F50] rounded-full"></span>
+                </span>
+                {parts.second && (
+                  <span className="text-[#FF7F50] font-light italic">{parts.second}</span>
+                )}
+              </h3>
+              <p className="font-mono text-sm italic text-teal-deep mt-1">{species.scientific}</p>
+            </div>
+
+            <p className="font-body text-base font-semibold text-[#1E4D66] mt-6 leading-relaxed text-justify">
+              {species.longDesc}
+            </p>
+
+            {/* Quick Specs */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-8">
+              <SpecBadge label="Temp" value={species.temp} />
+              <SpecBadge label="pH Range" value={species.ph} />
+              <SpecBadge label="Tank Size" value={species.tank} />
+              <SpecBadge label="Difficulty" value={species.difficulty} />
+            </div>
+
+            {/* Extended Care Info */}
+            <div className="mt-10 space-y-6">
+              <CareRow label="Diet" value={species.diet} />
+              <CareRow label="Lifespan" value={species.lifespan} />
+              <CareRow label="Tank Mates" value={species.tankMates} />
+              <CareRow label="Breeding" value={species.breeding} />
+            </div>
+
+            {/* Compatibility lists */}
+            {(species.compatibleWith?.length > 0 || species.avoid?.length > 0) && (
+              <div className="grid sm:grid-cols-2 gap-6 mt-10">
+                {species.compatibleWith && (
+                  <div className="glass-panel rounded-2xl p-5 border-[#FF7F50]/20">
+                    <h4 className="font-mono text-xs sm:text-sm uppercase tracking-widest text-[#FF7F50] font-bold mb-3">✓ Compatible With</h4>
+                    <ul className="space-y-1.5">
+                      {species.compatibleWith.map((c) => (
+                        <li key={c} className="font-body text-base font-semibold text-[#1E4D66]">{c}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                {species.avoid && (
+                  <div className="glass-panel rounded-2xl p-5 border-[#FF5757]/20">
+                    <h4 className="font-mono text-xs sm:text-sm uppercase tracking-widest text-[#FF7F50] font-bold mb-3">✕ Avoid Pairing With</h4>
+                    <ul className="space-y-1.5">
+                      {species.avoid.map((c) => (
+                        <li key={c} className="font-body text-base font-semibold text-[#1E4D66]">{c}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Setup & Care Tips (Placed full-width below the grid, directly following the stocking calculator vertically) */}
+      {species.setupTips && species.setupTips.length > 0 && (
+        <div className="pt-8 border-t border-[#FF7F50]/20 text-left">
+          <h4 className="font-mono text-sm sm:text-base uppercase tracking-widest text-[#FF7F50] font-bold mb-4">Setup & Care Tips</h4>
+          <div className="grid sm:grid-cols-2 gap-4">
+            {species.setupTips.map((tip, idx) => (
+              <div key={tip} className="glass-panel glass-panel-hover rounded-2xl p-5 flex gap-4 border-[#FF7F50]/20">
+                <span className="font-display text-2xl text-[#FF7F50]/40 font-bold flex-shrink-0">
+                  {String(idx + 1).padStart(2, "0")}
+                </span>
+                <p className="font-body text-base font-semibold text-[#1E4D66] leading-relaxed text-justify">{tip}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
   );
 }

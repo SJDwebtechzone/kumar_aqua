@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import logo from "./assets/logo.png";
 
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+const rawApiUrl = import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE;
+const API_BASE = (rawApiUrl && rawApiUrl !== "undefined") ? rawApiUrl : "http://localhost:5000/api";
 /* ─────────────────────────── THEME ──────────────────────────────────────── */
 const T = {
   bg:      "#0A2A43", surface: "#0E3C57", card: "#114B6B",
@@ -531,17 +532,27 @@ function FishForm({ initial, onSave, onClose, toast, defaultCategory }) {
 
       let result;
       if (initial?.id) {
-        result = await fetch(`${API_BASE}/fishes/${initial.id}`, {
+        const response = await fetch(`${API_BASE}/fishes/${initial.id}`, {
           method: "PUT",
           headers: { Authorization: `Bearer ${localStorage.getItem("af_token")}` },
           body: fd,
-        }).then(r => r.json());
+        });
+        if (!response.ok) {
+          const errData = await response.json().catch(() => ({}));
+          throw new Error(errData.error || "Failed to update fish");
+        }
+        result = await response.json();
       } else {
-        result = await fetch(`${API_BASE}/fishes`, {
+        const response = await fetch(`${API_BASE}/fishes`, {
           method: "POST",
           headers: { Authorization: `Bearer ${localStorage.getItem("af_token")}` },
           body: fd,
-        }).then(r => r.json());
+        });
+        if (!response.ok) {
+          const errData = await response.json().catch(() => ({}));
+          throw new Error(errData.error || "Failed to add fish");
+        }
+        result = await response.json();
       }
       onSave(result);
     } catch (err) {
@@ -727,17 +738,27 @@ function FishPage({ toast }) {
 
       let result;
       if (initial?.id) {
-        result = await fetch(`${API_BASE}/banners/${initial.id}`, {
+        const response = await fetch(`${API_BASE}/banners/${initial.id}`, {
           method: "PUT",
           headers: { Authorization: `Bearer ${localStorage.getItem("af_token")}` },
           body: fd,
-        }).then(r => r.json());
+        });
+        if (!response.ok) {
+          const errData = await response.json().catch(() => ({}));
+          throw new Error(errData.error || "Failed to update banner");
+        }
+        result = await response.json();
       } else {
-        result = await fetch(`${API_BASE}/banners`, {
+        const response = await fetch(`${API_BASE}/banners`, {
           method: "POST",
           headers: { Authorization: `Bearer ${localStorage.getItem("af_token")}` },
           body: fd,
-        }).then(r => r.json());
+        });
+        if (!response.ok) {
+          const errData = await response.json().catch(() => ({}));
+          throw new Error(errData.error || "Failed to add banner");
+        }
+        result = await response.json();
       }
       onSave(result);
     } catch (err) {
@@ -924,17 +945,27 @@ function FeaturedForm({ initial, onSave, onClose, toast }) {
 
       let result;
       if (initial?.id) {
-        result = await fetch(`${API_BASE}/fishes/${initial.id}`, {
+        const response = await fetch(`${API_BASE}/fishes/${initial.id}`, {
           method: "PUT",
           headers: { Authorization: `Bearer ${localStorage.getItem("af_token")}` },
           body: fd,
-        }).then(r => r.json());
+        });
+        if (!response.ok) {
+          const errData = await response.json().catch(() => ({}));
+          throw new Error(errData.error || "Failed to update fish");
+        }
+        result = await response.json();
       } else {
-        result = await fetch(`${API_BASE}/fishes`, {
+        const response = await fetch(`${API_BASE}/fishes`, {
           method: "POST",
           headers: { Authorization: `Bearer ${localStorage.getItem("af_token")}` },
           body: fd,
-        }).then(r => r.json());
+        });
+        if (!response.ok) {
+          const errData = await response.json().catch(() => ({}));
+          throw new Error(errData.error || "Failed to add fish");
+        }
+        result = await response.json();
       }
       onSave(result);
     } catch (err) {
@@ -1160,7 +1191,7 @@ function EnquiriesPage({ toast }) {
                     {e.date ? new Date(e.date).toLocaleString() : "Date Unknown"}
                   </p>
                 </div>
-                <Btn variant="danger" size="sm" onClick={() => del(e.id, true)}>Delete</Btn>
+                <Btn variant="danger" size="sm" onClick={() => del(e.id)}>Delete</Btn>
               </div>
 
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "12px" }}>

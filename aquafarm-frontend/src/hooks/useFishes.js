@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 
-const API_BASE = import.meta.env.VITE_API_URL // "http://localhost:5000/api";
+const rawApiUrl = import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE;
+const API_BASE = (rawApiUrl && rawApiUrl !== "undefined") ? rawApiUrl : "http://localhost:5000/api";
 
 // ── Fetch all fish (optional category filter) ──
 export function useFishes(category = "") {

@@ -24,12 +24,12 @@ export default function SpeciesDetailCard({ sp }) {
   };
   return (
     <Link
-      to={`/species/${sp.slug}`}
+      to={`/aquarium-types#${sp.slug}`}
       ref={cardRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="tilt-card glass-panel rounded-3xl p-5 flex flex-col group transition-all duration-300 relative border-[#FF7F50]/20 hover:shadow-[0_20px_50px_rgba(0,50,60,0.15)] overflow-hidden block"
-      style={{ transformStyle: "preserve-3d" }}
+      className="tilt-card rounded-3xl p-5 flex flex-col group transition-all duration-300 relative border border-[#FF7F50]/20 shadow-[0_10px_30px_rgba(0,50,60,0.08)] hover:shadow-[0_16px_40px_rgba(0,50,60,0.14)] hover:-translate-y-1 overflow-hidden block"
+      style={{ transformStyle: "preserve-3d", background: "linear-gradient(160deg, rgba(255,255,255,0.95) 0%, rgba(255,127,80,0.08) 45%, rgba(0,210,196,0.10) 100%)" }}
     >
       {/* Specimen image container */}
       <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-black/40 relative shadow-inner mb-5">

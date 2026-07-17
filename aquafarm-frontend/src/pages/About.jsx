@@ -58,7 +58,8 @@ function Shallows() {
         {stats.map((s) => (
           <div
             key={s.label}
-            className="glass-panel rounded-2xl py-8 px-6 text-center border-[#FF7F50]/20 flex flex-col justify-center items-center"
+            className="rounded-3xl py-8 px-6 text-center border border-[#FF7F50]/20 flex flex-col justify-center items-center shadow-[0_10px_30px_rgba(0,50,60,0.08)] hover:shadow-[0_16px_40px_rgba(0,50,60,0.14)] hover:-translate-y-1 transition-all duration-300 w-full"
+            style={{ background: "linear-gradient(160deg, rgba(255,255,255,0.95) 0%, rgba(255,127,80,0.08) 45%, rgba(0,210,196,0.10) 100%)" }}
           >
             <div className="font-display text-4xl sm:text-5xl font-bold text-teal-deep">{s.value}</div>
             <div className="font-mono text-[11px] sm:text-xs uppercase tracking-widest text-[#FF7F50] font-bold mt-3">{s.label}</div>
@@ -72,6 +73,7 @@ function Shallows() {
           <img
             src="/images/three-fish-banner.jpg"
             alt="Kumar Aqua Farm species"
+            loading="lazy"
             className="w-full h-full object-cover"
           />
         </div>
@@ -109,11 +111,12 @@ function Shallows() {
           {values.map((v) => (
             <div
               key={v.title}
-              className="glass-panel glass-panel-hover rounded-2xl p-6 text-center border-[#FF7F50]/20 group"
+              className="rounded-3xl p-5 text-center border border-[#FF7F50]/20 shadow-[0_10px_30px_rgba(0,50,60,0.08)] hover:shadow-[0_16px_40px_rgba(0,50,60,0.14)] hover:-translate-y-1 transition-all duration-300 group w-full"
+              style={{ background: "linear-gradient(160deg, rgba(255,255,255,0.95) 0%, rgba(255,127,80,0.08) 45%, rgba(0,210,196,0.10) 100%)" }}
             >
-              <div className="text-3xl mb-3">{v.icon}</div>
+              <div className="text-3xl mb-2.5">{v.icon}</div>
               <h4 className="font-display text-lg font-bold text-[#0A1C33] group-hover:text-[#FF7F50] transition-colors">{v.title}</h4>
-              <p className="font-body text-base font-semibold text-[#1E4D66] mt-2 leading-relaxed text-justify">{v.note}</p>
+              <p className="font-body text-sm font-semibold text-[#1E4D66] mt-1.5 leading-normal text-justify">{v.note}</p>
             </div>
           ))}
         </div>
@@ -135,12 +138,13 @@ function Shallows() {
           {steps.map((s) => (
             <div
               key={s.name}
-              className="glass-panel glass-panel-hover rounded-2xl p-6 relative border-[#FF7F50]/20 overflow-hidden group"
+              className="rounded-3xl p-6 relative border border-[#FF7F50]/20 shadow-[0_10px_30px_rgba(0,50,60,0.08)] hover:shadow-[0_16px_40px_rgba(0,50,60,0.14)] hover:-translate-y-1 transition-all duration-300 overflow-hidden group w-full"
+              style={{ background: "linear-gradient(160deg, rgba(255,255,255,0.95) 0%, rgba(255,127,80,0.08) 45%, rgba(0,210,196,0.10) 100%)" }}
             >
               <div className="absolute -right-6 -bottom-6 w-20 h-20 bg-cyan-500/5 group-hover:bg-cyan-500/10 rounded-full blur-xl transition-colors duration-300" />
               <div className="flex justify-between items-start mb-6">
                 <span className="font-mono text-xs text-teal-deep px-2 py-0.5 rounded bg-[#FF7F50]/10 border border-[#FF7F50]/25">STAGE {s.count}</span>
-                <span className="font-mono text-4xl text-[#FF7F50]/15 font-bold group-hover:text-[#FF7F50]/35 transition-colors">#{s.count}</span>
+                <span className="font-mono text-4xl text-[#FF7F50]/35 font-bold group-hover:text-[#FF7F50] group-hover:scale-110 transition-all duration-300 origin-right">#{s.count}</span>
               </div>
               <h3 className="font-display text-xl text-[#0A1C33] font-bold mt-2 group-hover:text-[#FF7F50] transition-colors">
                 {s.name}

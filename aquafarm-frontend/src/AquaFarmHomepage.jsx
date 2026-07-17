@@ -116,7 +116,9 @@ export default function AquaFarmHomepage() {
   const lastBubbleTime = useRef(0);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    if (!location.hash) {
+      window.scrollTo(0, 0);
+    }
   }, [location.pathname]);
 
   useEffect(() => {

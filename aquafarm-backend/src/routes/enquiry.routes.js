@@ -89,10 +89,7 @@ Phone Number: ${phone || "Not provided"}
 Requested Species: ${fishType}
 
 Customer Message:
-${message || "No message provided."}
-
----
-Sent from Kumar Aqua Farm website.`
+${message || "No message provided."}`
     };
 
     try {
@@ -110,9 +107,8 @@ Sent from Kumar Aqua Farm website.`
 
 // DELETE an enquiry
 router.delete("/:id", (req, res) => {
-  const id = parseFloat(req.params.id);
   let enquiries = readEnquiries();
-  const filtered = enquiries.filter(e => e.id !== id);
+  const filtered = enquiries.filter(e => String(e.id) !== String(req.params.id));
   writeEnquiries(filtered);
   res.json({ success: true });
 });
