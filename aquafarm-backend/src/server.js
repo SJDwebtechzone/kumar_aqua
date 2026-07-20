@@ -3,7 +3,16 @@ const express = require("express");
 const cors = require("cors");
 
 const app = express();
-app.use(cors({ origin: "http://localhost:5173" }));
+app.use(
+  cors({
+    origin: [
+      "https://kumaraquatic.com",
+      "https://www.kumaraquatic.com",
+      "http://localhost:5173", // keep for local development if you want
+    ],
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 app.use("/api/fishes",  require("./routes/fish.routes"));
