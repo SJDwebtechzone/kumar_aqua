@@ -34,5 +34,22 @@ router.post("/login", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+router.post("/reset-password", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const hashed = await bcrypt.hash(password, 10);
+
+    await prisma.admin.update({
+      where: { email },
+      data: { password: hashed },
+    });
+
+    res.json({ message: "Password reset successful" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  }
+});
 
 module.exports = router;
