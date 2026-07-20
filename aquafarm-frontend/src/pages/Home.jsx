@@ -23,7 +23,7 @@ const speciesData = (featuredFish && featuredFish.length > 0)
           sectionRefs.current.surface = el;
         }
       }}
-      style={{ background: "linear-gradient(180deg, #ECFEFF 0%, #CFFAFE 100%)" }}
+      style={{ background: "transparent" }}
       className="relative w-full min-h-screen pt-[80px] overflow-hidden"
     >
       <title>Kumar Aqua Farm | Premium Freshwater Fish & Aquarium Breeders in Chennai</title>
@@ -46,10 +46,10 @@ const speciesData = (featuredFish && featuredFish.length > 0)
             <span className="text-[#FF7F50] font-light italic">Specimens</span>
           </h2>
         </div>
-        <div className="grid md:grid-cols-3 gap-8 w-full">
-          {speciesData.map((sp) => (
-  <SpeciesDetailCard key={sp.slug} sp={sp} />
-))}
+        <div className="flex flex-col gap-20 w-full mt-12">
+          {speciesData.map((sp, idx) => (
+            <SpeciesDetailCard key={sp.slug} sp={sp} index={idx} />
+          ))}
         </div>
       </div>
       {/* Quality Standards Section */}

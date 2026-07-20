@@ -1,6 +1,35 @@
-import React from "react";
+
+import React, { useEffect, useState } from "react";
 import Section from "../components/Section";
 
+
+function CountUpStat({ value }) {
+  const [display, setDisplay] = useState("0");
+  const match = value.match(/^(\d+)(.*)$/); // splits "20+" into "20" and "+"
+  const target = match ? parseInt(match[1], 10) : 0;
+  const suffix = match ? match[2] : "";
+
+  useEffect(() => {
+    let start = null;
+    const duration = 1600; // ms
+
+    const step = (timestamp) => {
+      if (!start) start = timestamp;
+      const progress = Math.min((timestamp - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+      const current = Math.round(eased * target);
+      setDisplay(current.toString());
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      }
+    };
+
+    const frame = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(frame);
+  }, [target]);
+
+  return <>{display}{suffix}</>;
+}
 function Shallows() {
   const stats = [
     { value: "20+", label: "Years of Aquaculture" },
@@ -58,10 +87,10 @@ function Shallows() {
         {stats.map((s) => (
           <div
             key={s.label}
-            className="rounded-3xl py-8 px-6 text-center border border-[#FF7F50]/20 flex flex-col justify-center items-center shadow-[0_10px_30px_rgba(0,50,60,0.08)] hover:shadow-[0_16px_40px_rgba(0,50,60,0.14)] hover:-translate-y-1 transition-all duration-300 w-full"
-            style={{ background: "linear-gradient(160deg, rgba(255,255,255,0.95) 0%, rgba(255,127,80,0.08) 45%, rgba(0,210,196,0.10) 100%)" }}
-          >
-            <div className="font-display text-4xl sm:text-5xl font-bold text-teal-deep">{s.value}</div>
+            className="glass-panel py-8 px-6 text-center flex flex-col justify-center items-center w-full"
+          ><div className="font-display text-4xl sm:text-5xl font-bold text-teal-deep">
+  <CountUpStat value={s.value} />
+</div>
             <div className="font-mono text-[11px] sm:text-xs uppercase tracking-widest text-[#FF7F50] font-bold mt-3">{s.label}</div>
           </div>
         ))}
@@ -111,8 +140,7 @@ function Shallows() {
           {values.map((v) => (
             <div
               key={v.title}
-              className="rounded-3xl p-5 text-center border border-[#FF7F50]/20 shadow-[0_10px_30px_rgba(0,50,60,0.08)] hover:shadow-[0_16px_40px_rgba(0,50,60,0.14)] hover:-translate-y-1 transition-all duration-300 group w-full"
-              style={{ background: "linear-gradient(160deg, rgba(255,255,255,0.95) 0%, rgba(255,127,80,0.08) 45%, rgba(0,210,196,0.10) 100%)" }}
+              className="glass-panel p-5 text-center w-full"
             >
               <div className="text-3xl mb-2.5">{v.icon}</div>
               <h4 className="font-display text-lg font-bold text-[#0A1C33] group-hover:text-[#FF7F50] transition-colors">{v.title}</h4>
@@ -138,13 +166,11 @@ function Shallows() {
           {steps.map((s) => (
             <div
               key={s.name}
-              className="rounded-3xl p-6 relative border border-[#FF7F50]/20 shadow-[0_10px_30px_rgba(0,50,60,0.08)] hover:shadow-[0_16px_40px_rgba(0,50,60,0.14)] hover:-translate-y-1 transition-all duration-300 overflow-hidden group w-full"
-              style={{ background: "linear-gradient(160deg, rgba(255,255,255,0.95) 0%, rgba(255,127,80,0.08) 45%, rgba(0,210,196,0.10) 100%)" }}
+              className="glass-panel p-6 relative overflow-hidden group w-full"
             >
               <div className="absolute -right-6 -bottom-6 w-20 h-20 bg-cyan-500/5 group-hover:bg-cyan-500/10 rounded-full blur-xl transition-colors duration-300" />
               <div className="flex justify-between items-start mb-6">
                 <span className="font-mono text-xs text-teal-deep px-2 py-0.5 rounded bg-[#FF7F50]/10 border border-[#FF7F50]/25">STAGE {s.count}</span>
-                <span className="font-mono text-4xl text-[#FF7F50]/35 font-bold group-hover:text-[#FF7F50] group-hover:scale-110 transition-all duration-300 origin-right">#{s.count}</span>
               </div>
               <h3 className="font-display text-xl text-[#0A1C33] font-bold mt-2 group-hover:text-[#FF7F50] transition-colors">
                 {s.name}

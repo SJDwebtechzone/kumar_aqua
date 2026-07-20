@@ -6,9 +6,6 @@ import Section from "../components/Section";
 import SpeciesDetailCard from "../components/SpeciesDetailCard";
 import { speciesList, buildDbSpecies } from "../speciesData";
 
-const CARD_GRADIENT = "linear-gradient(160deg, rgba(255,255,255,0.95) 0%, rgba(255,127,80,0.08) 45%, rgba(0,210,196,0.10) 100%)";
-const CARD_SHADOW = "0_10px_30px_rgba(0,50,60,0.08)";
-
 const QUICK_STOCK = [
   { name: "Neon Rainbow", image: "/images/stock/neon-rainbow.jpg" },
   { name: "Feather Fin Rainbow", image: "/images/stock/feather-fin-rainbow.jpg" },
@@ -45,11 +42,9 @@ function QuickStockList({ items }) {
       </div>
 
       <div className="grid md:grid-cols-2 gap-8 items-start">
-        {/* Names list */}
-        <div
-          className="rounded-3xl p-2 overflow-hidden shadow-[0_10px_30px_rgba(0,50,60,0.08)]"
-          style={{ background: CARD_GRADIENT }}
-        >
+       
+      {/* Names list */}
+<div className="rounded-3xl p-2 overflow-hidden outline-panel">
           {list.map((item, idx) => (
             <button
               key={item.name}
@@ -78,10 +73,7 @@ function QuickStockList({ items }) {
         </div>
 
         {/* Fixed preview panel */}
-        <div
-          className="rounded-3xl overflow-hidden aspect-[4/3] relative sticky top-[110px] shadow-[0_10px_30px_rgba(0,50,60,0.08)]"
-          style={{ background: CARD_GRADIENT }}
-        >
+<div className="rounded-3xl overflow-hidden aspect-[4/3] relative sticky top-[110px] outline-panel">
           {active && active.image && !hasError ? (
             <img
               key={active.image}
@@ -248,25 +240,24 @@ function GrowOut({ onNavigate, speciesData, quickStock }) {
           </h3>
         </div>
         <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-6">
-          {benefits.map((b) => (
-            <div
-              key={b.title}
-              className="rounded-2xl p-6 text-center shadow-[0_10px_30px_rgba(0,50,60,0.08)] hover:shadow-[0_16px_40px_rgba(0,50,60,0.14)] hover:-translate-y-1 transition-all duration-300 group"
-              style={{ background: CARD_GRADIENT }}
-            >
-              <div className="text-3xl mb-3">{b.icon}</div>
-              <h4 className="font-display text-lg font-bold text-[#0A1C33] group-hover:text-[#FF7F50] transition-colors">{b.title}</h4>
-              <p className="font-body text-base font-semibold text-[#1E4D66] mt-2 leading-relaxed text-justify">{b.note}</p>
-            </div>
-          ))}
+ {benefits.map((b) => (
+  <div
+    key={b.title}
+    className="rounded-2xl p-6 text-center outline-panel hover:-translate-y-1 group"
+  >
+    <div className="text-3xl mb-3">{b.icon}</div>
+    <h4 className="font-display text-lg font-bold text-[#0A1C33] group-hover:text-[#FF7F50] transition-colors">{b.title}</h4>
+    <p className="font-body text-base font-semibold text-[#1E4D66] mt-2 leading-relaxed text-justify">{b.note}</p>
+  </div>
+))}
         </div>
       </div>
 
-      {/* CTA Banner */}
-      <div
-        className="rounded-3xl p-8 md:p-10 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left shadow-[0_10px_30px_rgba(0,50,60,0.08)]"
-        style={{ background: CARD_GRADIENT }}
-      >
+   {/* CTA Banner */}
+<div
+  className="rounded-3xl p-8 md:p-10 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left outline-panel"
+  style={{ borderColor: "rgba(255, 107, 107, 0.4)", background: "linear-gradient(135deg, rgba(255,107,107,0.12) 0%, rgba(9,34,61,0.5) 60%)" }}
+>
         <div>
           <h3 className="font-display text-xl sm:text-2xl font-bold tracking-tight text-[#0A1C33] flex flex-wrap gap-x-2 gap-y-0.5">
             <span>Looking for a</span>
@@ -287,7 +278,7 @@ function GrowOut({ onNavigate, speciesData, quickStock }) {
       {/* Enquiry Modal */}
       {showEnquiryModal && createPortal(
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-          <div className="w-full max-w-lg rounded-3xl p-6 sm:p-8 pt-10 sm:pt-12 border border-[#FF7F50]/30 shadow-2xl relative max-h-[90vh] overflow-y-auto" style={{ background: "rgba(255, 255, 255, 0.98)", backdropFilter: "blur(12px)" }}>
+<div className="w-full max-w-lg rounded-[40px_16px_40px_16px] p-6 sm:p-8 pt-10 sm:pt-12 border border-[#FF7F50]/30 shadow-2xl relative max-h-[90vh] overflow-y-auto light-surface enquiry-modal-card" style={{ background: "rgba(255, 255, 255, 0.98)", backdropFilter: "blur(12px)" }}>
             {/* Close Button */}
             <button
               onClick={() => {
@@ -548,14 +539,14 @@ function SpeciesDetailBlock({ species }) {
 
           {/* Fun Fact callout */}
           {species.funFact && (
-            <div className="glass-panel rounded-2xl p-5 border-[#FF7F50]/20">
+            <div className="wave-card p-5">
               <span className="font-mono text-xs sm:text-sm uppercase tracking-widest text-[#FF7F50] font-bold">Fun Fact</span>
               <p className="font-body text-base font-semibold text-[#1E4D66] mt-2 leading-relaxed text-justify">{species.funFact}</p>
             </div>
           )}
 
           {/* Stocking Calculator */}
-          <div className="glass-panel rounded-2xl p-5 border-[#FF7F50]/20">
+          <div className="wave-card p-5">
             <div className="flex justify-between items-center mb-3">
               <span className="font-mono text-xs sm:text-sm uppercase tracking-widest text-[#FF7F50] font-bold">Stocking Calculator</span>
               <div className="flex bg-[#007b8a]/10 rounded-lg p-0.5 border border-[#007b8a]/20">
@@ -660,7 +651,7 @@ function SpeciesDetailBlock({ species }) {
                         <p className="font-body text-base font-semibold text-[#1E4D66] mt-1.5 leading-normal">{advice}</p>
                       </div>
                     )}
-                    <div className="text-[9px] text-[#0A1C33]/50 italic font-mono text-center leading-normal">
+                    <div className="text-xs text-[#1E4D66] font-bold text-center leading-normal mt-1">
                       *Stocking recommendations are estimates. Quality filtration and weekly water changes are essential.
                     </div>
                   </div>
@@ -672,7 +663,7 @@ function SpeciesDetailBlock({ species }) {
 
         {/* Right Column: Info & Details */}
         <div className="lg:col-span-7 space-y-6">
-          <div className="glass-panel rounded-3xl p-6 md:p-8 border-[#FF7F50]/20">
+          <div className="wave-card p-6 md:p-8">
             {/* Desktop Heading Content (hidden on mobile, visible on desktop) */}
             <div className="hidden lg:block mb-6">
               <span className="font-mono text-[10px] uppercase tracking-widest text-white bg-[#007b8a] px-2.5 py-1 rounded-full inline-block mb-4">
@@ -714,7 +705,7 @@ function SpeciesDetailBlock({ species }) {
             {(species.compatibleWith?.length > 0 || species.avoid?.length > 0) && (
               <div className="grid sm:grid-cols-2 gap-6 mt-10">
                 {species.compatibleWith && (
-                  <div className="glass-panel rounded-2xl p-5 border-[#FF7F50]/20">
+                  <div className="wave-card p-5">
                     <h4 className="font-mono text-xs sm:text-sm uppercase tracking-widest text-[#FF7F50] font-bold mb-3">✓ Compatible With</h4>
                     <ul className="space-y-1.5">
                       {species.compatibleWith.map((c) => (
@@ -724,7 +715,7 @@ function SpeciesDetailBlock({ species }) {
                   </div>
                 )}
                 {species.avoid && (
-                  <div className="glass-panel rounded-2xl p-5 border-[#FF5757]/20">
+                  <div className="wave-card p-5 !border-red-500/20">
                     <h4 className="font-mono text-xs sm:text-sm uppercase tracking-widest text-[#FF7F50] font-bold mb-3">✕ Avoid Pairing With</h4>
                     <ul className="space-y-1.5">
                       {species.avoid.map((c) => (
@@ -745,7 +736,7 @@ function SpeciesDetailBlock({ species }) {
           <h4 className="font-mono text-sm sm:text-base uppercase tracking-widest text-[#FF7F50] font-bold mb-4">Setup & Care Tips</h4>
           <div className="grid sm:grid-cols-2 gap-4">
             {species.setupTips.map((tip, idx) => (
-              <div key={tip} className="glass-panel glass-panel-hover rounded-2xl p-5 flex gap-4 border-[#FF7F50]/20">
+              <div key={tip} className="wave-card p-5 flex gap-4">
                 <span className="font-display text-2xl text-[#FF7F50]/40 font-bold flex-shrink-0">
                   {String(idx + 1).padStart(2, "0")}
                 </span>

@@ -55,10 +55,13 @@ export default function Footer({ onNavigate }) {
   ];
 
   return (
-    <footer
-      className="relative w-full text-white font-body px-6 md:px-16 pt-12 pb-6"
-      style={{ background: "rgba(3, 37, 53, 0.97)" }}
-    >
+<footer
+  className="relative w-full text-white font-body px-6 md:px-16 pt-12 pb-6 border-t border-[#FF7F50]/20"
+  style={{
+    background: "linear-gradient(180deg, rgba(6, 17, 31, 0.92) 0%, rgba(5, 13, 24, 0.96) 100%)",
+    backdropFilter: "blur(10px)"
+  }}
+>
       <div className="max-w-6xl mx-auto">
         {/* Top grid */}
         <div className="grid md:grid-cols-5 gap-8 md:gap-6 pb-8 border-b border-[#FF7F50]/20">
@@ -144,10 +147,6 @@ export default function Footer({ onNavigate }) {
             </ul>
           </div>
         </div>
-
-        {/* Bottom bar */}
-       
-
         {/* Developer credit line */}
         <div className="pt-4 text-center text-[10px] sm:text-[11px] font-mono text-white">
           Copyright © 2026 All rights reserved | by{" "}

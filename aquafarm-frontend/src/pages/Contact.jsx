@@ -92,8 +92,7 @@ function Harbor() {
         {contactItems.map((item) => (
           <div
             key={item.label}
-            className="rounded-3xl p-6 flex flex-col items-start text-left shadow-[0_10px_30px_rgba(0,50,60,0.08)] hover:shadow-[0_16px_40px_rgba(0,50,60,0.14)] hover:-translate-y-1 transition-all duration-300 group w-full"
-            style={{ background: "linear-gradient(160deg, rgba(255,255,255,0.95) 0%, rgba(255,127,80,0.08) 45%, rgba(0,210,196,0.10) 100%)" }}
+            className="glass-panel p-6 flex flex-col items-start text-left w-full"
           >
             <div className="w-11 h-11 rounded-full bg-[#FF7F50]/12 border border-[#FF7F50]/25 flex items-center justify-center text-[#FF7F50] mb-4 flex-shrink-0">
               <item.Icon />
@@ -123,8 +122,7 @@ function Harbor() {
 
       {/* Google Map Section */}
       <div 
-        className="rounded-3xl p-4 md:p-5 shadow-[0_10px_30px_rgba(0,50,60,0.08)] mb-6 overflow-hidden border border-[#FF7F50]/20"
-        style={{ background: "rgba(255, 255, 255, 0.9)" }}
+        className="glass-panel p-4 md:p-5 mb-6 overflow-hidden"
       >
         <iframe
           title="Kumar Aqua Farm Google Map Location"
@@ -140,8 +138,7 @@ function Harbor() {
 
       {/* Tides We're Open (Business Hours) */}
       <div
-        className="rounded-3xl p-6 md:p-7 flex flex-col sm:flex-row items-center sm:items-stretch justify-between gap-6 shadow-[0_10px_30px_rgba(0,50,60,0.08)] mb-4"
-        style={{ background: "linear-gradient(160deg, rgba(255,255,255,0.95) 0%, rgba(0,210,196,0.10) 60%, rgba(255,127,80,0.08) 100%)" }}
+        className="glass-panel p-6 md:p-7 flex flex-col sm:flex-row items-center sm:items-stretch justify-between gap-6 mb-4"
       >
         <div className="flex items-center gap-4">
           <div className="w-11 h-11 rounded-full bg-[#FF7F50]/12 border border-[#FF7F50]/25 flex items-center justify-center text-[#FF7F50] flex-shrink-0">

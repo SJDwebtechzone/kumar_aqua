@@ -1,59 +1,45 @@
-import React, { useRef } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 
-export default function SpeciesDetailCard({ sp }) {
-  const cardRef = useRef(null);
-  const handleMouseMove = (e) => {
-    const card = cardRef.current;
-    if (!card) return;
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    const rotateX = -(y - centerY) / 12; // tilt
-    const rotateY = (x - centerX) / 12;
-    card.style.setProperty("--tilt-x", `${rotateX}deg`);
-    card.style.setProperty("--tilt-y", `${rotateY}deg`);
-  };
-  const handleMouseLeave = () => {
-    const card = cardRef.current;
-    if (!card) return;
-    card.style.setProperty("--tilt-x", `0deg`);
-    card.style.setProperty("--tilt-y", `0deg`);
-  };
+export default function SpeciesDetailCard({ sp, index }) {
+  const isEven = index % 2 === 0;
+  
   return (
     <Link
       to={`/aquarium-types#${sp.slug}`}
-      ref={cardRef}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      className="tilt-card rounded-3xl p-5 flex flex-col group transition-all duration-300 relative border border-[#FF7F50]/20 shadow-[0_10px_30px_rgba(0,50,60,0.08)] hover:shadow-[0_16px_40px_rgba(0,50,60,0.14)] hover:-translate-y-1 overflow-hidden block"
-      style={{ transformStyle: "preserve-3d", background: "linear-gradient(160deg, rgba(255,255,255,0.95) 0%, rgba(255,127,80,0.08) 45%, rgba(0,210,196,0.10) 100%)" }}
+      className={`flex flex-col md:flex-row items-center gap-8 md:gap-16 group transition-all duration-500 w-full select-none ${isEven ? "" : "md:flex-row-reverse"}`}
     >
-      {/* Specimen image container */}
-      <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-black/40 relative shadow-inner mb-5">
-        <img
-          src={sp.image}
-          alt={sp.name}
-          loading="lazy"
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-        />
-        <div className="absolute top-3 left-3 px-2 py-0.5 rounded bg-black/60 backdrop-blur-md border border-white/10 font-mono text-[9px] text-[#FF7F50] tracking-wider uppercase">
-          {sp.tag}
-        </div>
-        <div className="absolute bottom-3 right-3 px-2.5 py-0.5 rounded-full bg-[#FF7F50] text-white font-mono text-[10px] font-semibold">
-          {sp.difficulty}
-        </div>
-      </div>
-      {/* Species info */}
-      <div className="flex flex-col flex-grow">
-        <h3 className="font-display text-xl text-[#0A1C33] font-semibold group-hover:text-[#FF7F50] transition-colors">{sp.name}</h3>
-        <span className="font-mono text-xs text-teal-deep/80 italic mt-1">{sp.scientific}</span>
+      <div className="w-full md:w-1/2 aspect-[4/3] rounded-[60%_40%_30%_70%_/_60%_30%_70%_40%] overflow-hidden bg-black/5 relative shadow-[0_15px_35px_rgba(0,40,60,0.15)] transition-all duration-[1000ms] ease-in-out group-hover:rounded-[40%_60%_60%_40%_/_50%_50%_50%_50%] border-4 border-white/60 ring-2 ring-[#FF7F50]/15 group-hover:ring-[#FF7F50]/40 group-hover:shadow-[0_20px_45px_rgba(245,158,11,0.22)] max-w-md mx-auto">
+  {/* Original highly realistic fish/shrimp photo */}
+  <img
+    src={sp.image}
+    alt={sp.name}
+    loading="lazy"
+    className="w-full h-full object-cover transition-transform duration-[1500ms] ease-out group-hover:scale-108"
+  />
+</div>
 
-        <span className="font-mono text-xs uppercase tracking-widest text-teal-deep mt-4 inline-flex items-center gap-1 group-hover:gap-2 transition-all font-semibold">
-          Read More →
+      {/* 2. Clean, Borderless Text Content Floating directly on background */}
+      <div className="w-full md:w-1/2 flex flex-col items-start text-left max-w-md mx-auto">
+        {/* Title */}
+        <h3 className="font-display text-2xl sm:text-3xl font-bold text-brass group-hover:text-[#FF7F50] transition-colors leading-tight">
+  {sp.name}
+</h3>
+        
+        {/* Scientific Label */}
+        <span className="font-mono text-sm text-teal-deep font-semibold italic mt-1.5">
+          {sp.scientific}
         </span>
+
+        {/* Description */}
+        <p className="font-body text-base font-semibold text-[#1E4D66] mt-4 leading-relaxed text-justify">
+          {sp.desc}
+        </p>
+
+        {/* Read More Link */}
+        <div className="font-mono text-xs uppercase tracking-widest text-[#FF7F50] mt-6 inline-flex items-center gap-1 group-hover:gap-2.5 transition-all font-bold">
+          Explore Species Details <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+        </div>
       </div>
     </Link>
   );

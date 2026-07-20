@@ -110,7 +110,7 @@ export default function AquaFarmHomepage() {
   const activeZone = getActiveZone(location.pathname);
 
   const [bubbles, setBubbles] = useState([]);
-  const [stickyBubbles] = useState(() => generateStickyBubbles(45));
+  const [stickyBubbles] = useState(() => generateStickyBubbles(100));
   const [showScrollTop, setShowScrollTop] = useState(false);
   const sectionRefs = useRef({});
   const lastBubbleTime = useRef(0);
@@ -179,11 +179,25 @@ export default function AquaFarmHomepage() {
 
   return (
     <div 
-      style={{ background: "#ECFEFF" }} 
-      className="relative w-full text-[#0A1C33] font-body selection:bg-[#FF7F50] selection:text-white overflow-hidden"
+      style={{ background: "transparent" }} 
+      className="relative w-full text-[#E2E8F0] font-body selection:bg-[#FF7F50] selection:text-white overflow-hidden"
       onMouseMove={handleInteraction}
       onClick={handleInteraction}
     >
+    {/* Fixed Dynamic Background Layer */}
+<div 
+  className="fixed inset-0 w-full h-full z-0 pointer-events-none"
+  style={{
+    background: `
+      linear-gradient(180deg, rgba(6, 17, 31, 0.88) 0%, rgba(9, 34, 61, 0.82) 45%, rgba(6, 17, 31, 0.92) 100%),
+      url('/images/realistic-underwater-bg.jpg')
+    `,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+    backgroundBlendMode: "multiply"
+  }}
+/>
       <FontImports />
       {/* Sticky Background Bubbles */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden z-10">
@@ -229,13 +243,15 @@ export default function AquaFarmHomepage() {
       <Nav activeZone={activeZone} onNavigate={scrollTo} />
       <DepthGauge activeZone={activeZone} onSelect={scrollTo} />
 
-      <Routes>
-        <Route path="/" element={<Home sectionRefs={sectionRefs} />} />
-        <Route path="/about" element={<About sectionRefs={sectionRefs} />} />
-        <Route path="/aquarium-types" element={<AquariumTypes sectionRefs={sectionRefs} onNavigate={scrollTo} />} />
-        <Route path="/contact" element={<Contact sectionRefs={sectionRefs} />} />
-        <Route path="/admin" element={<AdminDashboard />} /> 
-      </Routes>
+      <div key={location.pathname} className="animate-fade-in-page">
+        <Routes location={location}>
+          <Route path="/" element={<Home sectionRefs={sectionRefs} />} />
+          <Route path="/about" element={<About sectionRefs={sectionRefs} />} />
+          <Route path="/aquarium-types" element={<AquariumTypes sectionRefs={sectionRefs} onNavigate={scrollTo} />} />
+          <Route path="/contact" element={<Contact sectionRefs={sectionRefs} />} />
+          <Route path="/admin" element={<AdminDashboard />} /> 
+        </Routes>
+      </div>
 
       <Footer onNavigate={scrollTo} />
 

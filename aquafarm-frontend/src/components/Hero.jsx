@@ -132,15 +132,9 @@ const prevSlide = (e) => {
     
 {heroSlides.map((slide, idx) => {
   const isActive = idx === currentSlide;
-  let slideClass = "opacity-0 translate-x-full scale-95 pointer-events-none";
-  if (isActive) {
-    slideClass = "opacity-100 translate-x-0 scale-100 pointer-events-auto z-20";
-  } else if (
-    idx === currentSlide - 1 ||
-    (currentSlide === 0 && idx === heroSlides.length - 1)
-  ) {
-    slideClass = "opacity-0 -translate-x-full scale-95 pointer-events-none z-10";
-  }
+  const slideClass = isActive 
+    ? "opacity-100 pointer-events-auto z-20" 
+    : "opacity-0 pointer-events-none z-10";
 
           return (
             <div

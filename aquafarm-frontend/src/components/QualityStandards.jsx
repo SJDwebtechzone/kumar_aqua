@@ -1,6 +1,6 @@
 import React from "react";
 
-const CARD_GRADIENT = "linear-gradient(160deg, rgba(255,255,255,0.95) 0%, rgba(255,127,80,0.08) 45%, rgba(0,210,196,0.10) 100%)";
+const CARD_GRADIENT = "linear-gradient(135deg, #FEFBF3 0%, #FFFBEB 40%, #E0F2FE 100%)";
 
 const STANDARDS_DATA = [
   {
@@ -31,8 +31,7 @@ export default function QualityStandards() {
       {STANDARDS_DATA.map((item, idx) => (
         <div 
           key={idx} 
-          className="rounded-2xl p-6 flex gap-4 transition-all duration-300 hover:-translate-y-1 shadow-[0_10px_30px_rgba(0,50,60,0.08)] hover:shadow-[0_16px_40px_rgba(0,50,60,0.14)] group"
-          style={{ background: CARD_GRADIENT }}
+          className="glass-panel p-6 flex gap-4 group"
         >
           <div className="w-12 h-12 rounded-full bg-[#FF7F50]/15 border border-[#FF7F50]/30 flex items-center justify-center text-xl flex-shrink-0">
             {item.icon}
@@ -41,7 +40,7 @@ export default function QualityStandards() {
             <h3 className="font-display text-lg font-bold text-[#0A1C33] group-hover:text-[#FF7F50] transition-colors">
               {item.title}
             </h3>
-            <p className="font-body text-base font-semibold text-[#1E4D66] mt-2 leading-relaxed text-justify">
+            <p className="font-body text-base font-semibold text-[#1E4D66] mt-2 leading-relaxed text-left">
               {item.desc}
             </p>
           </div>

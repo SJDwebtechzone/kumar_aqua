@@ -19,6 +19,8 @@ const FAQ_DATA = [
   }
 ];
 
+const CARD_GRADIENT = "linear-gradient(135deg, #FEFBF3 0%, #FFFBEB 40%, #E0F2FE 100%)";
+
 export default function CareFAQ() {
   const [openIndex, setOpenIndex] = useState(null);
 
@@ -33,7 +35,7 @@ export default function CareFAQ() {
         return (
           <div 
             key={idx} 
-            className="glass-panel rounded-2xl border-[#FF7F50]/20 overflow-hidden bg-white/5 backdrop-blur-md transition-all duration-300 hover:bg-white/10 group"
+            className="glass-panel group overflow-hidden"
           >
             <button
               onClick={() => toggle(idx)}

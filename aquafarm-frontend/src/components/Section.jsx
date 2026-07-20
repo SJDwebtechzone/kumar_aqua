@@ -1,10 +1,10 @@
 import React from "react";
 
 const ZONE_BG = {
-  surface: "linear-gradient(180deg, #A5F3FC 0%, #A5F3FC 100%)",
-  shallows: "linear-gradient(180deg, #A5F3FC 0%, #A5F3FC 100%)",
-  growout: "linear-gradient(180deg, #A5F3FC 0%, #A5F3FC 100%)",
-  harbor: "linear-gradient(180deg, #A5F3FC 0%, #A5F3FC 100%)",
+  surface: "transparent",
+  shallows: "transparent",
+  growout: "transparent",
+  harbor: "transparent",
 };
 
 export default function Section({ id, zone, refCb, children }) {

@@ -2,23 +2,81 @@
 
 /* Palette tokens matched to the aqua/ocean background gradients used across the site.
    teal-deep/rose-deep are darkened variants kept AA-readable when placed directly on
-   the blue section backgrounds or translucent glass-panel cards. */
+    the blue section backgrounds or translucent glass-panel cards. */
 @theme {
-  --color-ink: #0A1C33;
-  --color-teal-deep: #023840;
+  --color-ink: #09223D;
+  --color-teal-deep: #09223D;
   --color-teal: #007b8a;
   --color-teal-bright: #007b8a;
-  --color-coral: #ff7f50;
-  --color-coral-dark: #e0663b;
+  --color-coral: #FF6B6B;
+  --color-coral-dark: #E55353;
   --color-rose: #be123c;
   --color-rose-deep: #9c1030;
+  --color-coral-dark: #C9974B;
 }
+
+/* Premium dark theme: cream/light text over deep-navy ambient photo backdrop */
+.text-\[\#0A1C33\] { color: #F4F8FB !important; }
+.text-\[\#1E4D66\] { color: rgba(244, 248, 251, 0.88) !important; }
+.text-\[\#0A1C33\]\/70 { color: rgba(244, 248, 251, 0.72) !important; }
+.text-\[\#0A1C33\]\/75 { color: rgba(244, 248, 251, 0.78) !important; }
+.text-\[\#0A1C33\]\/85 { color: rgba(244, 248, 251, 0.88) !important; }
+.text-\[\#0A1C33\]\/60 { color: rgba(244, 248, 251, 0.62) !important; }
+.text-teal-deep { color: #C9DCE8 !important; }
+.text-teal-deep\/80 { color: rgba(201, 220, 232, 0.8) !important; }
+.text-teal-deep\/60 { color: rgba(201, 220, 232, 0.6) !important; }
+.text-\[\#007b8a\] { color: #6FD6E8 !important; }
+/* Dedicated heading accent — brass/gold, separate from the coral used on buttons/tags/links */
+.text-brass { color: #C9974B !important; }
+.glass-panel .text-\[\#0A1C33\],
+.glass-panel .text-\[\#1E4D66\],
+.glass-panel .text-teal-deep,
+.glass-panel h3, .glass-panel h4,
+.wave-card .text-\[\#0A1C33\],
+.wave-card .text-\[\#1E4D66\],
+.wave-card .text-teal-deep,
+.wave-card h3, .wave-card h4,
+.enquiry-modal-card .text-\[\#0A1C33\],
+.enquiry-modal-card .text-\[\#0A1C33\]\/70,
+.enquiry-modal-card .text-\[\#0A1C33\]\/60,
+.enquiry-modal-card .text-\[\#1E4D66\],
+.enquiry-modal-card .text-teal-deep,
+.enquiry-modal-card h3, .enquiry-modal-card p, .enquiry-modal-card label {
+  color: #09223D !important;
+}
+
+/* Rose Red Tag Override to Coral Salmon */
+.text-\[\#BE123C\] { color: #E55353 !important; }
+.bg-\[\#BE123C\]\/10 { background-color: rgba(255, 107, 107, 0.1) !important; }
+.border-\[\#BE123C\]\/20 { border-color: rgba(255, 107, 107, 0.2) !important; }
+
+/* Orange Accent Color Override to Vibrant Coral Salmon */
+.text-\[\#FF7F50\] { color: #FF6B6B !important; }
+.text-\[\#FF7F50\]\/40 { color: rgba(255, 107, 107, 0.7) !important; }
+.text-\[\#FF7F50\]\/50 { color: rgba(255, 107, 107, 0.75) !important; }
+.bg-\[\#FF7F50\] { background-color: #FF6B6B !important; }
+.border-\[\#FF7F50\] { border-color: #FF6B6B !important; }
+.border-\[\#FF7F50\]\/20 { border-color: rgba(255, 107, 107, 0.2) !important; }
+.border-\[\#FF7F50\]\/25 { border-color: rgba(255, 107, 107, 0.25) !important; }
+.border-\[\#FF7F50\]\/30 { border-color: rgba(255, 107, 107, 0.3) !important; }
+.border-\[\#FF7F50\]\/35 { border-color: rgba(255, 107, 107, 0.35) !important; }
+.bg-\[\#FF7F50\]\/10 { background-color: rgba(255, 107, 107, 0.1) !important; }
+.bg-\[\#FF7F50\]\/12 { background-color: rgba(255, 107, 107, 0.12) !important; }
+.bg-\[\#FF7F50\]\/15 { background-color: rgba(255, 107, 107, 0.15) !important; }
+.from-\[\#FF7F50\] { --tw-gradient-from: #FF6B6B !important; }
+.to-\[\#E0663B\] { --tw-gradient-to: #E55353 !important; }
+.hover\:bg-\[\#E0663B\]:hover { background-color: #E55353 !important; }
+.hover\:border-\[\#FF7F50\]:hover { border-color: #FF6B6B !important; }
+.hover\:text-\[\#FF7F50\]:hover { color: #FF6B6B !important; }
+.selection\:bg-\[\#FF7F50\] *::selection { background-color: #FF6B6B !important; }
+.selection\:bg-\[\#FF7F50\]::selection { background-color: #FF6B6B !important; }
+.svg path[fill="#FF7F50"] { fill: #FF6B6B !important; }
 
 html {
   overflow-y: auto;
   overflow-x: hidden;
   height: auto;
-  background-color: #a2def5;
+  background-color: #06111f;
 }
 body {
   margin: 0;
@@ -26,7 +84,7 @@ body {
   overflow-y: visible;
   overflow-x: hidden;
   height: auto;
-  background-color: #a2def5;
+  background: transparent;
 }
 @layer utilities {
   /* Under-water bubble movement */
@@ -119,23 +177,44 @@ body {
 .pulse-ripple:hover {
   animation: ripple 1.5s infinite linear;
 }
-/* Glassmorphism utility */
+/* Premium Water-Filled Tank Pane Card (For Home, About Us, and Contact Us) */
 .glass-panel {
-  background: rgba(255, 255, 255, 0.45);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(0, 210, 196, 0.25);
-  box-shadow: 0 8px 32px 0 rgba(0, 50, 60, 0.08);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.94) 0%, rgba(224, 242, 254, 0.85) 100%) !important;
+  backdrop-filter: blur(12px) !important;
+  border: 1.5px solid rgba(255, 107, 107, 0.25) !important;
+  border-radius: 32px !important; /* Clean, smooth tank glass corners */
+  box-shadow: 0 10px 30px -5px rgba(0, 50, 60, 0.05), 
+              inset 0 0 20px rgba(0, 168, 150, 0.12), /* Aqua refraction water-fill effect */
+              inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
 }
-.glass-panel-hover {
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+.glass-panel:hover {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(230, 246, 255, 0.9) 100%) !important;
+  border-color: rgba(255, 107, 107, 0.45) !important;
+  box-shadow: 0 20px 40px -10px rgba(0, 50, 60, 0.1), 
+              inset 0 0 25px rgba(0, 168, 150, 0.18),
+              0 0 15px 0 rgba(255, 107, 107, 0.15) !important;
+  transform: translateY(-5px) scale(1.005) !important;
 }
-.glass-panel-hover:hover {
-  background: rgba(255, 255, 255, 0.7);
-  border-color: rgba(0, 210, 196, 0.45);
-  box-shadow: 0 12px 40px 0 rgba(0, 210, 196, 0.15);
-  transform: translateY(-4px);
+
+/* Unique Organic Wave-Droplet card (Maintained in Aquarium Types page only) */
+.wave-card {
+  background: linear-gradient(135deg, rgba(254, 251, 243, 0.9) 0%, rgba(255, 251, 235, 0.9) 40%, rgba(224, 242, 254, 0.9) 100%) !important;
+  backdrop-filter: blur(16px) !important;
+  border: 1.5px solid rgba(255, 107, 107, 0.25) !important;
+  border-radius: 40px 12px 40px 12px !important;
+  box-shadow: 0 10px 30px -5px rgba(0, 50, 60, 0.06), 
+              inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
+.wave-card:hover {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 251, 240, 0.95) 40%, rgba(230, 246, 255, 0.95) 100%) !important;
+  border-color: rgba(255, 107, 107, 0.5) !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 50, 60, 0.12), 
+              0 0 20px 0 rgba(255, 107, 107, 0.18) !important;
+  transform: translateY(-6px) scale(1.008) !important;
+}
+
 /* 3D Parallax Tilt */
 .tilt-card {
   transition: transform 0.15s ease-out, box-shadow 0.3s ease;
@@ -146,14 +225,14 @@ body {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #e0f7fa;
+  background: #F0FAFF;
 }
 ::-webkit-scrollbar-thumb {
-  background: #FF7F50;
+  background: #F59E0B;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #E0663B;
+  background: #D97706;
 }
 /* Fish movement animations */
 @keyframes fishSwimRight {
@@ -319,10 +398,23 @@ body {
   animation: zoomBreathing 28s ease-in-out infinite alternate;
 }
 
-/* Custom cubic bezier for slide transition */
+/* Hardware accelerated clean cross-fade transition */
 .carousel-transition {
-  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), 
-              transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 1.2s ease-in-out !important;
+  will-change: opacity;
+}
+
+@keyframes fadeInPage {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.animate-fade-in-page {
+  animation: fadeInPage 0.5s ease-out forwards;
+  will-change: opacity;
 }
 
 /* Staged entrance for slide content to look premium */
@@ -340,3 +432,31 @@ body {
   transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.45s, 
               transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.45s;
 }
+
+/* Modal Inputs light mode premium styling */
+input, select, textarea {
+  background-color: rgba(255, 255, 255, 0.8) !important;
+  color: #09223D !important;
+  border-color: rgba(0, 123, 138, 0.15) !important;
+}
+input::placeholder, textarea::placeholder {
+  color: rgba(9, 34, 61, 0.45) !important;
+}
+input:focus, select:focus, textarea:focus {
+  border-color: #F59E0B !important;
+  box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.15) !important;
+}
+select option {
+  background-color: #FFFFFF !important;
+  color: #09223D !important;
+}
+
+/* Glass fish bowl spotlight rising bubble animations */
+@keyframes float-bubble {
+  0% { transform: translateY(12px) scale(0.6); opacity: 0; }
+  50% { opacity: 0.8; }
+  100% { transform: translateY(-16px) scale(1.1); opacity: 0; }
+}
+.animate-bubble-1 { animation: float-bubble 2.2s infinite ease-in-out; }
+.animate-bubble-2 { animation: float-bubble 1.8s infinite ease-in-out 0.4s; }
+.animate-bubble-3 { animation: float-bubble 2.6s infinite ease-in-out 0.8s; }
