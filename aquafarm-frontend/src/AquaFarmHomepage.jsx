@@ -119,6 +119,61 @@ export default function AquaFarmHomepage() {
     if (!location.hash) {
       window.scrollTo(0, 0);
     }
+
+    // Dynamic SEO Titles & Meta Descriptions
+    const seoData = {
+      "/": {
+        title: "Kumar AquaFarm | Premium Cherry Shrimp, Gold Angelfish & Mollies",
+        description: "Welcome to Kumar AquaFarm. We breed premium, bio-secured freshwater specimens: Cherry Shrimp, Gold Angelfish, and Balloon Mollies conditioning in Tap water."
+      },
+      "/about": {
+        title: "About Us | Kumar AquaFarm - Sustainable Aquaculture & Breeding",
+        description: "Learn about our strict 14-day quarantine, ethical breeding processes, and certified marine biologist inspections ensuring robust genetics."
+      },
+      "/aquarium-types": {
+        title: "Aquarium Types & Stocking Calculator | Kumar AquaFarm",
+        description: "Calculate your tank's fish stocking capacity, explore water parameter guides, and find compatibility lists for Cherry Shrimp, Angelfish, and Mollies."
+      },
+      "/contact": {
+        title: "Contact Us | Kumar AquaFarm Chennai - Location & Business Hours",
+        description: "Get in touch with Kumar AquaFarm. Visit our hatchery in Chennai, find business hours, and submit stocking enquiries for live shipping."
+      }
+    };
+
+    const currentSeo = seoData[location.pathname] || {
+      title: "Kumar AquaFarm | Premium Live Fish & Invertebrates Hatchery",
+      description: "Kumar AquaFarm breeds premium freshwater species like Angelfish, Mollies, and Dwarf Shrimp. Inspected by biologists, shipped directly to you."
+    };
+
+    // Update document title
+    document.title = currentSeo.title;
+
+    // Update meta description
+    let metaDesc = document.querySelector('meta[name="description"]');
+    if (!metaDesc) {
+      metaDesc = document.createElement('meta');
+      metaDesc.name = 'description';
+      document.head.appendChild(metaDesc);
+    }
+    metaDesc.content = currentSeo.description;
+
+    // Update open graph meta title
+    let ogTitle = document.querySelector('meta[property="og:title"]');
+    if (!ogTitle) {
+      ogTitle = document.createElement('meta');
+      ogTitle.setAttribute('property', 'og:title');
+      document.head.appendChild(ogTitle);
+    }
+    ogTitle.content = currentSeo.title;
+
+    // Update open graph meta description
+    let ogDesc = document.querySelector('meta[property="og:description"]');
+    if (!ogDesc) {
+      ogDesc = document.createElement('meta');
+      ogDesc.setAttribute('property', 'og:description');
+      document.head.appendChild(ogDesc);
+    }
+    ogDesc.content = currentSeo.description;
   }, [location.pathname]);
 
   useEffect(() => {

@@ -33,7 +33,7 @@ function QuickStockList({ items }) {
   };
 
   return (
-    <div className="mb-12">
+   <div id="more-stock" className="mb-12 scroll-mt-[120px]">
       <div className="text-center max-w-xl mx-auto mb-10">
         <p className="font-mono text-xs text-teal-deep tracking-widest uppercase">More In Stock</p>
         <h3 className="font-display text-2xl sm:text-3xl font-semibold mt-3 text-[#0A1C33]">

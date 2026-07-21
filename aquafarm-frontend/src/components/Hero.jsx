@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 const createBubble = (x, size, delay, duration, sway1, sway2) => {
   const colorIndex = Math.floor(Math.random() * 5);
@@ -42,44 +43,72 @@ const createBubble = (x, size, delay, duration, sway1, sway2) => {
     }
   };
 };
-
 const HERO_SLIDES = [
   {
-    title: "Cherry Shrimp (Red/Yellow)",
-    scientific: "Neocaridina davidi",
-    category: "Vibrant Aquascape Cleanup",
-    desc: "Stunning active dwarf shrimp selectively bred for deep cherry red and lemon yellow opaque coloring. Excellent cleaning crew that feeds on algae.",
+    title: "Transform Your Space with",
+    highlight: "Premium Aquariums",
+    subtitle:
+      "Discover handcrafted aquariums, exotic ornamental fish, aquascaping, and complete aquarium solutions for homes and businesses.",
+
+    button1: "Explore Aquariums",
+    button1Link: "/aquarium-types",
+
+    button2: "Contact Us",
+    button2Link: "/contact",
+
     image: "/images/shrimp.jpg",
-    accentColor: "#FF5757",
-    temp: "18°C - 27°C",
-    ph: "6.5 - 8.0",
-    tank: "18L (5 Gallons) min",
   },
+
   {
-    title: "Gold Angelfish",
-    scientific: "Pterophyllum scalare",
-    category: "Majestic Cichlid Royalty",
-    desc: "Graceful triangular shape with striking solid metallic-gold luster. High, tall fins. Highly interactive, displays responsive personality to keepers.",
+    title: "Healthy Exotic Fish",
+    highlight: "for Every Aquarium",
+    subtitle:
+      "Premium quality ornamental fish, shrimp, aquatic plants and aquarium accessories carefully selected for your aquarium.",
+
+    button1: "View Collection",
+    button1Link: "/aquarium-types#more-stock",
+
+    button2: "",
+    button2Link: "",
+
     image: "/images/gold-angelfish.jpg",
-    accentColor: "#FFD700",
-    temp: "24°C - 30°C",
-    ph: "6.0 - 7.4",
-    tank: "110L (30 Gallons) min",
   },
+
   {
-    title: "Balloon Molly",
-    scientific: "Poecilia latipinna var.",
-    category: "Playful Rounded Livebearers",
-    desc: "Distinctive round pot-belly shape with vibrant patterns. Highly active and playful swimmers that thrive in community aquariums.",
+    title: "Custom Aquarium Design",
+    highlight: "& Installation",
+    subtitle:
+      "From compact home aquariums to luxury commercial displays, we design, install and maintain stunning aquatic environments.",
+
+    button1: "Get Free Quote",
+    button1Link: "/contact",
+
+    button2: "",
+    button2Link: "",
+
     image: "/images/balloon-molly.jpg",
-    accentColor: "#00E5FF",
-    temp: "22°C - 28°C",
-    ph: "7.0 - 8.5",
-    tank: "75L (20 Gallons) min",
   },
 ];
-
 export default function Hero({ banner }) {
+
+const navigate = useNavigate();
+const handleNavigation = (link) => {
+  if (link === "/contact") {
+    navigate("/contact");
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  } else if (link === "/aquarium-types") {
+    navigate("/aquarium-types");
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  } else if (link === "/aquarium-types#more-stock") {
+    navigate("/aquarium-types#more-stock");
+  }
+};
   const heroSlides = banner
   ? [...HERO_SLIDES, { title: banner.title, scientific: "", category: banner.subtitle || "", desc: banner.subtitle || "", image: banner.imageUrl, accentColor: "#FF7F50", temp: "", ph: "", tank: "" }]
   : HERO_SLIDES;
@@ -138,16 +167,76 @@ const prevSlide = (e) => {
 
           return (
             <div
-              key={slide.title}
-              className={`absolute inset-0 flex items-center w-full h-full carousel-transition ${slideClass}`}
-            >
-              {/* Slide Full-Bleed Background Image */}
-              <img 
-                src={slide.image} 
-                alt={slide.title}
-                className="absolute inset-0 w-full h-full object-cover z-0 select-none animate-zoom-breathing"
-              />
-            </div>
+  key={slide.title}
+  className={`absolute inset-0 carousel-transition ${slideClass}`}
+>
+  {/* Background */}
+  <img
+    src={slide.image}
+    alt={slide.title}
+    className="absolute inset-0 w-full h-full object-cover animate-zoom-breathing"
+  />
+
+  {/* Overlay */}
+  <div className="absolute inset-0 pointer-events-none bg-gradient-to-r from-[#061B2F]/90 via-[#061B2F]/65 to-transparent"></div>
+
+  {/* Content */}
+  <div className="relative z-30 flex items-center h-full">
+
+    <div className="max-w-7xl mx-auto w-full px-6 lg:px-12">
+
+     <div
+  className={`max-w-2xl transition-all duration-1000 ${
+    isActive
+      ? "translate-x-0 opacity-100"
+      : "-translate-x-10 opacity-0"
+  }`}
+>
+
+        <p className="text-[#18B6FF] uppercase tracking-[4px] text-sm font-semibold mb-4">
+          Premium Aquarium Solutions
+        </p>
+
+        <h1 className="text-white font-bold leading-tight text-4xl md:text-6xl">
+          {slide.title}
+          <br />
+
+          <span className="text-[#18B6FF]">
+            {slide.highlight}
+          </span>
+
+        </h1>
+
+        <div className="w-20 h-1 bg-[#FF7F50] mt-5 mb-6 rounded-full"></div>
+
+        <p className="text-gray-200 text-lg leading-8 max-w-xl">
+          {slide.subtitle}
+        </p>
+<div className="flex flex-wrap gap-5 mt-10">
+
+  <button
+    onClick={() => handleNavigation(slide.button1Link)}
+    className="px-8 py-4 rounded-xl bg-[#FF7F50] text-white font-semibold hover:bg-[#ff8d66] transition"
+  >
+    {slide.button1}
+  </button>
+
+  {slide.button2 && (
+    <button
+      onClick={() => handleNavigation(slide.button2Link)}
+      className="px-8 py-4 rounded-xl border border-white text-white hover:bg-white hover:text-[#061B2F] transition"
+    >
+      {slide.button2}
+    </button>
+  )}
+
+</div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
           );
         })}
       </div>
