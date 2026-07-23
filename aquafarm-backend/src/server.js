@@ -8,7 +8,8 @@ app.use(
     origin: [
       "https://kumaraquatic.com",
       "https://www.kumaraquatic.com",
-      "http://localhost:5173", // keep for local development if you want
+      "http://localhost:5173",
+      "http://localhost:5174",
     ],
     credentials: true,
   })

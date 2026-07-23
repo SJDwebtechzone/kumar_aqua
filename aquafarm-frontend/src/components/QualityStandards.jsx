@@ -40,7 +40,7 @@ export default function QualityStandards() {
             <h3 className="font-display text-lg font-bold text-[#0A1C33] group-hover:text-[#FF7F50] transition-colors">
               {item.title}
             </h3>
-            <p className="font-body text-base font-semibold text-[#1E4D66] mt-2 leading-relaxed text-left">
+            <p className="font-body text-base font-semibold text-[#1E4D66] mt-2 leading-relaxed text-justify">
               {item.desc}
             </p>
           </div>

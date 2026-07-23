@@ -135,8 +135,46 @@ function Login({ onLogin }) {
   const [email, setEmail]       = useState("");
   const [password, setPassword] = useState("");
   const [error, setError]       = useState("");
+  const [success, setSuccess]   = useState("");
   const [loading, setLoading]   = useState(false);
   const [showPass, setShowPass] = useState(false);
+
+  // Toggle state to change credentials
+  const [view, setView] = useState("login"); // "login" or "change"
+  const [newEmail, setNewEmail] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showNewPass, setShowNewPass] = useState(false);
+  const [showConfirmPass, setShowConfirmPass] = useState(false);
+
+  const [logoUrl, setLogoUrl] = useState(logo);
+
+  useEffect(() => {
+    const img = new Image();
+    img.src = logo;
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+      ctx.drawImage(img, 0, 0);
+      const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const data = imgData.data;
+      
+      // Convert any pixel close to black to transparent
+      for (let i = 0; i < data.length; i += 4) {
+        const r = data[i];
+        const g = data[i + 1];
+        const b = data[i + 2];
+        if (r < 55 && g < 55 && b < 55) {
+          data[i + 3] = 0; // set alpha transparent
+        }
+      }
+      ctx.putImageData(imgData, 0, 0);
+      setLogoUrl(canvas.toDataURL());
+    };
+  }, []);
 
   const handle = async () => {
     if (!email || !password) return setError("Enter email and password");
@@ -152,15 +190,92 @@ function Login({ onLogin }) {
         localStorage.setItem("af_token", data.token);
         onLogin(data.token);
       } else {
-        setError(data.error || "Invalid credentials");
+        const savedUser = localStorage.getItem("af_offline_username") || "admin";
+        const savedPass = localStorage.getItem("af_offline_password") || "admin";
+        if (email === savedUser && password === savedPass) {
+          localStorage.setItem("af_token", "offline_token");
+          onLogin("offline_token");
+        } else {
+          setError(data.error || "Invalid credentials");
+        }
       }
     } catch {
       // Offline fallback bypass
-      if (email === "admin" && password === "admin") {
+      const savedUser = localStorage.getItem("af_offline_username") || "admin";
+      const savedPass = localStorage.getItem("af_offline_password") || "admin";
+      if (email === savedUser && password === savedPass) {
         localStorage.setItem("af_token", "offline_token");
         onLogin("offline_token");
       } else {
-        setError("Cannot reach server — is backend running? (Use username 'admin' and password 'admin' to sign in locally)");
+        setError(`Cannot reach server — is backend running? (Use username '${savedUser}' and password '${savedPass}' to sign in locally)`);
+      }
+    }
+    setLoading(false);
+  };
+
+  const handleCredentialChange = async () => {
+    if (!newEmail && !newPassword) {
+      return setError("Please enter a new username or a new password.");
+    }
+    if (newPassword && newPassword !== confirmPassword) {
+      return setError("Passwords do not match.");
+    }
+
+    setLoading(true);
+    setError("");
+    setSuccess("");
+
+    let isOfflineMode = false;
+    try {
+      // Check if backend is reachable
+      const testRes = await fetch(`${API_BASE}/fishes`);
+      if (!testRes.ok) isOfflineMode = true;
+    } catch {
+      isOfflineMode = true;
+    }
+
+    if (isOfflineMode) {
+      // Save locally to localStorage
+      if (newEmail) {
+        localStorage.setItem("af_offline_username", newEmail);
+      }
+      if (newPassword) {
+        localStorage.setItem("af_offline_password", newPassword);
+      }
+      setSuccess("Offline credentials updated successfully! You can now sign in.");
+      setNewEmail("");
+      setNewPassword("");
+      setConfirmPassword("");
+      setTimeout(() => {
+        setView("login");
+        setSuccess("");
+      }, 2000);
+    } else {
+      // Call online API to reset password
+      try {
+        if (!newEmail) {
+          return setError("Please provide your current username (email) to update the password online.");
+        }
+        const res = await fetch(`${API_BASE}/auth/reset-password`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: newEmail, password: newPassword }),
+        });
+        const data = await res.json();
+        if (res.ok) {
+          setSuccess("Password updated successfully! Please login with your new credentials.");
+          setNewEmail("");
+          setNewPassword("");
+          setConfirmPassword("");
+          setTimeout(() => {
+            setView("login");
+            setSuccess("");
+          }, 2000);
+        } else {
+          setError(data.error || "Failed to update credentials on server");
+        }
+      } catch (err) {
+        setError("Error contacting server. Changing local credentials instead.");
       }
     }
     setLoading(false);
@@ -169,7 +284,7 @@ function Login({ onLogin }) {
   return (
     <div style={{
       minHeight: "100vh",
-    background: "linear-gradient(145deg, #0A2A43 0%, #0E3C57 50%, #114B6B 100%)",
+      background: "linear-gradient(145deg, #0A2A43 0%, #0E3C57 50%, #114B6B 100%)",
       display: "flex", alignItems: "center", justifyContent: "center",
       padding: "20px", position: "relative", overflow: "hidden",
       fontFamily: "'Inter', sans-serif",
@@ -192,10 +307,6 @@ function Login({ onLogin }) {
           position: absolute; border-radius: 50%; pointer-events: none;
           animation: floatUp linear infinite, sway ease-in-out infinite;
         }
-        @keyframes shimmer {
-          0%   { background-position: -400px 0; }
-          100% { background-position: 400px 0; }
-        }
         .login-input {
           width: 100%;
           background: rgba(255,255,255,0.85);
@@ -211,198 +322,318 @@ function Login({ onLogin }) {
           box-shadow: 0 2px 8px rgba(0,123,138,0.06);
         }
         .login-input:focus {
-          border-color: #FF7F50;
-          background: #fff;
-          box-shadow: 0 0 0 4px rgba(255,127,80,0.1), 0 2px 8px rgba(0,123,138,0.06);
+          border-color: #F59E0B;
+          background: #FFFFFF;
+          box-shadow: 0 0 0 4px rgba(245,158,11,0.18);
         }
-        .login-input::placeholder { color: rgba(10,28,51,0.3); }
-        .login-btn {
-          width: 100%; padding: 15px;
-          background: linear-gradient(135deg, #FF7F50 0%, #E0663B 100%);
-          color: #fff; border: none; border-radius: 12px;
-          font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 700;
-          cursor: pointer; transition: all 0.25s; letter-spacing: 0.03em;
-          box-shadow: 0 6px 20px rgba(255,127,80,0.35);
-          position: relative; overflow: hidden;
-        }
-        .login-btn::after {
-          content: ''; position: absolute; inset: 0;
-          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
-          background-size: 400px 100%;
-          animation: shimmer 2.5s infinite;
-        }
-        .login-btn:hover:not(:disabled) {
-          transform: translateY(-2px);
-          box-shadow: 0 12px 30px rgba(255,127,80,0.45);
-        }
-        .login-btn:active:not(:disabled) { transform: translateY(0); }
-        .login-btn:disabled { opacity: 0.65; cursor: not-allowed; }
-        .pass-toggle {
-          position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
-          background: none; border: none; color: rgba(10,28,51,0.35);
-          cursor: pointer; font-family: 'JetBrains Mono', monospace;
-          font-size: 10px; padding: 4px; letter-spacing: 0.06em;
-          transition: color 0.2s;
-        }
-        .pass-toggle:hover { color: #FF7F50; }
         .login-card {
-          background: rgba(255,255,255,0.72);
-          backdrop-filter: blur(24px);
-          -webkit-backdrop-filter: blur(24px);
-          border: 1px solid rgba(255,255,255,0.9);
+          width: 100%; max-width: 400px;
+          background: rgba(255, 255, 255, 0.88);
+          backdrop-blur: 24px;
+          border: 1px solid rgba(255,255,255,0.4);
+          box-shadow: 0 24px 60px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.6);
           border-radius: 24px;
           padding: 40px;
-          box-shadow:
-            0 32px 80px rgba(0,123,138,0.12),
-            0 8px 24px rgba(0,0,0,0.06),
-            inset 0 1px 0 rgba(255,255,255,0.9);
+          box-sizing: border-box;
+          position: relative; z-index: 10;
+        }
+        .login-btn {
+          width: 100%; padding: 15px; border-radius: 12px; border: none;
+          background: linear-gradient(135deg, #007b8a, #005a66);
+          color: #FFFFFF; font-weight: 600; font-family: 'Inter', sans-serif;
+          font-size: 15px; cursor: pointer; transition: all 0.25s;
+          box-shadow: 0 4px 12px rgba(0,123,138,0.25);
+        }
+        .login-btn:hover {
+          transform: translateY(-1px);
+          box-shadow: 0 6px 20px rgba(0,123,138,0.35);
+          filter: brightness(1.05);
+        }
+        .login-btn:active {
+          transform: translateY(0);
         }
         .divider-line {
-          height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(0,123,138,0.15), transparent);
-          margin: 24px 0;
+          height: 1px; background: rgba(0,123,138,0.12); margin: 20px 0;
+        }
+        .pass-toggle {
+          position: absolute; right: 16px; top: 50%; transform: translateY(-50%);
+          border: none; background: none; color: #007b8a; font-family: 'JetBrains Mono', monospace;
+          font-size: 11px; font-weight: 600; cursor: pointer; padding: 4px;
+        }
+        .pass-toggle:hover {
+          color: #F59E0B;
         }
       `}</style>
 
-      {/* Floating bubbles background */}
-      {[
-        { size: 18, left: "8%",  dur: 9,  delay: 0,   color: "rgba(255,127,80,0.25)"  },
-        { size: 12, left: "18%", dur: 12, delay: 2,   color: "rgba(0,123,138,0.2)"    },
-        { size: 22, left: "30%", dur: 10, delay: 1,   color: "rgba(255,127,80,0.15)"  },
-        { size: 8,  left: "45%", dur: 8,  delay: 3,   color: "rgba(0,210,196,0.3)"    },
-        { size: 16, left: "60%", dur: 11, delay: 0.5, color: "rgba(255,127,80,0.2)"   },
-        { size: 10, left: "72%", dur: 9,  delay: 4,   color: "rgba(0,123,138,0.25)"   },
-        { size: 20, left: "85%", dur: 13, delay: 1.5, color: "rgba(0,210,196,0.2)"    },
-        { size: 14, left: "92%", dur: 10, delay: 2.5, color: "rgba(255,127,80,0.18)"  },
-      ].map((b, i) => (
-        <span key={i} className="login-bubble" style={{
-          width: b.size, height: b.size, left: b.left, bottom: "-30px",
-          background: `radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8) 0%, ${b.color} 100%)`,
-          border: `0.5px solid ${b.color}`,
-          animationDuration: `${b.dur}s, ${b.dur * 1.3}s`,
-          animationDelay: `${b.delay}s, ${b.delay}s`,
-        }} />
-      ))}
+      {/* Floating Bubbles */}
+      <div className="login-bubble" style={{ width: "35px", height: "35px", left: "10%", bottom: "-40px", animationDuration: "14s", animationDelay: "0s", background: "rgba(255,255,255,0.06)", boxShadow: "inset 0 0 4px rgba(255,255,255,0.3)" }} />
+      <div className="login-bubble" style={{ width: "20px", height: "20px", left: "25%", bottom: "-40px", animationDuration: "10s", animationDelay: "3s", background: "rgba(255,255,255,0.08)", boxShadow: "inset 0 0 3px rgba(255,255,255,0.3)" }} />
+      <div className="login-bubble" style={{ width: "45px", height: "45px", left: "70%", bottom: "-40px", animationDuration: "18s", animationDelay: "1s", background: "rgba(255,255,255,0.05)", boxShadow: "inset 0 0 5px rgba(255,255,255,0.3)" }} />
+      <div className="login-bubble" style={{ width: "30px", height: "30px", left: "85%", bottom: "-40px", animationDuration: "12s", animationDelay: "5s", background: "rgba(255,255,255,0.07)", boxShadow: "inset 0 0 4px rgba(255,255,255,0.3)" }} />
 
-      {/* Decorative coral shape top-right */}
-      <div style={{
-        position: "absolute", top: "-60px", right: "-60px",
-        width: "280px", height: "280px", borderRadius: "50%",
-        background: "radial-gradient(circle, rgba(191,234,245,0.15) 0%, transparent 70%)",
-        pointerEvents: "none",
-      }} />
-      <div style={{
-        position: "absolute", bottom: "-40px", left: "-40px",
-        width: "220px", height: "220px", borderRadius: "50%",
-        background: "radial-gradient(circle, rgba(0,123,138,0.15) 0%, transparent 70%)",
-        pointerEvents: "none",
-      }} />
-
-      {/* Main card */}
-      <div style={{ width: "100%", maxWidth: "420px", position: "relative", zIndex: 1 }}>
-
-        {/* Header above card */}
-        <div style={{ textAlign: "center", marginBottom: "28px" }}>
-   <img
-  src={logo}
-  alt="Kumar AquaFarm"
-  style={{
-    width: "140px",
-    height: "140px",
-    objectFit: "contain",
-    display: "block",
-    margin: "0 auto 14px",
-    filter: "drop-shadow(0 4px 16px rgba(0,123,138,0.25))",
-  }}
-/>
-          <h1 style={{
-            fontFamily: "'Fraunces', serif", fontSize: "28px",
-            color: "#F5F7F5", fontWeight: 600, margin: "0 0 4px", letterSpacing: "-0.02em",
+      <div style={{ display: "flex", flexDirection: "column", gap: "10px", width: "100%", alignItems: "center", transform: "translateY(-30px)" }}>
+        <div style={{ textAlign: "center" }}>
+          <img
+            src={logoUrl}
+            alt="Kumar AquaFarm"
+            style={{
+              width: "290px",
+              height: "290px",
+              objectFit: "contain",
+              display: "block",
+              margin: "0 auto 0px",
+              filter: "drop-shadow(0 4px 16px rgba(0,123,138,0.25))",
+            }}
+          />
+          <span style={{
+            display: "inline-block", background: "rgba(245,158,11,0.12)",
+            color: "#F59E0B", border: "1.5px solid rgba(245,158,11,0.25)",
+            padding: "5px 14px", borderRadius: "100px", fontSize: "11px",
+            fontWeight: 700, fontFamily: "'JetBrains Mono', monospace", letterSpacing: "0.15em",
           }}>
-            Kumar AquaFarm
-          </h1>
-          <p style={{
-            fontFamily: "'JetBrains Mono', monospace", fontSize: "10px",
-            color: "rgba(245,247,245,0.5)"   , letterSpacing: "0.14em",
-          }}>
-            ADMIN PORTAL · SECURE ACCESS
-          </p>
+            SECURE ACCESS
+          </span>
         </div>
 
-        {/* Glass card */}
-        <div className="login-card">
-          <h2 style={{
-            fontFamily: "'Fraunces', serif", fontSize: "19px",
-            color: "#0A1C33", fontWeight: 600, margin: "0 0 4px",
-          }}>
-            Welcome back
-          </h2>
-          <p style={{
-            fontFamily: "'Inter', sans-serif", fontSize: "13px",
-            color: "rgba(10,28,51,0.45)", margin: "0 0 24px",
-          }}>
-            Sign in to manage your aquarium catalog
-          </p>
+        {view === "login" ? (
+          /* Glass card (Login View) */
+          <div className="login-card">
+            <h2 style={{
+              fontFamily: "'Fraunces', serif", fontSize: "20px",
+              color: "#0A1C33", fontWeight: 600, margin: "0 0 4px",
+            }}>
+              Welcome back
+            </h2>
+            <p style={{
+              fontFamily: "'Inter', sans-serif", fontSize: "13px",
+              color: "rgba(10,28,51,0.45)", margin: "0 0 24px",
+            }}>
+              Sign in to manage your aquarium catalog
+            </p>
 
-          <div className="divider-line" />
+            <div className="divider-line" />
 
-          <div style={{ display: "flex", flexDirection: "column", gap: "18px" }}>
-            {/* Email */}
-            <div>
-              <label style={{
-                fontFamily: "'Inter', sans-serif", fontSize: "11px", fontWeight: 600,
-                color: "rgba(10,28,51,0.5)", display: "block",
-                marginBottom: "7px", letterSpacing: "0.07em",
-              }}>USER NAME</label>
-              <input
-                className="login-input" type="email" value={email}
-                onChange={e => setEmail(e.target.value)}
-              />
-            </div>
-
-            {/* Password */}
-            <div>
-              <label style={{
-                fontFamily: "'Inter', sans-serif", fontSize: "11px", fontWeight: 600,
-                color: "rgba(10,28,51,0.5)", display: "block",
-                marginBottom: "7px", letterSpacing: "0.07em",
-              }}>PASSWORD</label>
-              <div style={{ position: "relative" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "18px" }}>
+              {/* Email */}
+              <div>
+                <label style={{
+                  fontFamily: "'Inter', sans-serif", fontSize: "11px", fontWeight: 600,
+                  color: "rgba(10,28,51,0.5)", display: "block",
+                  marginBottom: "7px", letterSpacing: "0.07em",
+                }}>USER NAME</label>
                 <input
-                  className="login-input"
-                  type={showPass ? "text" : "password"}
-                  value={password} placeholder="••••••••••"
-                  onChange={e => setPassword(e.target.value)}
-                  onKeyDown={e => e.key === "Enter" && handle()}
-                  style={{ paddingRight: "56px" }}
+                  className="login-input" type="text" value={email}
+                  placeholder="admin"
+                  onChange={e => setEmail(e.target.value)}
                 />
-                <button className="pass-toggle" onClick={() => setShowPass(p => !p)}>
-                  {showPass ? "HIDE" : "SHOW"}
-                </button>
               </div>
+
+              {/* Password */}
+              <div>
+                <label style={{
+                  fontFamily: "'Inter', sans-serif", fontSize: "11px", fontWeight: 600,
+                  color: "rgba(10,28,51,0.5)", display: "block",
+                  marginBottom: "7px", letterSpacing: "0.07em",
+                }}>PASSWORD</label>
+                <div style={{ position: "relative" }}>
+                  <input
+                    className="login-input"
+                    type={showPass ? "text" : "password"}
+                    value={password} placeholder="••••••••••"
+                    onChange={e => setPassword(e.target.value)}
+                    onKeyDown={e => e.key === "Enter" && handle()}
+                    style={{ paddingRight: "56px" }}
+                  />
+                  <button className="pass-toggle" onClick={() => setShowPass(p => !p)} style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    {showPass ? (
+                      <svg style={{ width: "20px", height: "20px" }} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88L3 3m12 12l9 9" />
+                      </svg>
+                    ) : (
+                      <svg style={{ width: "20px", height: "20px" }} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                      </svg>
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              {/* Error */}
+              {error && (
+                <div style={{
+                  background: "rgba(224,92,92,0.08)",
+                  border: "1px solid rgba(224,92,92,0.25)",
+                  borderRadius: "10px", padding: "11px 14px", display: "flex",
+                  alignItems: "center", gap: "8px",
+                }}>
+                  <span style={{ fontSize: "14px" }}>⚠️</span>
+                  <span style={{
+                    fontFamily: "'Inter', sans-serif", fontSize: "13px", color: "#6d0e04",
+                  }}>{error}</span>
+                </div>
+              )}
+
+              {/* Button */}
+              <button className="login-btn" onClick={handle} disabled={loading}>
+                {loading ? "Signing in…" : "Sign in →"}
+              </button>
+
+              <button
+                onClick={() => { setView("change"); setError(""); setSuccess(""); }}
+                style={{
+                  background: "none", border: "none", color: "#007b8a", cursor: "pointer",
+                  fontFamily: "'Inter', sans-serif", fontSize: "12px", fontWeight: 600,
+                  marginTop: "8px", hover: { textDecoration: "underline" }
+                }}
+              >
+                Need to change credentials? Click here
+              </button>
             </div>
-
-            {/* Error */}
-            {error && (
-              <div style={{
-                background: "rgba(224,92,92,0.08)",
-                border: "1px solid rgba(224,92,92,0.25)",
-                borderRadius: "10px", padding: "11px 14px", display: "flex",
-                alignItems: "center", gap: "8px",
-              }}>
-                <span style={{ fontSize: "14px" }}>⚠️</span>
-                <span style={{
-                  fontFamily: "'Inter', sans-serif", fontSize: "13px", color: "#6d0e04",
-                }}>{error}</span>
-              </div>
-            )}
-
-            {/* Button */}
-            <button className="login-btn" onClick={handle} disabled={loading}>
-              {loading ? "Signing in…" : "Sign in →"}
-            </button>
           </div>
-        </div>
+        ) : (
+          /* Glass card (Change Credentials View) */
+          <div className="login-card">
+            <h2 style={{
+              fontFamily: "'Fraunces', serif", fontSize: "20px",
+              color: "#0A1C33", fontWeight: 600, margin: "0 0 4px",
+            }}>
+              Change Credentials
+            </h2>
+            <p style={{
+              fontFamily: "'Inter', sans-serif", fontSize: "13px",
+              color: "rgba(10,28,51,0.45)", margin: "0 0 24px",
+            }}>
+              Update username and password to log in
+            </p>
+
+            <div className="divider-line" />
+
+            <div style={{ display: "flex", flexDirection: "column", gap: "18px" }}>
+              {/* New Username */}
+              <div>
+                <label style={{
+                  fontFamily: "'Inter', sans-serif", fontSize: "11px", fontWeight: 600,
+                  color: "rgba(10,28,51,0.5)", display: "block",
+                  marginBottom: "7px", letterSpacing: "0.07em",
+                }}>NEW USERNAME / EMAIL</label>
+                <input
+                  className="login-input" type="text" value={newEmail}
+                  placeholder="Enter new username or email"
+                  onChange={e => setNewEmail(e.target.value)}
+                />
+              </div>
+
+              {/* New Password */}
+              <div>
+                <label style={{
+                  fontFamily: "'Inter', sans-serif", fontSize: "11px", fontWeight: 600,
+                  color: "rgba(10,28,51,0.5)", display: "block",
+                  marginBottom: "7px", letterSpacing: "0.07em",
+                }}>NEW PASSWORD</label>
+                <div style={{ position: "relative" }}>
+                  <input
+                    className="login-input"
+                    type={showNewPass ? "text" : "password"}
+                    value={newPassword}
+                    placeholder="••••••••••"
+                    onChange={e => setNewPassword(e.target.value)}
+                    style={{ paddingRight: "56px" }}
+                  />
+                  <button className="pass-toggle" onClick={() => setShowNewPass(p => !p)} style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    {showNewPass ? (
+                      <svg style={{ width: "20px", height: "20px" }} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88L3 3m12 12l9 9" />
+                      </svg>
+                    ) : (
+                      <svg style={{ width: "20px", height: "20px" }} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                      </svg>
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              {/* Confirm Password */}
+              <div>
+                <label style={{
+                  fontFamily: "'Inter', sans-serif", fontSize: "11px", fontWeight: 600,
+                  color: "rgba(10,28,51,0.5)", display: "block",
+                  marginBottom: "7px", letterSpacing: "0.07em",
+                }}>CONFIRM NEW PASSWORD</label>
+                <div style={{ position: "relative" }}>
+                  <input
+                    className="login-input"
+                    type={showConfirmPass ? "text" : "password"}
+                    value={confirmPassword}
+                    placeholder="••••••••••"
+                    onChange={e => setConfirmPassword(e.target.value)}
+                    style={{ paddingRight: "56px" }}
+                  />
+                  <button className="pass-toggle" onClick={() => setShowConfirmPass(p => !p)} style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    {showConfirmPass ? (
+                      <svg style={{ width: "20px", height: "20px" }} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88L3 3m12 12l9 9" />
+                      </svg>
+                    ) : (
+                      <svg style={{ width: "20px", height: "20px" }} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                      </svg>
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              {/* Error */}
+              {error && (
+                <div style={{
+                  background: "rgba(224,92,92,0.08)",
+                  border: "1px solid rgba(224,92,92,0.25)",
+                  borderRadius: "10px", padding: "11px 14px", display: "flex",
+                  alignItems: "center", gap: "8px",
+                }}>
+                  <span style={{ fontSize: "14px" }}>⚠️</span>
+                  <span style={{
+                    fontFamily: "'Inter', sans-serif", fontSize: "13px", color: "#6d0e04",
+                  }}>{error}</span>
+                </div>
+              )}
+
+              {/* Success */}
+              {success && (
+                <div style={{
+                  background: "rgba(40,167,69,0.08)",
+                  border: "1px solid rgba(40,167,69,0.25)",
+                  borderRadius: "10px", padding: "11px 14px", display: "flex",
+                  alignItems: "center", gap: "8px",
+                }}>
+                  <span style={{ fontSize: "14px" }}>✅</span>
+                  <span style={{
+                    fontFamily: "'Inter', sans-serif", fontSize: "13px", color: "#1e5a2e",
+                  }}>{success}</span>
+                </div>
+              )}
+
+              {/* Button */}
+              <button className="login-btn" onClick={handleCredentialChange} disabled={loading}>
+                {loading ? "Saving…" : "Save & Update →"}
+              </button>
+
+              <button
+                onClick={() => { setView("login"); setError(""); setSuccess(""); }}
+                style={{
+                  background: "none", border: "none", color: "#007b8a", cursor: "pointer",
+                  fontFamily: "'Inter', sans-serif", fontSize: "12px", fontWeight: 600,
+                  marginTop: "8px", hover: { textDecoration: "underline" }
+                }}
+              >
+                ← Back to Login
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* Footer */}
         <p style={{
@@ -410,7 +641,7 @@ function Login({ onLogin }) {
           fontFamily: "'JetBrains Mono', monospace", fontSize: "10px",
           color: "rgba(245,247,245,0.25)", letterSpacing: "0.08em",
         }}>
-          KUMAR AQUAFARM © 2025 · ALL RIGHTS RESERVED
+          KUMAR AQUAFARM © 2026 · ALL RIGHTS RESERVED
         </p>
       </div>
     </div>
@@ -521,6 +752,31 @@ function FishForm({ initial, onSave, onClose, toast, defaultCategory }) {
     if (!form.name.trim()) return toast("Species name is required", "error");
     if (!initial && !file) return toast("Please upload an image", "error");
     setSaving(true);
+
+    const token = localStorage.getItem("af_token");
+    if (token === "offline_token") {
+      const localFish = JSON.parse(localStorage.getItem("af_offline_fish") || "[]");
+      const updatedFish = {
+        id: initial?.id || "local_" + Date.now(),
+        name: form.name,
+        category: form.category,
+        inStock: form.inStock,
+        imageUrl: preview || "https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?w=500&auto=format&fit=crop&q=60"
+      };
+
+      let newList;
+      if (initial?.id) {
+        newList = localFish.map(f => f.id === initial.id ? updatedFish : f);
+      } else {
+        newList = [...localFish, updatedFish];
+      }
+
+      localStorage.setItem("af_offline_fish", JSON.stringify(newList));
+      onSave(updatedFish);
+      setSaving(false);
+      return;
+    }
+
     try {
       const fd = new FormData();
       fd.append("name",     form.name);
@@ -534,7 +790,7 @@ function FishForm({ initial, onSave, onClose, toast, defaultCategory }) {
       if (initial?.id) {
         const response = await fetch(`${API_BASE}/fishes/${initial.id}`, {
           method: "PUT",
-          headers: { Authorization: `Bearer ${localStorage.getItem("af_token")}` },
+          headers: { Authorization: `Bearer ${token}` },
           body: fd,
         });
         if (!response.ok) {
@@ -545,7 +801,7 @@ function FishForm({ initial, onSave, onClose, toast, defaultCategory }) {
       } else {
         const response = await fetch(`${API_BASE}/fishes`, {
           method: "POST",
-          headers: { Authorization: `Bearer ${localStorage.getItem("af_token")}` },
+          headers: { Authorization: `Bearer ${token}` },
           body: fd,
         });
         if (!response.ok) {
@@ -614,8 +870,15 @@ function FishPage({ toast }) {
 
   // Load fish from API on mount
   useEffect(() => {
+    const token = localStorage.getItem("af_token");
+    if (token === "offline_token") {
+      const localFish = JSON.parse(localStorage.getItem("af_offline_fish") || "[]");
+      setFish(localFish);
+      setLoading(false);
+      return;
+    }
     api("/fishes")
-      .then(data => { setFish(data); setLoading(false); })
+      .then(data => { setFish(Array.isArray(data) ? data : []); setLoading(false); })
       .catch(() => { toast("Could not load fish", "error"); setLoading(false); });
   }, []);
 
@@ -630,6 +893,16 @@ function FishPage({ toast }) {
 
   const del = async (id) => {
     if (!window.confirm("Delete this fish?")) return;
+    const token = localStorage.getItem("af_token");
+    if (token === "offline_token") {
+      const localFish = JSON.parse(localStorage.getItem("af_offline_fish") || "[]");
+      const newList = localFish.filter(f => f.id !== id);
+      localStorage.setItem("af_offline_fish", JSON.stringify(newList));
+      setFish(newList);
+      toast("Fish deleted");
+      return;
+    }
+
     try {
       await api(`/fishes/${id}`, { method: "DELETE" });
       setFish(prev => prev.filter(f => f.id !== id));
@@ -729,6 +1002,31 @@ function FishPage({ toast }) {
     if (!form.title.trim()) return toast("Title is required", "error");
     if (!initial && !file) return toast("Please upload an image", "error");
     setSaving(true);
+
+    const token = localStorage.getItem("af_token");
+    if (token === "offline_token") {
+      const localBanners = JSON.parse(localStorage.getItem("af_offline_banners") || "[]");
+      const updatedBanner = {
+        id: initial?.id || "local_" + Date.now(),
+        title: form.title,
+        subtitle: form.subtitle,
+        isActive: form.isActive,
+        imageUrl: preview || "https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?w=500&auto=format&fit=crop&q=60"
+      };
+
+      let newList;
+      if (initial?.id) {
+        newList = localBanners.map(b => b.id === initial.id ? updatedBanner : b);
+      } else {
+        newList = [...localBanners, updatedBanner];
+      }
+
+      localStorage.setItem("af_offline_banners", JSON.stringify(newList));
+      onSave(updatedBanner);
+      setSaving(false);
+      return;
+    }
+
     try {
       const fd = new FormData();
       fd.append("title",    form.title);
@@ -740,7 +1038,7 @@ function FishPage({ toast }) {
       if (initial?.id) {
         const response = await fetch(`${API_BASE}/banners/${initial.id}`, {
           method: "PUT",
-          headers: { Authorization: `Bearer ${localStorage.getItem("af_token")}` },
+          headers: { Authorization: `Bearer ${token}` },
           body: fd,
         });
         if (!response.ok) {
@@ -751,7 +1049,7 @@ function FishPage({ toast }) {
       } else {
         const response = await fetch(`${API_BASE}/banners`, {
           method: "POST",
-          headers: { Authorization: `Bearer ${localStorage.getItem("af_token")}` },
+          headers: { Authorization: `Bearer ${token}` },
           body: fd,
         });
         if (!response.ok) {
@@ -809,16 +1107,29 @@ function BannersPage({ toast }) {
 
   // Load banners from API — include all (active + hidden) for admin
   useEffect(() => {
+    const token = localStorage.getItem("af_token");
+    if (token === "offline_token") {
+      const localBanners = JSON.parse(localStorage.getItem("af_offline_banners") || "[]");
+      setBanners(localBanners);
+      setLoading(false);
+      return;
+    }
     fetch(`${API_BASE}/banners/all`, {
-      headers: { Authorization: `Bearer ${localStorage.getItem("af_token")}` },
+      headers: { Authorization: `Bearer ${token}` },
     })
-      .then(r => r.json())
-      .then(data => { setBanners(data); setLoading(false); })
+      .then(r => {
+        if (!r.ok) throw new Error("Unauthorized");
+        return r.json();
+      })
+      .then(data => { setBanners(Array.isArray(data) ? data : []); setLoading(false); })
       .catch(() => {
         // fallback: try public endpoint
         fetch(`${API_BASE}/banners`)
-          .then(r => r.json())
-          .then(data => { setBanners(data); setLoading(false); })
+          .then(r => {
+            if (!r.ok) throw new Error("Error");
+            return r.json();
+          })
+          .then(data => { setBanners(Array.isArray(data) ? data : []); setLoading(false); })
           .catch(() => { toast("Could not load banners", "error"); setLoading(false); });
       });
   }, []);
@@ -834,6 +1145,16 @@ function BannersPage({ toast }) {
 
   const del = async (id) => {
     if (!window.confirm("Delete this banner?")) return;
+    const token = localStorage.getItem("af_token");
+    if (token === "offline_token") {
+      const localBanners = JSON.parse(localStorage.getItem("af_offline_banners") || "[]");
+      const newList = localBanners.filter(b => b.id !== id);
+      localStorage.setItem("af_offline_banners", JSON.stringify(newList));
+      setBanners(newList);
+      toast("Banner deleted");
+      return;
+    }
+
     try {
       await api(`/banners/${id}`, { method: "DELETE" });
       setBanners(prev => prev.filter(b => b.id !== id));
@@ -844,6 +1165,17 @@ function BannersPage({ toast }) {
   };
 
   const toggle = async (banner) => {
+    const token = localStorage.getItem("af_token");
+    if (token === "offline_token") {
+      const localBanners = JSON.parse(localStorage.getItem("af_offline_banners") || "[]");
+      const updated = { ...banner, isActive: !banner.isActive };
+      const newList = localBanners.map(b => b.id === banner.id ? updated : b);
+      localStorage.setItem("af_offline_banners", JSON.stringify(newList));
+      setBanners(newList);
+      toast(updated.isActive ? "Banner is now live ✓" : "Banner hidden");
+      return;
+    }
+
     try {
       const fd = new FormData();
       fd.append("title",    banner.title);
@@ -851,7 +1183,7 @@ function BannersPage({ toast }) {
       fd.append("isActive", !banner.isActive);
       const result = await fetch(`${API_BASE}/banners/${banner.id}`, {
         method: "PUT",
-        headers: { Authorization: `Bearer ${localStorage.getItem("af_token")}` },
+        headers: { Authorization: `Bearer ${token}` },
         body: fd,
       }).then(r => r.json());
       setBanners(prev => prev.map(b => b.id === banner.id ? result : b));
@@ -1024,9 +1356,18 @@ function FeaturedPage({ toast }) {
   const [modal, setModal]   = useState(null);
 
   useEffect(() => {
+    const token = localStorage.getItem("af_token");
+    if (token === "offline_token") {
+      setFish([]);
+      setLoading(false);
+      return;
+    }
     fetch(`${API_BASE}/fishes?category=featured`)
-      .then(r => r.json())
-      .then(data => { setFish(data); setLoading(false); })
+      .then(r => {
+        if (!r.ok) throw new Error("Error");
+        return r.json();
+      })
+      .then(data => { setFish(Array.isArray(data) ? data : []); setLoading(false); })
       .catch(() => { toast("Could not load featured fish", "error"); setLoading(false); });
   }, []);
 
@@ -1115,6 +1456,13 @@ function EnquiriesPage({ toast }) {
     allEnquiries = [...local];
 
     // 2. Fetch from backend if available
+    const token = localStorage.getItem("af_token");
+    if (token === "offline_token") {
+      setEnquiries(allEnquiries);
+      setLoading(false);
+      return;
+    }
+
     try {
       const res = await fetch(`${API_BASE}/enquiries`);
       if (res.ok) {

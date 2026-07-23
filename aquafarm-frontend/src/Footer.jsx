@@ -56,12 +56,23 @@ export default function Footer({ onNavigate }) {
 
   return (
 <footer
-  className="relative w-full text-white font-body px-6 md:px-16 pt-12 pb-6 border-t border-[#FF7F50]/20"
+  className="relative w-full text-white font-body px-6 md:px-16 pt-8 pb-6 border-t border-[#FF7F50]/20"
   style={{
     background: "linear-gradient(180deg, rgba(6, 17, 31, 0.92) 0%, rgba(5, 13, 24, 0.96) 100%)",
     backdropFilter: "blur(10px)"
   }}
 >
+  <div className="flex items-center justify-center gap-5 mb-10">
+
+  <div className="w-32 h-px bg-gradient-to-r from-transparent to-cyan-400/60"></div>
+
+  <div className="w-12 h-12 rounded-full border border-cyan-400/30 flex items-center justify-center bg-white/5">
+    🌊
+  </div>
+
+  <div className="w-32 h-px bg-gradient-to-l from-transparent to-cyan-400/60"></div>
+
+</div>
       <div className="max-w-6xl mx-auto">
         {/* Top grid */}
         <div className="grid md:grid-cols-5 gap-8 md:gap-6 pb-8 border-b border-[#FF7F50]/20">
@@ -70,7 +81,7 @@ export default function Footer({ onNavigate }) {
             <img
               src={logo}
               alt="Kumar Aqua Farm"
-              className="h-22 w-auto max-w-none object-contain mb-3 -ml-1"
+              className="h-20 md:h-24 w-auto max-w-none object-contain mb-3 -ml-1"
             />
             <p className="font-body text-xs sm:text-sm text-white leading-relaxed max-w-xs">
               Biologically conditioned husbandry for hobbyists and retailers. Ethically bred, quarantine-cleared, and ready for your aquarium.
@@ -81,7 +92,23 @@ export default function Footer({ onNavigate }) {
                   key={label}
                   href={href}
                   aria-label={label}
-                  className="w-8 h-8 rounded-full bg-white/5 border border-white flex items-center justify-center text-white hover:text-[#FF7F50] hover:bg-[#FF7F50]/10 hover:border-[#FF7F50] transition-colors"
+                  className="
+w-10
+h-10
+rounded-full
+border
+border-cyan-400/20
+bg-white/5
+flex
+items-center
+justify-center
+text-white
+hover:bg-[#FF7F50]
+hover:border-[#FF7F50]
+hover:scale-110
+transition-all
+duration-300
+"
                 >
                   <Icon />
                 </a>

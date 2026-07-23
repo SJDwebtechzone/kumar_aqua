@@ -311,44 +311,46 @@ export default function AquaFarmHomepage() {
       <Footer onNavigate={scrollTo} />
 
       {/* Floating Action Buttons stack (FABs) */}
-      <div className="fixed right-6 bottom-6 z-50 flex flex-col gap-3 items-center">
-        {/* Scroll to Top */}
-        <button
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          className={`w-11 h-11 rounded-full bg-black/45 hover:bg-black/65 text-white border border-white/20 flex items-center justify-center shadow-lg backdrop-blur-md transition-all duration-300 transform ${
-            showScrollTop ? "scale-100 opacity-100" : "scale-0 opacity-0 pointer-events-none"
-          }`}
-          aria-label="Scroll to top"
-        >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 15l7-7 7 7" />
-          </svg>
-        </button>
+      {location.pathname !== "/admin" && (
+        <div className="fixed right-6 bottom-6 z-50 flex flex-col gap-3 items-center">
+          {/* Scroll to Top */}
+          <button
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className={`w-11 h-11 rounded-full bg-black/45 hover:bg-black/65 text-white border border-white/20 flex items-center justify-center shadow-lg backdrop-blur-md transition-all duration-300 transform ${
+              showScrollTop ? "scale-100 opacity-100" : "scale-0 opacity-0 pointer-events-none"
+            }`}
+            aria-label="Scroll to top"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 15l7-7 7 7" />
+            </svg>
+          </button>
 
-        {/* Call CTA */}
-        <a
-          href="tel:+919080121326"
-          className="w-11 h-11 rounded-full bg-[#FF7F50] hover:bg-[#E0663B] text-white flex items-center justify-center shadow-lg hover:scale-110 active:scale-95 transition-all duration-200"
-          aria-label="Call Now"
-        >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-          </svg>
-        </a>
+          {/* Call CTA */}
+          <a
+            href="tel:+919080121326"
+            className="w-11 h-11 rounded-full bg-[#FF7F50] hover:bg-[#E0663B] text-white flex items-center justify-center shadow-lg hover:scale-110 active:scale-95 transition-all duration-200"
+            aria-label="Call Now"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+            </svg>
+          </a>
 
-        {/* WhatsApp CTA */}
-        <a
-          href="https://wa.me/919080121326"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="w-11 h-11 rounded-full bg-[#25D366] hover:bg-[#1ebd59] text-white flex items-center justify-center shadow-lg hover:scale-110 active:scale-95 transition-all duration-200"
-          aria-label="Chat on WhatsApp"
-        >
-          <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24">
-            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.37 9.863-9.736.001-2.599-1.01-5.043-2.848-6.886-1.839-1.843-4.288-2.857-6.892-2.858-5.437 0-9.862 4.37-9.865 9.737-.001 1.765.485 3.488 1.408 5.02l-.924 3.376 3.433-.908zm11.367-7.37c-.302-.152-1.791-.883-2.073-1.002-.283-.119-.489-.178-.696.119-.207.297-.803.987-.984 1.187-.18.2-.361.226-.663.074-.302-.151-1.272-.469-2.424-1.496-.897-.8-1.502-1.787-1.678-2.088-.177-.302-.019-.465.132-.615.136-.135.302-.353.454-.53.151-.177.202-.303.303-.505.101-.202.051-.379-.025-.53-.076-.152-.696-1.68-.954-2.298-.252-.61-.51-.527-.696-.537-.18-.01-.387-.011-.595-.011s-.547.078-.833.39c-.286.313-1.093 1.07-1.093 2.607 0 1.537 1.118 3.02 1.27 3.22.152.202 2.199 3.358 5.328 4.708.745.321 1.325.513 1.777.656.749.238 1.431.205 1.968.125.599-.09 1.791-.73 2.043-1.435.253-.705.253-1.309.177-1.435-.076-.126-.283-.203-.585-.355z" />
-          </svg>
-        </a>
-      </div>
+          {/* WhatsApp CTA */}
+          <a
+            href="https://wa.me/919080121326"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-11 h-11 rounded-full bg-[#25D366] hover:bg-[#1ebd59] text-white flex items-center justify-center shadow-lg hover:scale-110 active:scale-95 transition-all duration-200"
+            aria-label="Chat on WhatsApp"
+          >
+            <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24">
+              <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.37 9.863-9.736.001-2.599-1.01-5.043-2.848-6.886-1.839-1.843-4.288-2.857-6.892-2.858-5.437 0-9.862 4.37-9.865 9.737-.001 1.765.485 3.488 1.408 5.02l-.924 3.376 3.433-.908zm11.367-7.37c-.302-.152-1.791-.883-2.073-1.002-.283-.119-.489-.178-.696.119-.207.297-.803.987-.984 1.187-.18.2-.361.226-.663.074-.302-.151-1.272-.469-2.424-1.496-.897-.8-1.502-1.787-1.678-2.088-.177-.302-.019-.465.132-.615.136-.135.302-.353.454-.53.151-.177.202-.303.303-.505.101-.202.051-.379-.025-.53-.076-.152-.696-1.68-.954-2.298-.252-.61-.51-.527-.696-.537-.18-.01-.387-.011-.595-.011s-.547.078-.833.39c-.286.313-1.093 1.07-1.093 2.607 0 1.537 1.118 3.02 1.27 3.22.152.202 2.199 3.358 5.328 4.708.745.321 1.325.513 1.777.656.749.238 1.431.205 1.968.125.599-.09 1.791-.73 2.043-1.435.253-.705.253-1.309.177-1.435-.076-.126-.283-.203-.585-.355z" />
+            </svg>
+          </a>
+        </div>
+      )}
     </div>
   );
 }

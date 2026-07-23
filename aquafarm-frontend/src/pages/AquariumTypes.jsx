@@ -35,13 +35,19 @@ function QuickStockList({ items }) {
   return (
    <div id="more-stock" className="mb-12 scroll-mt-[120px]">
       <div className="text-center max-w-xl mx-auto mb-10">
-        <p className="font-mono text-xs text-teal-deep tracking-widest uppercase">More In Stock</p>
-        <h3 className="font-display text-2xl sm:text-3xl font-semibold mt-3 text-[#0A1C33]">
-          Additional Varieties Available
+        <span className="inline-block font-mono text-xs font-bold text-[#BE123C] bg-[#BE123C]/10 border border-[#BE123C]/20 px-4 py-1.5 rounded-full tracking-[0.2em] uppercase">
+          More In Stock
+        </span>
+        <h3 className="font-display text-2xl sm:text-3xl font-bold tracking-tight mt-3 text-[#0A1C33] flex flex-wrap justify-center gap-x-2.5 gap-y-1">
+          <span className="relative pb-3 inline-block">
+            Additional Varieties
+            <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-14 h-[2.5px] bg-[#FF7F50] rounded-full"></span>
+          </span>
+          <span className="text-[#FF7F50] font-light italic">Available</span>
         </h3>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-8 items-start">
+     <div className="grid lg:grid-cols-[380px_1fr] gap-10 items-start">
        
       {/* Names list */}
 <div className="rounded-3xl p-2 overflow-hidden outline-panel">
@@ -198,16 +204,19 @@ function GrowOut({ onNavigate, speciesData, quickStock }) {
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
         <div className="max-w-2xl">
           <span className="inline-block font-mono text-xs font-bold text-[#BE123C] bg-[#BE123C]/10 border border-[#BE123C]/20 px-4 py-1.5 rounded-full tracking-[0.2em] uppercase">Aquarium Types</span>
-          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mt-3 text-[#0A1C33] flex flex-wrap gap-x-3 gap-y-1">
-            <span className="relative pb-3 inline-block">
-              Curated Species
-              <span className="absolute bottom-0 left-0 w-16 h-[3px] bg-[#FF7F50] rounded-full"></span>
-            </span>
-            <span className="text-[#FF7F50] font-light italic">Catalog</span>
-          </h2>
-          <p className="font-body text-base font-semibold text-[#1E4D66] mt-3 leading-relaxed text-justify">
-            Every specimen is quarantine-cleared and acclimated to broad environmental baselines for straightforward integration.
-          </p>
+          <h2 className="font-display mt-6 text-5xl md:text-6xl lg:text-7xl font-bold leading-tight text-[#0A1C33]">
+  Curated Species
+
+  <span className="block text-[#FF7F50] italic font-light mt-2">
+    Catalog
+  </span>
+</h2>
+
+<div className="w-24 h-1 rounded-full bg-gradient-to-r from-[#18B6FF] to-[#FF7F50] mt-8"></div>
+         <p className="mt-8 text-lg leading-9 text-[#1E4D66] max-w-2xl">
+  Every specimen is quarantine-cleared and acclimated to broad environmental
+  baselines for straightforward integration.
+</p>
         </div>
         <div className="flex gap-2">
           <span className="px-3 py-1.5 rounded bg-[#FF7F50]/15 text-teal-deep font-mono text-[11px] border border-[#FF7F50]/35">HEALTH CERTIFIED</span>
@@ -508,43 +517,81 @@ function SpeciesDetailBlock({ species }) {
         </h3>
         <p className="font-mono text-sm italic text-teal-deep mt-1">{species.scientific}</p>
       </div>
-
-      <div className="grid lg:grid-cols-12 gap-8 items-start text-left">
+<div className="grid lg:grid-cols-12 gap-10 items-start">
         {/* Left Column: Media & Stocking Calculator */}
-        <div className="lg:col-span-5 space-y-6">
-          {/* Gallery */}
-          <div className="rounded-3xl overflow-hidden shadow-lg aspect-[4/3] relative">
-            <img
-              src={species.gallery ? species.gallery[activeImage] : species.image}
-              alt={species.name}
-              loading="lazy"
-              className="w-full h-full object-cover"
-            />
-          </div>
-          {species.gallery && species.gallery.length > 0 && (
-            <div className="flex gap-3 overflow-x-auto pb-1">
-              {species.gallery.map((img, idx) => (
-                <button
-                  key={img + idx}
-                  onClick={() => setActiveImage(idx)}
-                  className={`w-16 h-16 rounded-xl overflow-hidden border-2 transition-colors flex-shrink-0 cursor-pointer ${
-                    idx === activeImage ? "border-[#FF7F50]" : "border-transparent opacity-70 hover:opacity-100"
-                  }`}
-                >
-                  <img src={img} alt={`${species.name} ${idx + 1}`} loading="lazy" className="w-full h-full object-cover" />
-                </button>
-              ))}
-            </div>
-          )}
+      <div className="lg:col-span-5 space-y-8">
 
-          {/* Fun Fact callout */}
-          {species.funFact && (
-            <div className="wave-card p-5">
-              <span className="font-mono text-xs sm:text-sm uppercase tracking-widest text-[#FF7F50] font-bold">Fun Fact</span>
-              <p className="font-body text-base font-semibold text-[#1E4D66] mt-2 leading-relaxed text-justify">{species.funFact}</p>
-            </div>
-          )}
+  {/* Premium Gallery */}
 
+  <div className="w-full aspect-[4/3] rounded-[60%_40%_30%_70%_/_60%_30%_70%_40%] overflow-hidden bg-black/5 relative shadow-[0_15px_35px_rgba(0,40,60,0.15)] transition-all duration-[1000ms] ease-in-out hover:rounded-[40%_60%_60%_40%_/_50%_50%_50%_50%] border-4 border-white/60 ring-2 ring-[#FF7F50]/15 hover:ring-[#FF7F50]/45 hover:shadow-[0_20px_45px_rgba(245,158,11,0.22)] max-w-md mx-auto group">
+    <img
+      src={species.gallery ? species.gallery[activeImage] : species.image}
+      alt={species.name}
+      loading="lazy"
+      className="w-full h-full object-cover transition-transform duration-[1500ms] ease-out group-hover:scale-108"
+    />
+  </div>
+
+  {/* Premium Thumbnails */}
+
+  {species.gallery && species.gallery.length > 0 && (
+
+    <div className="flex gap-4 overflow-x-auto pb-2">
+
+      {species.gallery.map((img, idx) => (
+
+        <button
+          key={img + idx}
+          onClick={() => setActiveImage(idx)}
+          className={`
+            w-20
+            h-20
+            rounded-2xl
+            overflow-hidden
+            border-2
+            transition-all
+            duration-300
+            flex-shrink-0
+            ${
+              idx === activeImage
+                ? "border-[#FF7F50] ring-4 ring-[#FF7F50]/20 scale-105"
+                : "border-transparent opacity-70 hover:opacity-100 hover:scale-105"
+            }
+          `}
+        >
+
+          <img
+            src={img}
+            alt=""
+            className="w-full h-full object-cover"
+          />
+
+        </button>
+
+      ))}
+
+    </div>
+
+  )}
+
+  {/* Premium Fun Fact */}
+
+  {species.funFact && (
+
+    <div className="rounded-[30px] bg-slate-900/40 border-l-[6px] border-[#FF7F50] p-6 shadow-md text-left">
+
+      <span className="font-mono text-xs tracking-[0.25em] uppercase text-[#FF7F50] font-bold">
+
+        🐠 DID YOU KNOW?
+
+      </span>
+<p className="mt-4 text-[#0A1C33] text-[17px] leading-8 font-medium">
+  {species.funFact}
+</p>
+
+    </div>
+
+  )}
           {/* Stocking Calculator */}
           <div className="wave-card p-5">
             <div className="flex justify-between items-center mb-3">
@@ -594,7 +641,7 @@ function SpeciesDetailBlock({ species }) {
                   }}
                   className="w-full h-1.5 bg-[#007b8a]/20 rounded-lg appearance-none cursor-pointer accent-[#FF7F50]"
                 />
-                <div className="flex justify-between text-[9px] font-mono text-teal-deep/60 mt-1">
+                <div className="flex justify-between text-[10px] font-mono text-[#1E4D66] font-semibold mt-1">
                   <span>{unit === "L" ? "10L" : "3 Gal"}</span>
                   <span>{unit === "L" ? "300L" : "80 Gal"}</span>
                 </div>
@@ -647,7 +694,7 @@ function SpeciesDetailBlock({ species }) {
                       </div>
                     ) : (
                       <div className="bg-[#007b8a]/5 border border-[#007b8a]/10 rounded-xl p-3 text-base font-semibold text-[#1E4D66] leading-relaxed">
-                        <div className="font-bold text-[#007b8a] text-base mb-1">{recommendedText}</div>
+                        <div className="font-bold text-[#005D6B] text-base mb-1">{recommendedText}</div>
                         <p className="font-body text-base font-semibold text-[#1E4D66] mt-1.5 leading-normal">{advice}</p>
                       </div>
                     )}
@@ -662,8 +709,8 @@ function SpeciesDetailBlock({ species }) {
         </div>
 
         {/* Right Column: Info & Details */}
-        <div className="lg:col-span-7 space-y-6">
-          <div className="wave-card p-6 md:p-8">
+        <div className="lg:col-span-7">
+          <div className="p-0 text-left">
             {/* Desktop Heading Content (hidden on mobile, visible on desktop) */}
             <div className="hidden lg:block mb-6">
               <span className="font-mono text-[10px] uppercase tracking-widest text-white bg-[#007b8a] px-2.5 py-1 rounded-full inline-block mb-4">
@@ -681,7 +728,7 @@ function SpeciesDetailBlock({ species }) {
               <p className="font-mono text-sm italic text-teal-deep mt-1">{species.scientific}</p>
             </div>
 
-            <p className="font-body text-base font-semibold text-[#1E4D66] mt-6 leading-relaxed text-justify">
+            <p className="font-body text-[16px] leading-10 text-white font-medium text-justify mt-6">
               {species.longDesc}
             </p>
 
@@ -705,7 +752,7 @@ function SpeciesDetailBlock({ species }) {
             {(species.compatibleWith?.length > 0 || species.avoid?.length > 0) && (
               <div className="grid sm:grid-cols-2 gap-6 mt-10">
                 {species.compatibleWith && (
-                  <div className="wave-card p-5">
+                  <div className="bg-slate-900/40 border-l-[4px] border-emerald-500 p-5 rounded-[20px] text-left">
                     <h4 className="font-mono text-xs sm:text-sm uppercase tracking-widest text-[#FF7F50] font-bold mb-3">✓ Compatible With</h4>
                     <ul className="space-y-1.5">
                       {species.compatibleWith.map((c) => (
@@ -715,7 +762,7 @@ function SpeciesDetailBlock({ species }) {
                   </div>
                 )}
                 {species.avoid && (
-                  <div className="wave-card p-5 !border-red-500/20">
+                  <div className="bg-slate-900/40 border-l-[4px] border-rose-500 p-5 rounded-[20px] text-left">
                     <h4 className="font-mono text-xs sm:text-sm uppercase tracking-widest text-[#FF7F50] font-bold mb-3">✕ Avoid Pairing With</h4>
                     <ul className="space-y-1.5">
                       {species.avoid.map((c) => (

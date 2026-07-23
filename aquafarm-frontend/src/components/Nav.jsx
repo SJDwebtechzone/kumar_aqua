@@ -28,16 +28,16 @@ useEffect(() => {
     { label: "CONTACT US", id: "harbor" }
   ];
   return (
-<header className="fixed top-5 left-0 right-0 z-50">
+<header className="fixed top-3 left-3 right-3 sm:top-5 sm:left-6 sm:right-6 z-50">
   <div
-    className="max-w-7xl mx-auto rounded-2xl border border-white/10 backdrop-blur-xl"
+    className="max-w-7xl mx-auto rounded-2xl border border-white/15 backdrop-blur-xl"
     style={{
       background:
         "linear-gradient(180deg, rgba(5,20,40,.92), rgba(8,32,55,.90))",
       boxShadow: "0 20px 45px rgba(0,0,0,.35)",
     }}
   >
-  <div className="max-w-7xl mx-auto h-24 px-6 lg:px-10 flex items-center justify-between">
+  <div className="max-w-7xl mx-auto h-20 sm:h-24 px-4 sm:px-6 lg:px-10 flex items-center justify-between">
         <button
           onClick={() => {
             onNavigate("surface");
@@ -45,11 +45,11 @@ useEffect(() => {
           }}
           className="font-display flex items-center gap-2 group focus:outline-none"
         >
-         <img
-  src={logo}
-  alt="Kumar Aqua Farm"
-  className="h-24 lg:h-28 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
-/>
+          <img
+            src={logo}
+            alt="Kumar Aqua Farm"
+            className="h-16 sm:h-20 lg:h-24 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+          />
         </button>
 
         {/* Desktop Container (Contact Info on the Left, Nav menus on the Right) */}
@@ -84,20 +84,20 @@ useEffect(() => {
   </nav>
 
   {/* Divider */}
-  <div className="mx-8 h-16 w-px bg-white/15"></div>
+  <div className="mx-8 h-16 w-px bg-gradient-to-b from-transparent via-cyan-400/30 to-transparent"></div>
 
   {/* Contact */}
-<div className="flex flex-col gap-4 min-w-[280px]">
+  <div className="flex flex-col gap-2 pl-2">
 
   {/* Phone */}
   <a
     href="tel:+919080121326"
-    className="group flex items-center gap-4"
+      className="group flex items-center gap-3"
   >
-    <div className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 transition-all duration-300 group-hover:border-[#18B6FF] group-hover:bg-[#18B6FF]/10">
+      <div className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 transition-all duration-300 group-hover:border-[#18B6FF] group-hover:bg-[#18B6FF]/10">
 
       <svg
-        className="h-5 w-5 text-[#FF6B57]"
+          className="h-4 w-4 text-[#FF6B57]"
         fill="none"
         stroke="currentColor"
         strokeWidth="2"
@@ -112,12 +112,12 @@ useEffect(() => {
 
     </div>
 
-    <div>
-      <p className="text-[11px] tracking-[4px] uppercase text-white/50">
-        Call Us
+      <div className="text-left">
+        <p className="text-[8px] tracking-[2.5px] uppercase text-white/50 font-bold leading-none">
+          CALL US
       </p>
 
-      <p className="text-[15px] font-semibold text-white">
+        <p className="text-[13px] font-bold text-white mt-1 leading-none">
         +91 9080121326
       </p>
     </div>
@@ -126,12 +126,12 @@ useEffect(() => {
   {/* Email */}
   <a
     href="mailto:rajesh@kumaraquatic.com"
-    className="group flex items-center gap-4"
+      className="group flex items-center gap-3"
   >
-    <div className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 transition-all duration-300 group-hover:border-[#18B6FF] group-hover:bg-[#18B6FF]/10">
+      <div className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 transition-all duration-300 group-hover:border-[#18B6FF] group-hover:bg-[#18B6FF]/10">
 
       <svg
-        className="h-5 w-5 text-[#FF6B57]"
+          className="h-4 w-4 text-[#FF6B57]"
         fill="none"
         stroke="currentColor"
         strokeWidth="2"
@@ -146,12 +146,12 @@ useEffect(() => {
 
     </div>
 
-    <div>
-      <p className="text-[11px] tracking-[4px] uppercase text-white/50">
-        Email
+      <div className="text-left">
+        <p className="text-[8px] tracking-[2.5px] uppercase text-white/50 font-bold leading-none">
+          EMAIL
       </p>
 
-      <p className="text-[15px] font-semibold text-white">
+        <p className="text-[13px] font-bold text-white mt-1 leading-none">
         rajesh@kumaraquatic.com
       </p>
     </div>

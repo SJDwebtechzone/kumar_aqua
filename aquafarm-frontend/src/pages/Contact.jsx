@@ -65,76 +65,218 @@ function Harbor() {
 
   return (
     <div className="py-0 w-full relative">
-      {/* Decorative wave icon strip */}
-      <div className="flex justify-center mb-4 text-[#FF7F50]/50">
-        <WaveIcon />
-      </div>
+   {/* ==========================================================
+                        PREMIUM HERO
+========================================================== */}
 
-      {/* Header */}
-      <div className="text-center max-w-2xl mx-auto mb-14">
-        <span className="inline-block font-mono text-xs font-bold text-[#BE123C] bg-[#BE123C]/10 border border-[#BE123C]/20 px-4 py-1.5 rounded-full tracking-[0.2em] uppercase">
-          Drop Anchor Here
-        </span>
-        <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mt-3 text-[#0A1C33] flex flex-wrap justify-center gap-x-3 gap-y-1">
-          <span className="relative pb-3 inline-block">
-            Dive into
-            <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-16 h-[3px] bg-[#FF7F50] rounded-full"></span>
+{/* ===========================================================
+                    CONTACT HERO
+=========================================================== */}
+<section className="relative overflow-hidden rounded-[40px] bg-[#051726]">
+
+  {/* Background */}
+  <div className="absolute inset-0">
+    <img
+      src="/images/contact/contact-bg.jpg"
+      alt=""
+      className="w-full h-full object-cover"
+    />
+
+    <div className="absolute inset-0 bg-[#031521]/85"></div>
+
+    <div className="absolute inset-0 bg-gradient-to-r from-[#031521] via-[#031521]/90 to-[#031521]/40"></div>
+  </div>
+
+  {/* Glow */}
+  <div className="absolute -left-32 top-10 w-72 h-72 bg-cyan-500/10 rounded-full blur-[120px]" />
+
+  <div className="absolute right-0 bottom-0 w-96 h-96 bg-[#FF7F50]/10 rounded-full blur-[180px]" />
+
+  {/* Bubbles */}
+  <div className="absolute top-20 left-20 w-3 h-3 rounded-full bg-cyan-300/40 animate-pulse"></div>
+  <div className="absolute top-44 right-52 w-5 h-5 rounded-full bg-cyan-300/20"></div>
+  <div className="absolute bottom-32 left-1/2 w-4 h-4 rounded-full bg-white/10"></div>
+
+  {/* Content */}
+  <div className="relative z-10 max-w-7xl mx-auto px-8 lg:px-16 py-24">
+
+    <div className="grid lg:grid-cols-2 gap-20 items-center">
+
+      {/* Left */}
+
+      <div>
+
+        <div className="flex items-center gap-4 mb-8">
+
+          <span className="w-16 h-px bg-[#FF7F50]" />
+
+          <span className="text-[#FF7F50] uppercase tracking-[0.35em] text-xs font-mono">
+
+            Drop Anchor Here
+
           </span>
-          <span className="text-[#FF7F50] font-light italic">conversation with us</span>
-        </h2>
-        <p className="font-body text-base font-semibold text-[#1E4D66] mt-4 leading-relaxed max-w-xl mx-auto text-justify">
-          Whether you're stocking your first nano tank or sourcing a wholesale shipment, our team is ready to help you navigate every ripple of the process.
+
+        </div>
+
+        <h1 className="mt-8 text-4xl sm:text-6xl md:text-7xl font-display font-bold leading-tight text-white">
+          Let's Start a{" "}
+          <span className="block italic text-[#FF7F50] font-light">Conversation</span>
+        </h1>
+
+        <p className="mt-10 max-w-xl text-lg leading-9 text-slate-300">
+
+          Whether you're setting up your first aquarium,
+          sourcing ornamental fish, or planning wholesale
+          orders, our aquaculture experts are here to help
+          you every step of the way.
+
         </p>
-      </div>
 
-      {/* Contact Info Cards — clean, light cards matching the species card style */}
-      <div className="grid sm:grid-cols-3 gap-6 mb-10">
-        {contactItems.map((item) => (
-          <div
-            key={item.label}
-            className="glass-panel p-6 flex flex-col items-start text-left w-full"
+        <div className="flex flex-wrap gap-5 mt-12">
+
+          <a
+            href="tel:+919080121326"
+            className="px-8 py-4 rounded-full bg-[#FF7F50] hover:bg-[#ff6d3f] transition text-white font-semibold"
           >
-            <div className="w-11 h-11 rounded-full bg-[#FF7F50]/12 border border-[#FF7F50]/25 flex items-center justify-center text-[#FF7F50] mb-4 flex-shrink-0">
-              <item.Icon />
-            </div>
-            <span className="font-mono text-xs uppercase tracking-widest text-[#FF7F50] font-bold group-hover:text-teal-deep transition-colors mb-1.5">
-              {item.label}
-            </span>
-            <span className="font-body text-sm text-[#1E4D66] font-semibold leading-normal text-justify">
-              {item.note}
-            </span>
-            <span className="font-body text-lg text-[#0A1C33] font-bold mt-3.5 mb-6 leading-relaxed break-words w-full min-h-[56px] flex items-center">
-              {item.value}
-            </span>
-            {item.href && (
-              <a
-                href={item.href}
-                target={item.href.startsWith("http") ? "_blank" : undefined}
-                rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                className="mt-auto w-full py-3 rounded-2xl bg-[#FF7F50] hover:bg-[#007b8a] text-white font-mono text-xs uppercase tracking-wider text-center transition-all duration-300 font-bold shadow-md hover:shadow-lg hover:-translate-y-0.5 cursor-pointer block"
-              >
-                {item.cta}
-              </a>
-            )}
-          </div>
-        ))}
+            Call Us
+          </a>
+
+          <a
+            href="mailto:rajesh@kumaraquatic.com"
+            className="px-8 py-4 rounded-full border border-cyan-400/30 hover:bg-cyan-400/10 text-cyan-300 transition"
+          >
+            Email Us
+          </a>
+
+        </div>
+
       </div>
 
-      {/* Google Map Section */}
-      <div 
-        className="glass-panel p-4 md:p-5 mb-6 overflow-hidden"
-      >
-        <iframe
-          title="Kumar Aqua Farm Google Map Location"
-          src="https://maps.google.com/maps?q=13.1186,80.2078+(Kumar+Aqua+Farm)&t=&z=17&ie=UTF8&iwloc=&output=embed"
-          width="100%"
-          height="340"
-          className="rounded-2xl border-0 w-full"
-          allowFullScreen=""
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-        ></iframe>
+      {/* Right */}
+
+      <div className="hidden lg:flex justify-end">
+
+        <div className="w-full max-w-md">
+
+          <div className="max-w-md ml-auto">
+
+            <h3 className="text-white text-2xl font-display mb-8">
+
+              Get In Touch
+
+            </h3>
+
+            <div className="space-y-8">
+
+              <div>
+                <p className="text-xs uppercase tracking-[0.3em] text-cyan-300">
+                  Phone
+                </p>
+
+                <p className="text-white text-xl font-semibold mt-2">
+                  +91 90801 21326
+                </p>
+              </div>
+
+              <div>
+                <p className="text-xs uppercase tracking-[0.3em] text-cyan-300">
+                  Email
+                </p>
+
+                <p className="text-white text-xl font-semibold mt-2 break-all">
+                  rajesh@kumaraquatic.com
+                </p>
+              </div>
+
+              <div>
+                <p className="text-xs uppercase tracking-[0.3em] text-cyan-300">
+                  Location
+                </p>
+
+                <p className="text-slate-300 leading-8 mt-2">
+                  No.264, Mahatma Gandhi Nagar,<br />
+                  200ft Road,<br />
+                  Kolathur, Chennai - 600099
+                </p>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
       </div>
+
+    </div>
+
+  </div>
+
+</section>
+     
+      {/* ==========================================================
+                    LOCATION SECTION
+========================================================== */}
+
+<section className="relative mt-28 mb-28">
+
+  {/* Heading */}
+
+  <div className="text-center max-w-3xl mx-auto mb-14">
+
+    <span className="inline-flex items-center gap-3">
+
+      <span className="w-14 h-px bg-[#FF7F50]" />
+
+      <span className="uppercase tracking-[0.35em] text-xs font-mono text-[#FF7F50]">
+
+        Visit Our Farm
+
+      </span>
+
+      <span className="w-14 h-px bg-[#FF7F50]" />
+
+    </span>
+
+    <h2 className="mt-6 font-display text-4xl lg:text-5xl font-bold text-white">
+
+      Find Us On The Map
+
+    </h2>
+
+    <p className="mt-5 text-slate-300 leading-8 max-w-2xl mx-auto">
+
+      Visit Kumar Aqua Farm in Kolathur, Chennai.
+      Our team is always happy to welcome aquarium
+      enthusiasts and wholesale buyers.
+
+    </p>
+
+  </div>
+
+  {/* Map */}
+
+  <div className="relative">
+
+    {/* Glow */}
+
+    <div className="absolute inset-0 rounded-[36px] bg-cyan-500/10 blur-3xl scale-95"></div>
+
+    <div className="relative overflow-hidden rounded-[36px] border border-cyan-400/20 shadow-[0_30px_80px_rgba(0,0,0,.45)]">
+
+      <iframe
+        title="Kumar Aqua Farm"
+        src="https://maps.google.com/maps?q=13.1186,80.2078+(Kumar+Aqua+Farm)&t=&z=16&ie=UTF8&iwloc=&output=embed"
+        className="w-full h-[520px]"
+        loading="lazy"
+        allowFullScreen
+      />
+
+    </div>
+
+  </div>
+
+</section>
 
       {/* Tides We're Open (Business Hours) */}
       <div

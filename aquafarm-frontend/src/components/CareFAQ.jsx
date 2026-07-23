@@ -35,11 +35,31 @@ export default function CareFAQ() {
         return (
           <div 
             key={idx} 
-            className="glass-panel group overflow-hidden"
+            className="
+group
+overflow-hidden
+rounded-[28px]
+border
+border-cyan-400/20
+bg-white/5
+backdrop-blur-xl
+transition-all
+duration-300
+hover:border-[#FF7F50]/40
+hover:bg-white/[0.07]
+"
           >
             <button
-              onClick={() => toggle(idx)}
-              className="w-full text-left px-6 py-5 flex items-center justify-between gap-4 text-[#0A1C33] focus:outline-none"
+              onClick={() => toggle(idx)}className="
+w-full
+px-8
+py-7
+flex
+items-center
+justify-between
+gap-6
+text-left
+"
             >
               <span className="font-display text-lg font-bold leading-snug group-hover:text-[#FF7F50] transition-colors">
                 {faq.question}
@@ -47,14 +67,15 @@ export default function CareFAQ() {
               <span 
                 className={`w-6.5 h-6.5 rounded-full bg-[#FF7F50]/10 border border-[#FF7F50]/30 flex items-center justify-center text-[10px] transition-transform duration-300 ${isOpen ? 'rotate-180 bg-[#FF7F50] text-white' : 'text-[#FF7F50]'}`}
               >
-                ▼
+               {isOpen ? "−" : "+"}
+               
               </span>
             </button>
             <div 
               className={`transition-all duration-300 ease-in-out ${isOpen ? 'max-h-[500px] border-t border-[#FF7F50]/10' : 'max-h-0'}`}
               style={{ overflow: 'hidden' }}
             >
-              <div className="px-6 py-5 text-base font-semibold leading-relaxed text-[#1E4D66] font-body text-justify">
+              <div className="px-6 py-5 text-base font-semibold leading-relaxed text-slate-300 font-body text-justify">
                 {faq.answer}
               </div>
             </div>

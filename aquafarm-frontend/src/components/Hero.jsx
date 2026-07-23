@@ -45,12 +45,12 @@ const createBubble = (x, size, delay, duration, sway1, sway2) => {
 };
 const HERO_SLIDES = [
   {
-    title: "Transform Your Space with",
-    highlight: "Premium Aquariums",
+    title: "Discover Premium",
+    highlight: "Ornamental Fish",
     subtitle:
-      "Discover handcrafted aquariums, exotic ornamental fish, aquascaping, and complete aquarium solutions for homes and businesses.",
+      "Handpicked healthy varieties of Molly, Angelfish, Shrimps and aquatic life directly from our premium breeding farm.",
 
-    button1: "Explore Aquariums",
+    button1: "Explore Collection",
     button1Link: "/aquarium-types",
 
     button2: "Contact Us",
@@ -75,13 +75,13 @@ const HERO_SLIDES = [
   },
 
   {
-    title: "Custom Aquarium Design",
-    highlight: "& Installation",
+    title: "Exotic Breeding &",
+    highlight: "Healthy Livestock",
     subtitle:
-      "From compact home aquariums to luxury commercial displays, we design, install and maintain stunning aquatic environments.",
+      "As a premier ornamental fish farm, we specialize in breeding and supplying high-quality, healthy exotic fish and shrimps.",
 
-    button1: "Get Free Quote",
-    button1Link: "/contact",
+    button1: "View Livestock",
+    button1Link: "/aquarium-types#more-stock",
 
     button2: "",
     button2Link: "",
@@ -123,7 +123,7 @@ const handleNavigation = (link) => {
     return () => {
       if (autoPlayRef.current) clearInterval(autoPlayRef.current);
     };
-  }, []);
+  }, [heroSlides.length]);
 
   const [bubbles, setBubbles] = useState([]);
 
@@ -183,7 +183,7 @@ const prevSlide = (e) => {
   {/* Content */}
   <div className="relative z-30 flex items-center h-full">
 
-    <div className="max-w-7xl mx-auto w-full px-6 lg:px-12">
+    <div className="max-w-7xl mx-auto w-full px-6 lg:px-12 pt-20 sm:pt-24 pb-24 sm:pb-32 lg:py-0">
 
      <div
   className={`max-w-2xl transition-all duration-1000 ${
@@ -212,11 +212,11 @@ const prevSlide = (e) => {
         <p className="text-gray-200 text-lg leading-8 max-w-xl">
           {slide.subtitle}
         </p>
-<div className="flex flex-wrap gap-5 mt-10">
+<div className="flex items-center gap-3 sm:gap-5 mt-8 sm:mt-10">
 
   <button
     onClick={() => handleNavigation(slide.button1Link)}
-    className="px-8 py-4 rounded-xl bg-[#FF7F50] text-white font-semibold hover:bg-[#ff8d66] transition"
+    className="px-4 py-2.5 sm:px-8 sm:py-4 rounded-xl bg-[#FF7F50] text-white text-sm sm:text-base font-semibold hover:bg-[#ff8d66] transition whitespace-nowrap"
   >
     {slide.button1}
   </button>
@@ -224,7 +224,7 @@ const prevSlide = (e) => {
   {slide.button2 && (
     <button
       onClick={() => handleNavigation(slide.button2Link)}
-      className="px-8 py-4 rounded-xl border border-white text-white hover:bg-white hover:text-[#061B2F] transition"
+      className="px-4 py-2.5 sm:px-8 sm:py-4 rounded-xl border border-white text-white text-sm sm:text-base font-semibold hover:bg-white hover:text-[#061B2F] transition whitespace-nowrap"
     >
       {slide.button2}
     </button>
@@ -284,7 +284,7 @@ const prevSlide = (e) => {
 
       {/* Slide Navigation Dots */}
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-35 flex gap-2.5">
-        {HERO_SLIDES.map((_, idx) => (
+        {heroSlides.map((_, idx) => (
           <button
             key={idx}
             onClick={(e) => { e.stopPropagation(); setCurrentSlide(idx); }}
